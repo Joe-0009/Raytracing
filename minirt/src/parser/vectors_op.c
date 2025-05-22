@@ -1,6 +1,5 @@
-#include "../includes/vector.h"
-#include "../includes/parser.h"
 
+#include "../includes/minirt.h"
 t_vec3	vec3_create(double x, double y, double z)
 {
 	t_vec3	v;

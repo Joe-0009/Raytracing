@@ -1,5 +1,4 @@
 #include "../includes/minirt.h"
-#include "../main.h"
 
 /**
  * Print error message and exit

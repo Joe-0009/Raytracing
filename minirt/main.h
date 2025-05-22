@@ -6,23 +6,20 @@
 /*   By: yrachidi <yrachidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 10:00:00 by yrachidi          #+#    #+#             */
-/*   Updated: 2025/05/22 20:15:32 by yrachidi         ###   ########.fr       */
+/*   Updated: 2025/05/22 20:35:29 by yrachidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MAIN_H
 # define MAIN_H
 
-# include "includes/minirt.h"
 # include <mlx.h>
+# include "includes/events.h"
 
 /* Window dimensions */
 # define WIDTH 1600
 # define HEIGHT 1600
-# define KEY_ESC 65307
 # define window_name_rt "miniRT"
-
-/* Key codes */
 
 /* Image structure */
 typedef struct s_image
@@ -41,12 +38,6 @@ typedef struct s_vars
 	void		*win;
 	t_image		*img;
 }	t_vars;
-
-/* Function prototypes for events.c */
-int		close_window_x(t_vars *vars);
-int		close_window_esc(int keycode, t_vars *vars);
-int		key_handler(int keycode, t_vars *vars);
-void	mlx_hooks(t_vars *vars);
 
 /* Function prototypes for image handling */
 void	draw_new_image(t_vars *vars);

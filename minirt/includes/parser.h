@@ -2,7 +2,7 @@
 # define PARSER_H
 
 # include "scene.h"
-#include <math.h>
+
 /* Parse error codes and messages */
 # define ERR_AMBIENT_FORMAT "Error: Invalid ambient lighting format\n"
 # define ERR_CAMERA_FORMAT "Error: Invalid camera format\n"

@@ -13,9 +13,12 @@
 # define TRUE 1
 # define FALSE 0
 
+# include <mlx.h>
 # include "vector.h"
 # include "scene.h"
 # include "parser.h"
+# include "main.h"
+# include "events.h"
 
 /* Error codes */
 # define ERR_ARGS "Error: Invalid number of arguments\n"
