@@ -6,7 +6,7 @@
 /*   By: yrachidi <yrachidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 15:16:07 by yrachidi          #+#    #+#             */
-/*   Updated: 2024/11/03 13:26:08 by yrachidi         ###   ########.fr       */
+/*   Updated: 2025/05/22 18:51:26 by yrachidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,6 @@ char				*ft_strdup(const char *s);
 char				*ft_substr(char const *s, unsigned int start, size_t len);
 char				*ft_strjoin(char const *s1, char const *s2);
 char				*ft_strtrim(char const *s1, char const *set);
-int					ft_words_count(char *s, char c);
-void				ft_free_strs(char **strs);
 char				**ft_split(const char *str, const char *delims);
 char				*ft_itoa(int n);
 char				*ft_strmapi(char const *s, char (*f)(unsigned int, char));
@@ -80,9 +78,7 @@ void				ft_lstclear(t_list **lst, void (*del)(void *));
 void				ft_lstiter(t_list *lst, void (*f)(void *));
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 						void (*del)(void *));
-/* Add get_next_line prototype */
-char *get_next_line(int fd);
-
-void	ft_free(char **buffer);
+char				*get_next_line(int fd);
+void				ft_free(void **buffer);
 
 #endif

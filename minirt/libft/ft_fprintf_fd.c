@@ -1,40 +1,57 @@
 #include "libft.h"
 #include <stdarg.h>
 
-static void	safe_free(void **ptr)
-{
-	if (ptr && *ptr)
-	{
-		free(*ptr);
-		*ptr = NULL;
-	}
-}
 
-static int	append_to_result(char **result, const char *str, char c,
-		int is_char)
+static int	append_char_to_result(char **result, char c)
 {
 	char	*temp;
 	size_t	curr_len;
+
+	curr_len = ft_strlen(*result);
+	temp = *result;
+	*result = ft_calloc(curr_len + 2, sizeof(char));
+	if (!*result)
+	{
+		ft_free((void **)&temp);
+		return (-1);
+	}
+	ft_strlcpy(*result, temp, curr_len + 1);
+	(*result)[curr_len] = c;
+	ft_free((void **)&temp);
+	return (1);
+}
+
+static int	append_str_to_result(char **result, const char *str)
+{
+	char	*temp;
 	size_t	len;
 
-	if (is_char)
-	{
-		curr_len = ft_strlen(*result);
-		temp = *result;
-		*result = ft_calloc(curr_len + 2, sizeof(char));
-		if (!*result)
-			return (safe_free((void **)&temp), -1);
-		ft_strlcpy(*result, temp, curr_len + 1);
-		(*result)[curr_len] = c;
-		safe_free((void **)&temp);
-		return (1);
-	}
 	if (!str)
 		str = "(null)";
 	len = ft_strlen(str);
 	temp = *result;
 	*result = ft_strjoin(*result, str);
-	safe_free((void **)&temp);
+	if (!*result)
+	{
+		ft_free((void **)&temp);
+		return (-1);
+	}
+	ft_free((void **)&temp);
+	return (len);
+}
+
+static int	handle_int_specifier(char **result, va_list args)
+{
+	char	*num_str;
+	int		num;
+	int		len;
+
+	num = va_arg(args, int);
+	num_str = ft_itoa(num);
+	if (!num_str)
+		return (-1);
+	len = append_str_to_result(result, num_str);
+	ft_free((void **)&num_str);
 	return (len);
 }
 
@@ -47,15 +64,23 @@ static int	process_format_specifier(char **result, char specifier,
 	if (specifier == 's')
 	{
 		str = va_arg(args, char *);
-		return (append_to_result(result, str, 0, 0));
+		return (append_str_to_result(result, str));
 	}
 	else if (specifier == 'c')
 	{
 		c = (char)va_arg(args, int);
-		return (append_to_result(result, NULL, c, 1));
+		return (append_char_to_result(result, c));
 	}
-	if (append_to_result(result, NULL, '%', 1) == -1 || append_to_result(result,
-			NULL, specifier, 1) == -1)
+	else if (specifier == 'd' || specifier == 'i')
+	{
+		return (handle_int_specifier(result, args));
+	}
+	else if (specifier == '%')
+	{
+		return (append_char_to_result(result, '%'));
+	}
+	if (append_char_to_result(result, '%') == -1
+		|| append_char_to_result(result, specifier) == -1)
 		return (-1);
 	return (2);
 }
@@ -75,7 +100,7 @@ static int	process_format_char(char **result, const char *format, int *i,
 	}
 	else
 	{
-		if (append_to_result(result, NULL, format[*i], 1) == -1)
+		if (append_char_to_result(result, format[*i]) == -1)
 			return (-1);
 		return (1);
 	}
@@ -95,8 +120,7 @@ static int	process_format_string(char **result, const char *format,
 		ret = process_format_char(result, format, &i, args);
 		if (ret == -1)
 		{
-			safe_free((void **)&*result);
-			va_end(args);
+			ft_free((void **)result);
 			return (-1);
 		}
 		count += ret;
@@ -111,15 +135,20 @@ int	ft_fprintf_fd(int fd, const char *format, ...)
 	int		count;
 	char	*result;
 
+	if (!format)
+		return (-1);
 	va_start(args, format);
 	result = ft_strdup("");
 	if (!result)
+	{
+		va_end(args);
 		return (-1);
+	}
 	count = process_format_string(&result, format, args);
+	va_end(args);
 	if (count == -1)
 		return (-1);
 	ft_putstr_fd(result, fd);
-	safe_free((void **)&result);
-	va_end(args);
+	ft_free((void **)&result);
 	return (count);
 }

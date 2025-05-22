@@ -6,20 +6,11 @@
 /*   By: yrachidi <yrachidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 13:41:16 by yrachidi          #+#    #+#             */
-/*   Updated: 2024/12/04 18:33:10 by yrachidi         ###   ########.fr       */
+/*   Updated: 2025/05/22 18:52:48 by yrachidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-void	ft_free(char **buffer)
-{
-	if (*buffer)
-	{
-		free(*buffer);
-		*buffer = NULL;
-	}
-}
 
 char	*get_after(char *buffer)
 {
@@ -34,7 +25,7 @@ char	*get_after(char *buffer)
 	len = ft_strlen(line_location);
 	after = ft_calloc(len + 1, 1);//had ster
 	if (!after)
-		return (ft_free(&buffer), NULL);
+		return (ft_free((void **)&buffer), NULL);
 	ft_memcpy(after, line_location, len);
 	return (after);
 }
@@ -66,24 +57,24 @@ char	*get_full_line(int fd, char *rbuf)
 
 	buffer = ft_calloc((size_t)(BUFFER_SIZE + 1), 1);
 	if (!buffer)
-		return (ft_free(&rbuf), NULL);
+		return (ft_free((void **)&rbuf), NULL);
 	while (1)
 	{
 		return_bytes = read(fd, buffer, BUFFER_SIZE);
 		if (return_bytes < 0)
-			return (ft_free(&buffer), ft_free(&rbuf), NULL);
+			return (ft_free((void **)&buffer), ft_free((void **)&rbuf), NULL);
 		if (return_bytes == 0)
 			break ;
 		buffer[return_bytes] = '\0';
 		tmp = ft_strjoin(rbuf, buffer);//had ster
-		ft_free(&rbuf);
+		ft_free((void **)&rbuf);
 		rbuf = tmp;
 		if (!rbuf)
-			return (ft_free(&buffer), NULL);
+			return (ft_free((void **)&buffer), NULL);
 		if (ft_strchr(rbuf, '\n'))
 			break ;
 	}
-	ft_free(&buffer);
+	ft_free((void **)&buffer);
 	return (rbuf);
 }
 
@@ -100,14 +91,14 @@ char	*get_next_line(int fd)
 		return (NULL);
 	if (buffer && !*buffer)
 	{
-		ft_free(&buffer);//had ster
+		ft_free((void **)&buffer);
 		return (NULL);
 	}
 	if (ft_strchr(buffer, '\n'))
 	{
 		line = get_before(buffer);
 		remaining = get_after(buffer);
-		ft_free(&buffer);
+		ft_free((void **)&buffer);
 		buffer = remaining;
 		return (line);
 	}

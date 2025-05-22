@@ -1,12 +1,1 @@
-# Test file with a single invalid identifier (simple format)
-
-# Valid formats for reference:
-# A 0.3 255,255,255
-# C 0,0,0 0,0,1 90
-# L -5,5,5 0.7 255,255,255
-# sp 0,0,5 2 255,0,0
-# pl 0,0,10 0,0,-1 255,255,255
-# cy 0,0,0 0,1,0 1 5 255,255,0
-
-# Invalid identifier:
 AQ 0,0,0 1 255,0,0

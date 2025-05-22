@@ -1,6 +1,5 @@
 #include "../includes/minirt.h"
 #include "../includes/parser.h"
-#include <stdlib.h>
 
 int	parse_color(char *str, t_color3 *color)
 {

@@ -1,4 +1,5 @@
 #include "../includes/vector.h"
+#include "../includes/parser.h"
 
 t_vec3	vec3_create(double x, double y, double z)
 {

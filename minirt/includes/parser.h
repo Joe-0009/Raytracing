@@ -2,7 +2,7 @@
 # define PARSER_H
 
 # include "scene.h"
-
+#include <math.h>
 /* Parse error codes and messages */
 # define ERR_AMBIENT_FORMAT "Error: Invalid ambient lighting format\n"
 # define ERR_CAMERA_FORMAT "Error: Invalid camera format\n"
@@ -34,8 +34,7 @@ typedef struct s_parser
 /* Function prototypes */
 /* File and scene loading */
 t_scene *parse_scene_file(char *filename);
-t_scene *parse_scene_file_combined(char *filename);
-int     parse_line(char *line, t_scene *scene);
+t_scene *parse_scene_file(char *filename);
 int     validate_scene(t_scene *scene);
 int     validate_scene_rendering(t_scene *scene);
 
@@ -74,10 +73,5 @@ int     validate_sphere_diameter(double diameter);
 int     validate_cylinder_dimensions(double diameter, double height);
 int     validate_plane_normal(t_vec3 *normal);
 
-/* Parser lifecycle functions */
-int     init_parser(t_parser *parser);
-int     init_scene(t_scene *scene);
-void    cleanup_parser(t_parser *parser);
-void    cleanup_scene(t_scene *scene);
 
 #endif

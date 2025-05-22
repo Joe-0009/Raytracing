@@ -122,7 +122,7 @@ int	process_scene_line(t_parser *parser, t_scene *scene, char *line)
  * @param filename The path to the scene file.
  * @return Pointer to the parsed scene, or NULL on error.
  */
-t_scene	*parse_scene_file_combined(char *filename)
+t_scene	*parse_scene_file(char *filename)
 {
 	t_scene		*scene;
 	t_parser	parser;

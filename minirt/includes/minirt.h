@@ -25,7 +25,6 @@
 # define ERR_MEMORY "Error: Memory allocation failed\n"
 
 /* Function prototypes */
-void    cleanup_scene(t_scene *scene);
 void    error_exit(char *message);
 
 
