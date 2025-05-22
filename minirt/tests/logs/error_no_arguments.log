@@ -1,0 +1,5 @@
+Test: no_arguments
+Command: ../miniRT
+Exit Code: 1
+Output:
+Error: Invalid number of arguments

@@ -1,0 +1,5 @@
+Test: fixed_invalid_identifiers.rt
+Expected to fail: 1
+Exit Code: 139
+Output:
+

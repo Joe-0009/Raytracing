@@ -1,0 +1,5 @@
+# Test file with a hard-to-detect invalid identifier
+# This file has a name that doesn't match our pattern detection
+
+# This is a comment
+custom_shape 0,0,5 2 255,0,0

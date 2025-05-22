@@ -1,0 +1,18 @@
+Test: edge_cases.rt
+Expected to fail: 0
+Exit Code: 0
+Output:
+Scene Information:
+Ambient: ratio=0.50, color=(1.00,1.00,1.00)
+Camera: pos=(0.00,0.00,0.00), dir=(0.00,0.00,1.00), fov=70.00
+Lights (1):
+  Light 1: pos=(0.50,1.50,2.50), bright=0.50, color=(1.00,1.00,1.00)
+Objects (6):
+  Sphere 1: center=(1.00,2.00,3.00), diam=10.00, color=(1.00,0.50,0.25)
+  Plane 2: point=(0.00,0.00,0.00), normal=(0.58,0.58,0.58), color=(1.00,1.00,0.00)
+  Cylinder 3: center=(5.00,5.00,5.00), axis=(0.11,0.99,0.11), diam=5.00, height=10.00, color=(0.00,1.00,0.00)
+  Sphere 4: center=(100.00,100.00,100.00), diam=1.00, color=(1.00,1.00,1.00)
+  Plane 5: point=(0.00,0.00,0.00), normal=(0.00,0.00,1.00), color=(1.00,1.00,1.00)
+  Cylinder 6: center=(0.00,0.00,0.00), axis=(1.00,0.00,0.00), diam=0.10, height=0.10, color=(1.00,1.00,1.00)
+
+Scene parsed successfully. Rendering functionality will be implemented later.

@@ -1,0 +1,5 @@
+Test: alpha_numbers.rt
+Expected to fail: 1
+Exit Code: 139
+Output:
+Error: Invalid trailing characters in number '90deg'

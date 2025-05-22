@@ -1,0 +1,6 @@
+Test: invalid.rt
+Expected to fail: 1
+Exit Code: 139
+Output:
+Error: Invalid ambient lighting format
+Ambient light ratio must be between 0.0 and 1.0

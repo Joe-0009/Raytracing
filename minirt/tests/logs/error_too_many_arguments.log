@@ -1,0 +1,5 @@
+Test: too_many_arguments
+Command: ../miniRT ../scenes/basic.rt extra_arg
+Exit Code: 1
+Output:
+Error: Invalid number of arguments
