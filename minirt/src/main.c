@@ -1,4 +1,6 @@
 #include "../includes/minirt.h"
+#include "../includes/main.h"
+#include "../includes/events.h"
 
 /**
  * Print error message and exit
@@ -86,31 +88,7 @@ void print_scene_info(t_scene *scene)
  * Main function
  */
 
-void	create_image(t_vars *vars)
-{
-	vars->img = malloc(sizeof(t_image));
-	if (!vars->img)
-		exit(EXIT_FAILURE);
-	vars->img->img = mlx_new_image(vars->mlx, WIDTH, HEIGHT);
-	if (!vars->img->img)
-		exit(EXIT_FAILURE);
-	vars->img->addr = mlx_get_data_addr(vars->img->img,
-			&vars->img->bits_per_pixel, &vars->img->line_length,
-			&vars->img->endian);
-	if (!vars->img->addr)
-		exit(EXIT_FAILURE);
-}
-void	put_pixel(t_vars *vars, int x, int y, int color)
-{
-	char	*dst;
 
-	if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT)
-	{
-		dst = vars->img->addr + (y * vars->img->line_length + x
-				* (vars->img->bits_per_pixel / 8));
-		*(unsigned int *)dst = color;
-	}
-}
 
 int main(int argc, char **argv)
 {
@@ -125,9 +103,8 @@ int main(int argc, char **argv)
     vars.mlx = mlx_init();
     vars.win = mlx_new_window(vars.mlx, WIDTH, HEIGHT, window_name_rt);
     create_image(&vars);
-    int i =0;
-    while (i < 100)
-        put_pixel(&vars, i++, 50, 0xffffff);
+    // Draw the scene using ray tracing
+    main_draw(&vars, scene);
     mlx_hooks(&vars);
     mlx_put_image_to_window(vars.mlx, vars.win, vars.img->img, 0, 0);
     mlx_loop(vars.mlx);

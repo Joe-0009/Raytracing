@@ -1,12 +1,13 @@
+#include "../includes/main.h"
 #include "../includes/events.h"
 
-// void	draw_new_image(t_vars *vars)
-// {
-// 	cleanup_image(vars);
-// 	create_image(vars);
-// 	main_draw(vars);
-// 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
-// }
+void	draw_new_image(t_vars *vars, t_scene *scene)
+{
+	//cleanup_image(vars); todo
+	create_image(vars);
+	main_draw(vars, scene);
+	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
+}
 
 int	close_window_x(t_vars *vars)
 {
