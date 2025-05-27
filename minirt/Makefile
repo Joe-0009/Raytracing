@@ -4,8 +4,8 @@ NAME = miniRT
 
 # Compiler and flags
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
-LDFLAGS = -lmlx -lm -lXext -lX11 -lz
+CFLAGS = -Wall -Wextra -Werror -I./includes -I../minilibx_macos
+LDFLAGS = -L../minilibx_macos -lmlx -framework OpenGL -framework AppKit
 INCLUDES = -I./includes
 
 # Libraries

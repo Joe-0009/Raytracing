@@ -1,5 +1,6 @@
 #include "../includes/minirt.h"
 #include "../includes/parser.h"
+#include <stdio.h>
 
 /**
  * Initializes both a t_parser and a t_scene structure.
@@ -12,13 +13,8 @@ void	init_parser_and_scene(t_parser *parser, t_scene *scene)
 	parser->tokens = NULL;
 	parser->line_count = 0;
 	parser->has_camera = FALSE;
-	parser->has_ambient = FALSE;
-	parser->has_light = FALSE;
 	scene->num_objects = 0;
-	scene->num_lights = 0;
 	scene->camera.fov = 0.0;
-	scene->ambient.ratio = 0.0;
-	scene->ambient.color = (t_color3){0, 0, 0};
 }
 
 /**
@@ -51,6 +47,26 @@ int	validate_extension_and_permission(const char *filename, t_scene *scene)
 }
 
 /**
+ * Checks if a line is empty or contains only whitespace characters.
+ * @param line The line to check.
+ * @return TRUE if the line is empty/whitespace-only, FALSE otherwise.
+ */
+int	is_empty_line(const char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] != ' ' && line[i] != '\t' && line[i] != '\n'
+			&& line[i] != '\r')
+			return (FALSE);
+		i++;
+	}
+	return (TRUE);
+}
+
+/**
  * Dispatches the parsing of a token to the appropriate element parser.
  * @param tokens The tokenized line (tokens[0] is the identifier).
  * @param scene Pointer to the scene structure to populate.
@@ -63,12 +79,8 @@ int	dispatch_parse_token(char **tokens, t_scene *scene)
 	token_len = strlen(tokens[0]);
 	if (token_len == 1)
 	{
-		if (tokens[0][0] == 'A')
-			return (parse_ambient(tokens, scene));
-		else if (tokens[0][0] == 'C')
+		if (tokens[0][0] == 'C')
 			return (parse_camera(tokens, scene));
-		else if (tokens[0][0] == 'L')
-			return (parse_light(tokens, scene));
 	}
 	else if (token_len == 2)
 	{
@@ -96,6 +108,12 @@ int	process_scene_line(t_parser *parser, t_scene *scene, char *line)
 
 	parser->line_count++;
 	parser->line = line;
+	if (is_empty_line(line))
+	{
+		free(line);
+		parser->line = NULL;
+		return (1);
+	}
 	parser->tokens = ft_split(line, " \t\n\r");
 	if (!parser->tokens || !parser->tokens[0] || parser->tokens[0][0] == '#')
 	{
@@ -107,8 +125,16 @@ int	process_scene_line(t_parser *parser, t_scene *scene, char *line)
 	}
 	parse_result = dispatch_parse_token(parser->tokens, scene);
 	if (!parse_result)
-		ft_fprintf_fd(2, "Error: Line %d: Unknown identifier '%s'\n",
-			parser->line_count, parser->tokens[0]);
+	{
+		if (parser->tokens && parser->tokens[0])
+		{
+			ft_fprintf_fd(2, "Error: Unknown identifier: ");
+			ft_fprintf_fd(2, parser->tokens[0]);
+			ft_fprintf_fd(2, "\n");
+		}
+		else
+			ft_fprintf_fd(2, "Error: Invalid line format\n");
+	}
 	free(line);
 	free_tokens(parser->tokens);
 	parser->tokens = NULL;
@@ -131,22 +157,40 @@ t_scene	*parse_scene_file(char *filename)
 	int			result;
 
 	scene = (t_scene *)malloc(sizeof(t_scene));
+	if (!scene)
+	{
+		return (NULL);
+	}
+	
 	init_parser_and_scene(&parser, scene);
+	
 	fd = validate_extension_and_permission(filename, scene);
 	if (fd == -1)
+	{
 		return (NULL);
+	}
+	
 	line = get_next_line(fd);
 	while (line != NULL)
 	{
 		result = process_scene_line(&parser, scene, line);
 		if (result == 0)
+		{
 			return (close(fd), free(scene), NULL);
+		}
 		line = get_next_line(fd);
 	}
 	close(fd);
+	
 	if (parser.line_count == 0)
+	{
 		return (ft_fprintf_fd(2, "Error: Empty file\n"), free(scene), NULL);
+	}
+	
 	if (!validate_scene(scene))
+	{
 		return (free(scene), NULL);
+	}
+	
 	return (scene);
 }

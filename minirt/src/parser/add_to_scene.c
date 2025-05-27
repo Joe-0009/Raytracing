@@ -1,26 +1,6 @@
 #include "../includes/minirt.h"
 
 /**
- * Add a light to the scene
- *
- * @param scene Pointer to the scene structure
- * @param light Pointer to the light structure to add
- * @return TRUE if successful, FALSE otherwise
- */
-int	add_light_to_scene(t_scene *scene, t_light *light)
-{
-	if (scene->num_lights >= MAX_LIGHTS)
-	{
-		ft_fprintf_fd(2, "Error: Maximum number of lights reached (%d)\n",
-			MAX_LIGHTS);
-		return (FALSE);
-	}
-	scene->lights[scene->num_lights] = *light;
-	scene->num_lights++;
-	return (TRUE);
-}
-
-/**
  * Add an object to the scene
  *
  * @param scene Pointer to the scene structure

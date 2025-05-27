@@ -33,17 +33,6 @@ int	validate_sphere_diameter(double diameter)
 	return (TRUE);
 }
 
-int	validate_light_brightness(double brightness)
-{
-	if (brightness < 0.0 || brightness > 1.0)
-	{
-		ft_fprintf_fd(2, ERR_LIGHT_FORMAT);
-		ft_fprintf_fd(2, "Light brightness must be between 0.0 and 1.0\n");
-		return (FALSE);
-	}
-	return (TRUE);
-}
-
 int	validate_cylinder_dimensions(double diameter, double height)
 {
 	if (diameter <= 0.0 || height <= 0.0)
@@ -125,18 +114,6 @@ int	validate_plane(t_plane *plane)
 	return (TRUE);
 }
 
-int	validate_light(t_light *light)
-{
-	if (!validate_position(light->position, "Light"))
-		return (FALSE);
-	if (light->brightness < 0.0 || light->brightness > 1.0)
-	{
-		ft_fprintf_fd(2, "Error: Light brightness must be between 0 and 1\n");
-		return (FALSE);
-	}
-	return (TRUE);
-}
-
 int validate_position(t_point3 pos, const char *type)
 {
 	double dist = sqrt(pos.x * pos.x + pos.y * pos.y + pos.z * pos.z);
@@ -145,4 +122,4 @@ int validate_position(t_point3 pos, const char *type)
 		ft_fprintf_fd(2, "Warning: %s position is far from the origin (%.2f, %.2f, %.2f)\n", type, pos.x, pos.y, pos.z);
 	}
 	return (1);
-} 
+}

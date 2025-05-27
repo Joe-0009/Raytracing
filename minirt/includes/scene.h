@@ -1,22 +1,18 @@
 #ifndef SCENE_H
 # define SCENE_H
 
-# include "vector.h"
+# include "math_utils.h"
 
 /* Object types */
 # define SPHERE 1
 # define PLANE 2
 # define CYLINDER 3
 
+/* Pattern types */
+# define PATTERN_SOLID 0
+
 /* Maximum objects in scene */
 # define MAX_OBJECTS 100
-# define MAX_LIGHTS 10
-
-typedef struct s_ambient
-{
-    double  ratio;         /* Ambient lighting ratio */
-    t_color3 color;        /* RGB color */
-} t_ambient;
 
 typedef struct s_camera
 {
@@ -25,18 +21,20 @@ typedef struct s_camera
     double   fov;          /* Field of view in degrees */
 } t_camera;
 
-typedef struct s_light
+typedef struct s_material
 {
-    t_point3 position;     /* Light position */
-    double   brightness;   /* Light brightness ratio */
-    t_color3 color;        /* RGB color */
-} t_light;
+    int      pattern_type;  /* Pattern type (solid only) */
+    t_color3 color1;        /* Primary color */
+    t_color3 color2;        /* Secondary color (unused) */
+    double   scale;         /* Pattern scale (unused) */
+} t_material;
 
 typedef struct s_sphere
 {
     t_point3 center;       /* Sphere center */
     double   diameter;     /* Sphere diameter */
     t_color3 color;        /* RGB color */
+    t_material material;   /* Material properties */
 } t_sphere;
 
 typedef struct s_plane
@@ -44,6 +42,7 @@ typedef struct s_plane
     t_point3 point;        /* Point on the plane */
     t_vec3   normal;       /* Normal vector (normalized) */
     t_color3 color;        /* RGB color */
+    t_material material;   /* Material properties */
 } t_plane;
 
 typedef struct s_cylinder
@@ -53,6 +52,7 @@ typedef struct s_cylinder
     double   diameter;     /* Cylinder diameter */
     double   height;       /* Cylinder height */
     t_color3 color;        /* RGB color */
+    t_material material;   /* Material properties */
 } t_cylinder;
 
 typedef struct s_object
@@ -68,10 +68,7 @@ typedef struct s_object
 
 typedef struct s_scene
 {
-    t_ambient ambient;             /* Ambient lighting */
     t_camera  camera;              /* Camera settings */
-    t_light   lights[MAX_LIGHTS];  /* Lights array */
-    int       num_lights;          /* Number of lights */
     t_object  objects[MAX_OBJECTS]; /* Objects array */
     int       num_objects;         /* Number of objects */
 } t_scene;

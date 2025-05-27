@@ -6,9 +6,11 @@
 int	parse_vector(char *str, t_vec3 *vec)
 {
 	char	**tokens;
+	double	x;
+	double	y;
+	double	z;
 	int		success;
 
-	double x, y, z;
 	success = TRUE;
 	tokens = ft_split(str, ",");
 	if (!tokens || !tokens[0] || !tokens[1] || !tokens[2])

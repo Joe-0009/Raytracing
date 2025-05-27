@@ -1,5 +1,6 @@
 #include "libft.h"
 #include <stdarg.h>
+#include <stdio.h>
 
 
 static int	append_char_to_result(char **result, char c)
@@ -7,6 +8,8 @@ static int	append_char_to_result(char **result, char c)
 	char	*temp;
 	size_t	curr_len;
 
+	if (!result || !*result)
+		return (-1);
 	curr_len = ft_strlen(*result);
 	temp = *result;
 	*result = ft_calloc(curr_len + 2, sizeof(char));
@@ -26,6 +29,8 @@ static int	append_str_to_result(char **result, const char *str)
 	char	*temp;
 	size_t	len;
 
+	if (!result || !*result)
+		return (-1);
 	if (!str)
 		str = "(null)";
 	len = ft_strlen(str);
