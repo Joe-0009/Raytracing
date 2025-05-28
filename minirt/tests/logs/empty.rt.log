@@ -1,6 +1,0 @@
-Test: empty.rt
-Expected to fail: 1
-Exit Code: 1
-Output:
-Error: Empty file
-Error: Invalid scene configuration

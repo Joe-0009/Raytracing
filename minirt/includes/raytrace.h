@@ -20,7 +20,6 @@ t_ray	generate_camera_ray(const t_scene *scene, int x, int y);
 
 /* Ray-object intersection functions */
 double	hit_sphere(const t_sphere *sphere, t_ray ray);
-double	hit_cylinder(const t_cylinder *cylinder, t_ray ray);
 
 /* Main raytracing function */
 int	trace_ray(const t_scene *scene, t_ray ray);

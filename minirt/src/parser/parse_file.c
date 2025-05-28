@@ -15,6 +15,22 @@ void	init_parser_and_scene(t_parser *parser, t_scene *scene)
 	parser->has_camera = FALSE;
 	scene->num_objects = 0;
 	scene->camera.fov = 0.0;
+	scene->has_ambient = FALSE;
+	scene->has_light = FALSE;
+	
+	// Initialize ambient and light structures to zero
+	scene->ambient.ratio = 0.0;
+	scene->ambient.color.x = 0.0;
+	scene->ambient.color.y = 0.0;
+	scene->ambient.color.z = 0.0;
+	
+	scene->light.position.x = 0.0;
+	scene->light.position.y = 0.0;
+	scene->light.position.z = 0.0;
+	scene->light.brightness = 0.0;
+	scene->light.color.x = 0.0;
+	scene->light.color.y = 0.0;
+	scene->light.color.z = 0.0;
 }
 
 /**
@@ -79,8 +95,12 @@ int	dispatch_parse_token(char **tokens, t_scene *scene)
 	token_len = strlen(tokens[0]);
 	if (token_len == 1)
 	{
-		if (tokens[0][0] == 'C')
+		if (tokens[0][0] == 'A')
+			return (parse_ambient(tokens, scene));
+		else if (tokens[0][0] == 'C')
 			return (parse_camera(tokens, scene));
+		else if (tokens[0][0] == 'L')
+			return (parse_light(tokens, scene));
 	}
 	else if (token_len == 2)
 	{
@@ -123,6 +143,7 @@ int	process_scene_line(t_parser *parser, t_scene *scene, char *line)
 		parser->line = NULL;
 		return (1);
 	}
+	
 	parse_result = dispatch_parse_token(parser->tokens, scene);
 	if (!parse_result)
 	{

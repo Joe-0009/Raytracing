@@ -7,9 +7,7 @@
 # define SPHERE 1
 # define PLANE 2
 # define CYLINDER 3
-
-/* Pattern types */
-# define PATTERN_SOLID 0
+# define CONE 4
 
 /* Maximum objects in scene */
 # define MAX_OBJECTS 100
@@ -21,12 +19,22 @@ typedef struct s_camera
     double   fov;          /* Field of view in degrees */
 } t_camera;
 
+typedef struct s_ambient
+{
+    double   ratio;        /* Ambient lighting ratio [0.0, 1.0] */
+    t_color3 color;        /* Ambient light color */
+} t_ambient;
+
+typedef struct s_light
+{
+    t_point3 position;     /* Light position */
+    double   brightness;   /* Light brightness ratio [0.0, 1.0] */
+    t_color3 color;        /* Light color */
+} t_light;
+
 typedef struct s_material
 {
-    int      pattern_type;  /* Pattern type (solid only) */
-    t_color3 color1;        /* Primary color */
-    t_color3 color2;        /* Secondary color (unused) */
-    double   scale;         /* Pattern scale (unused) */
+    t_color3 color;         /* Object color */
 } t_material;
 
 typedef struct s_sphere
@@ -66,11 +74,17 @@ typedef struct s_object
     } data;
 } t_object;
 
+
+
 typedef struct s_scene
 {
     t_camera  camera;              /* Camera settings */
+    t_ambient ambient;             /* Ambient lighting */
+    t_light   light;               /* Light source */
     t_object  objects[MAX_OBJECTS]; /* Objects array */
     int       num_objects;         /* Number of objects */
+    int       has_ambient;         /* Flag for ambient lighting */
+    int       has_light;           /* Flag for light source */
 } t_scene;
 
 #endif

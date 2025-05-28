@@ -1,69 +1,116 @@
 #include "../includes/minirt.h"
 #include <stdio.h>
 
-// Helper function to initialize default material
-t_material	init_default_material(t_color3 color)
+// Simple helper function to create a material with a given color
+t_material	create_simple_material(t_color3 color)
 {
-	t_material material;
-	
-	material.pattern_type = PATTERN_SOLID;
-	material.color1 = color;
-	material.color2 = color;
-	material.scale = 1.0;
+	t_material	material;
+
+	material.color = color;
 	return (material);
 }
 
-// Helper function to parse material properties from tokens
-// Format: material_type color1 [color2] [scale]
-int	parse_material(char **tokens, int start_idx, t_material *material, t_color3 default_color)
+int	parse_ambient(char **tokens, t_scene *scene)
 {
-	if (!tokens[start_idx])
-	{
-		*material = init_default_material(default_color);
-		return (TRUE);
-	}
-	
-	if (ft_strncmp(tokens[start_idx], "solid", 5) == 0)
-		material->pattern_type = PATTERN_SOLID;
-	else
-	{
-		ft_fprintf_fd(2, "Error: Unknown pattern type '%s'\n", tokens[start_idx]);
-		return (FALSE);
-	}
-	
-	if (!tokens[start_idx + 1] || !parse_color(tokens[start_idx + 1], &material->color1))
-	{
-		ft_fprintf_fd(2, "Error: Missing or invalid first color for material\n");
-		return (FALSE);
-	}
-	
-	if (tokens[start_idx + 2] && tokens[start_idx + 2][0] != '\0')
-	{
-		if (!parse_color(tokens[start_idx + 2], &material->color2))
-		{
-			ft_fprintf_fd(2, "Error: Invalid second color for material\n");
-			return (FALSE);
-		}
-	}
-	else
-		material->color2 = material->color1;
-	
-	if (tokens && tokens[start_idx + 3] && tokens[start_idx + 3][0] != '\0')
-	{
-		if (!parse_double(tokens[start_idx + 3], &material->scale))
-		{
-			ft_fprintf_fd(2, "Error: Invalid scale for material\n");
-			return (FALSE);
-		}
-		if (material->scale <= 0.0)
-		{
-			ft_fprintf_fd(2, "Error: Material scale must be positive\n");
-			return (FALSE);
-		}
-	}
-	else
-		material->scale = 1.0;
+	t_color3	color;
+	double		ratio;
 
+	// Check for basic format: A ratio r,g,b
+	if (!tokens[1] || !tokens[2])
+	{
+		ft_fprintf_fd(2, ERR_AMBIENT_FORMAT);
+		ft_fprintf_fd(2, "Expected format: A ratio r,g,b\n");
+		return (FALSE);
+	}
+	
+	// Check if ambient already exists
+	if (scene->has_ambient)
+	{
+		ft_fprintf_fd(2, "Error: Ambient lighting already defined\n");
+		return (FALSE);
+	}
+	
+	if (!parse_double(tokens[1], &ratio))
+		return (FALSE);
+	if (ratio < 0.0 || ratio > 1.0)
+	{
+		ft_fprintf_fd(2, "Error: Ambient ratio must be between 0.0 and 1.0\n");
+		return (FALSE);
+	}
+		
+	// Parse color
+	if (!parse_color(tokens[2], &color))
+	{
+		ft_fprintf_fd(2, "Error: Invalid color for ambient lighting\n");
+		return (FALSE);
+	}
+	
+	// Check for extra tokens
+	if (tokens[3])
+	{
+		ft_fprintf_fd(2, ERR_AMBIENT_FORMAT);
+		ft_fprintf_fd(2, "Too many arguments for ambient lighting\n");
+		return (FALSE);
+	}
+	
+	scene->ambient.ratio = ratio;
+	scene->ambient.color = color;
+	scene->has_ambient = TRUE;
+	
+	return (TRUE);
+}
+
+int	parse_light(char **tokens, t_scene *scene)
+{
+	t_vec3		position;
+	t_color3	color;
+	double		brightness;
+
+	// Check for basic format: L x,y,z brightness r,g,b
+	if (!tokens[1] || !tokens[2] || !tokens[3])
+	{
+		ft_fprintf_fd(2, ERR_LIGHT_FORMAT);
+		ft_fprintf_fd(2, "Expected format: L x,y,z brightness r,g,b\n");
+		return (FALSE);
+	}
+	
+	// Check if light already exists
+	if (scene->has_light)
+	{
+		ft_fprintf_fd(2, "Error: Light source already defined\n");
+		return (FALSE);
+	}
+	
+	if (!parse_vector(tokens[1], &position))
+		return (FALSE);
+	if (!parse_double(tokens[2], &brightness))
+		return (FALSE);
+	if (brightness < 0.0 || brightness > 1.0)
+	{
+		ft_fprintf_fd(2, "Error: Light brightness must be between 0.0 and 1.0\n");
+		return (FALSE);
+	}
+		
+	// Parse color
+	if (!parse_color(tokens[3], &color))
+	{
+		ft_fprintf_fd(2, "Error: Invalid color for light source\n");
+		return (FALSE);
+	}
+	
+	// Check for extra tokens
+	if (tokens[4])
+	{
+		ft_fprintf_fd(2, ERR_LIGHT_FORMAT);
+		ft_fprintf_fd(2, "Too many arguments for light source\n");
+		return (FALSE);
+	}
+	
+	scene->light.position = position;
+	scene->light.brightness = brightness;
+	scene->light.color = color;
+	scene->has_light = TRUE;
+	
 	return (TRUE);
 }
 
@@ -74,60 +121,43 @@ int	parse_sphere(char **tokens, t_scene *scene)
 	t_color3	color;
 	double		diameter;
 
-	// Check for basic format: sp x,y,z diameter r,g,b [material_properties]
+	// Check for basic format: sp x,y,z diameter r,g,b
 	if (!tokens[1] || !tokens[2] || !tokens[3])
 	{
 		ft_fprintf_fd(2, ERR_SPHERE_FORMAT);
-		ft_fprintf_fd(2, "Expected format: sp x,y,z diameter r,g,b [material_type color1 [color2] [scale]]\n");
+		ft_fprintf_fd(2, "Expected format: sp x,y,z diameter r,g,b\n");
 		return (FALSE);
 	}
 	
 	if (!parse_vector(tokens[1], &center))
-	{
 		return (FALSE);
-	}
 	if (!parse_double(tokens[2], &diameter))
-	{
 		return (FALSE);
-	}
 	if (!validate_sphere_diameter(diameter))
+		return (FALSE);
+		
+	// Parse color
+	if (!tokens[3] || !parse_color(tokens[3], &color))
 	{
+		ft_fprintf_fd(2, "Error: Missing or invalid color for sphere\n");
 		return (FALSE);
 	}
-		
-	// Parse legacy color format if present
-	if (tokens[3] && tokens[3][0] != '\0' && ft_strncmp(tokens[3], "solid", 5) != 0)
+	
+	// Check for extra tokens (not allowed in simplified format)
+	if (tokens[4])
 	{
-		// Legacy format: sp x,y,z diameter r,g,b
-		if (!parse_color(tokens[3], &color))
-		{
-			return (FALSE);
-		}
-		sphere.material = init_default_material(color);
-		if (tokens[4])  // Extra tokens in legacy format
-		{
-			ft_fprintf_fd(2, ERR_SPHERE_FORMAT);
-			ft_fprintf_fd(2, "Too many arguments for legacy sphere format\n");
-			return (FALSE);
-		}
-	}
-	else
-	{
-		// New format: sp x,y,z diameter material_type color1 [color2] [scale]
-		if (!parse_material(tokens, 3, &sphere.material, (t_color3){255, 255, 255}))
-		{
-			return (FALSE);
-		}
+		ft_fprintf_fd(2, ERR_SPHERE_FORMAT);
+		ft_fprintf_fd(2, "Too many arguments for sphere\n");
+		return (FALSE);
 	}
 	
 	sphere.center = center;
 	sphere.diameter = diameter;
-	sphere.color = sphere.material.color1;  // Keep for backwards compatibility
+	sphere.color = color;
+	sphere.material = create_simple_material(color);
 	
 	if (!add_object_to_scene(scene, SPHERE, &sphere))
-	{
 		return (FALSE);
-	}
 	return (TRUE);
 }
 
@@ -138,11 +168,11 @@ int	parse_plane(char **tokens, t_scene *scene)
 	t_vec3		normal;
 	t_color3	color;
 
-	// Check for basic format: pl x,y,z nx,ny,nz r,g,b [material_properties]
+	// Check for basic format: pl x,y,z nx,ny,nz r,g,b
 	if (!tokens[1] || !tokens[2] || !tokens[3])
 	{
 		ft_fprintf_fd(2, ERR_PLANE_FORMAT);
-		ft_fprintf_fd(2, "Expected format: pl x,y,z nx,ny,nz r,g,b [material_type color1 [color2] [scale]]\n");
+		ft_fprintf_fd(2, "Expected format: pl x,y,z nx,ny,nz r,g,b\n");
 		return (FALSE);
 	}
 	
@@ -151,30 +181,25 @@ int	parse_plane(char **tokens, t_scene *scene)
 	if (!validate_plane_normal(&normal))
 		return (FALSE);
 		
-	// Parse legacy color format if present
-	if (tokens[3] && tokens[3][0] != '\0' && ft_strncmp(tokens[3], "solid", 5) != 0)
+	// Parse color
+	if (!tokens[3] || !parse_color(tokens[3], &color))
 	{
-		// Legacy format: pl x,y,z nx,ny,nz r,g,b
-		if (!parse_color(tokens[3], &color))
-			return (FALSE);
-		plane.material = init_default_material(color);
-		if (tokens[4])  // Extra tokens in legacy format
-		{
-			ft_fprintf_fd(2, ERR_PLANE_FORMAT);
-			ft_fprintf_fd(2, "Too many arguments for legacy plane format\n");
-			return (FALSE);
-		}
+		ft_fprintf_fd(2, "Error: Missing or invalid color for plane\n");
+		return (FALSE);
 	}
-	else
+	
+	// Check for extra tokens (not allowed in simplified format)
+	if (tokens[4])
 	{
-		// New format: pl x,y,z nx,ny,nz material_type color1 [color2] [scale]
-		if (!parse_material(tokens, 3, &plane.material, (t_color3){128, 128, 128}))
-			return (FALSE);
+		ft_fprintf_fd(2, ERR_PLANE_FORMAT);
+		ft_fprintf_fd(2, "Too many arguments for plane\n");
+		return (FALSE);
 	}
 	
 	plane.point = point;
 	plane.normal = normal;
-	plane.color = plane.material.color1;  // Keep for backwards compatibility
+	plane.color = color;
+	plane.material = create_simple_material(color);
 	
 	if (!add_object_to_scene(scene, PLANE, &plane))
 		return (FALSE);
@@ -190,99 +215,68 @@ int	parse_cylinder(char **tokens, t_scene *scene)
 	double		diameter;
 	double		height;
 
-	// Check for minimum required tokens: cy x,y,z nx,ny,nz diameter r,g,b
+	// Support both formats: cy x,y,z nx,ny,nz diameter r,g,b (old) and cy x,y,z nx,ny,nz diameter height r,g,b (new)
 	if (!tokens[1] || !tokens[2] || !tokens[3] || !tokens[4])
 	{
 		ft_fprintf_fd(2, ERR_CYLINDER_FORMAT);
-		ft_fprintf_fd(2, "Expected format: cy x,y,z nx,ny,nz diameter height r,g,b [material_type color1 [color2] [scale]]\n");
+		ft_fprintf_fd(2, "Expected format: cy x,y,z nx,ny,nz diameter [height] r,g,b\n");
 		return (FALSE);
 	}
 	
 	if (!parse_vector(tokens[1], &center))
-	{
 		return (FALSE);
-	}
 	if (!parse_vector(tokens[2], &axis))
-	{
 		return (FALSE);
-	}
 	if (!parse_double(tokens[3], &diameter))
-	{
 		return (FALSE);
-	}
 	
-	// Check if we have the new format (with height) or old format (without height)
-	if (tokens[5] && (ft_strchr(tokens[4], ',') == NULL)) // tokens[4] is not a color (no comma), so it's height
+	// Check if we have height parameter (new format) or color directly (old format)
+	if (tokens[5] && (ft_strchr(tokens[4], ',') == NULL))
 	{
+		// New format: cy x,y,z nx,ny,nz diameter height r,g,b
 		if (!parse_double(tokens[4], &height))
+			return (FALSE);
+		if (!tokens[5] || !parse_color(tokens[5], &color))
 		{
+			ft_fprintf_fd(2, "Error: Missing or invalid color for cylinder\n");
 			return (FALSE);
 		}
-		
-		// Parse legacy color format if present
-		if (tokens[5] && tokens[5][0] != '\0' && ft_strncmp(tokens[5], "solid", 5) != 0)
+		if (tokens[6])
 		{
-			// New format: cy x,y,z nx,ny,nz diameter height r,g,b
-			if (!parse_color(tokens[5], &color))
-			{
-				return (FALSE);
-			}
-			cylinder.material = init_default_material(color);
-			if (tokens[6])  // Extra tokens in legacy format
-			{
-				ft_fprintf_fd(2, ERR_CYLINDER_FORMAT);
-				ft_fprintf_fd(2, "Too many arguments for legacy cylinder format\n");
-				return (FALSE);
-			}
-		}
-		else
-		{
-			// New format: cy x,y,z nx,ny,nz diameter height material_type color1 [color2] [scale]
-			if (!parse_material(tokens, 5, &cylinder.material, (t_color3){0, 128, 255}))
-			{
-				return (FALSE);
-			}
+			ft_fprintf_fd(2, ERR_CYLINDER_FORMAT);
+			ft_fprintf_fd(2, "Too many arguments for cylinder\n");
+			return (FALSE);
 		}
 	}
 	else
 	{
 		// Old format: cy x,y,z nx,ny,nz diameter r,g,b
 		height = diameter; // Default height equals diameter for old format
-		
-		if (!tokens[4])
+		if (!tokens[4] || !parse_color(tokens[4], &color))
 		{
-			ft_fprintf_fd(2, ERR_CYLINDER_FORMAT);
+			ft_fprintf_fd(2, "Error: Missing or invalid color for cylinder\n");
 			return (FALSE);
 		}
-		
-		if (!parse_color(tokens[4], &color))
-		{
-			return (FALSE);
-		}
-		cylinder.material = init_default_material(color);
-		if (tokens[5])  // Extra tokens in old format
+		if (tokens[5])
 		{
 			ft_fprintf_fd(2, ERR_CYLINDER_FORMAT);
-			ft_fprintf_fd(2, "Too many arguments for old cylinder format\n");
+			ft_fprintf_fd(2, "Too many arguments for cylinder\n");
 			return (FALSE);
 		}
 	}
 	
 	if (!validate_cylinder_dimensions(diameter, height))
-	{
 		return (FALSE);
-	}
 	
 	cylinder.center = center;
 	cylinder.axis = vec3_normalize(axis);
 	cylinder.diameter = diameter;
 	cylinder.height = height;
-	cylinder.color = cylinder.material.color1;  // Keep for backwards compatibility
+	cylinder.color = color;
+	cylinder.material = create_simple_material(color);
 	
 	if (!add_object_to_scene(scene, CYLINDER, &cylinder))
-	{
 		return (FALSE);
-	}
 	return (TRUE);
 }
 

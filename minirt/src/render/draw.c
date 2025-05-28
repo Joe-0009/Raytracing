@@ -4,31 +4,19 @@
 #include "../../includes/scene.h"
 #include <stdio.h>
 
-static void	cleanup_on_failure(t_vars *vars)
-{
-	if (vars->img)
-	{
-		if (vars->img->img)
-			mlx_destroy_image(vars->mlx, vars->img->img);
-		free(vars->img);
-		vars->img = NULL;
-	}
-	exit(EXIT_FAILURE);
-}
-
 void	create_image(t_vars *vars)
 {
 	vars->img = malloc(sizeof(t_image));
 	if (!vars->img)
-		cleanup_on_failure(vars);
+		exit(EXIT_FAILURE);
 	vars->img->img = mlx_new_image(vars->mlx, WIDTH, HEIGHT);
 	if (!vars->img->img)
-		cleanup_on_failure(vars);
+		exit(EXIT_FAILURE);
 	vars->img->addr = mlx_get_data_addr(vars->img->img,
 			&vars->img->bits_per_pixel, &vars->img->line_length,
 			&vars->img->endian);
 	if (!vars->img->addr)
-		cleanup_on_failure(vars);
+		exit(EXIT_FAILURE);
 }
 
 void	put_pixel(t_vars *vars, int x, int y, int color)

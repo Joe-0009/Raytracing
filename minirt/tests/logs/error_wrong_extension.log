@@ -1,6 +1,0 @@
-Test: wrong_extension
-Command: ../miniRT ../scenes/basic.rt.wrong
-Exit Code: 1
-Output:
-Error: File must have .rt extension
-Error: Invalid scene configuration

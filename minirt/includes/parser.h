@@ -36,6 +36,8 @@ int     validate_scene(t_scene *scene);
 int     validate_scene_rendering(t_scene *scene);
 
 /* Element parsing functions */
+int     parse_ambient(char **tokens, t_scene *scene);
+int     parse_light(char **tokens, t_scene *scene);
 int     parse_camera(char **tokens, t_scene *scene);
 int     parse_sphere(char **tokens, t_scene *scene);
 int     parse_plane(char **tokens, t_scene *scene);

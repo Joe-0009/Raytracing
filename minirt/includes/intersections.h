@@ -29,10 +29,6 @@ int     intersect_cylinder(const t_cylinder *cylinder, t_ray ray, t_hit *hit);
  * Main intersection handler
  */
 int     trace_objects(const t_scene *scene, t_ray ray, t_hit *closest_hit);
-t_quadratic cylinder_quadratic_coeffs(const t_cylinder *cylinder, t_ray ray, t_vec3 *d_perp, t_vec3 *oc_perp);
 t_quadratic sphere_quadratic_coeffs(const t_sphere *sphere, t_ray ray);
-int     cylinder_height_check(const t_cylinder *cylinder, t_ray ray, double t);
-double  hit_cylinder_cap(const t_cylinder *cylinder, t_ray ray, int is_top);
-double  hit_cylinder_with_type(const t_cylinder *cylinder, t_ray ray, int *hit_type);
 
 #endif

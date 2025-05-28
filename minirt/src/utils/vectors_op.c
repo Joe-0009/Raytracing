@@ -1,7 +1,6 @@
 
 #include "../../includes/math_utils.h"
 #include <math.h>
-
 t_vec3	vec3_create(double x, double y, double z)
 {
 	t_vec3	v;
@@ -30,7 +29,7 @@ t_vec3	vec3_mult(t_vec3 v, double t)
 t_vec3	vec3_div(t_vec3 v, double t)
 {
 	return (vec3_create(v.x / t, v.y / t, v.z / t));
-}
+} 
 
 double	vec3_dot(t_vec3 v1, t_vec3 v2)
 {
@@ -39,10 +38,11 @@ double	vec3_dot(t_vec3 v1, t_vec3 v2)
 
 t_vec3	vec3_cross(t_vec3 v1, t_vec3 v2)
 {
-	return (vec3_create(
+	return vec3_create(
 		v1.y * v2.z - v1.z * v2.y,
 		v1.z * v2.x - v1.x * v2.z,
-		v1.x * v2.y - v1.y * v2.x));
+		v1.x * v2.y - v1.y * v2.x
+	);
 }
 
 double	vec3_length_squared(t_vec3 v)
@@ -53,7 +53,7 @@ double	vec3_length_squared(t_vec3 v)
 double	vec3_length(t_vec3 v)
 {
 	return (sqrt(vec3_length_squared(v)));
-}
+}  
 
 static t_vec3	handle_zero_vector(void)
 {

@@ -1,6 +1,0 @@
-Test: non_existent_file
-Command: ../miniRT non_existent_file.rt
-Exit Code: 1
-Output:
-Error: Could not open file non_existent_file.rt
-Error: Invalid scene configuration
