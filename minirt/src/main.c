@@ -22,6 +22,7 @@ void print_scene_info(t_scene *scene)
     t_sphere *sp;
     t_plane *pl;
     t_cylinder *cy;
+    t_cone *cn;
     
     printf("Scene Information:\n");
     
@@ -74,6 +75,17 @@ void print_scene_info(t_scene *scene)
                    cy->axis.x, cy->axis.y, cy->axis.z,
                    cy->diameter, cy->height,
                    cy->color.x, cy->color.y, cy->color.z);
+        }
+        else if (scene->objects[i].type == CONE)
+        {
+            cn = &scene->objects[i].data.cone;
+            printf("  Cone %d: vertex=(%.2f,%.2f,%.2f), axis=(%.2f,%.2f,%.2f), angle=%.2f, height=%.2f, color=(%.2f,%.2f,%.2f)\n",
+                   i + 1,
+                   cn->vertex.x, cn->vertex.y, cn->vertex.z,
+                   cn->axis.x, cn->axis.y, cn->axis.z,
+                   cn->angle * 180.0 / M_PI, // Convert radians to degrees for display
+                   cn->height,
+                   cn->color.x, cn->color.y, cn->color.z);
         }
         i++;
     }

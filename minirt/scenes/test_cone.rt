@@ -1,0 +1,20 @@
+# Cone test scene
+# A basic scene with a cone, a sphere, a plane and a light source
+
+# Ambient lighting
+A 0.2 255,255,255
+
+# Camera
+C 0,0,-20 0,0,1 70
+
+# Light source
+L -10,10,-5 0.7 255,255,255
+
+# A red cone
+cn 0,0,10 0,-1,0 30 8 255,0,0
+
+# A green sphere for comparison
+sp -10,0,10 8 0,255,0
+
+# A blue plane for the floor
+pl 0,-10,0 0,1,0 0,0,255

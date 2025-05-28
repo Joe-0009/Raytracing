@@ -2,11 +2,6 @@
 #include "../includes/parser.h"
 #include <stdio.h>
 
-/**
- * Initializes both a t_parser and a t_scene structure.
- * @param parser Pointer to the t_parser structure to initialize.
- * @param scene Pointer to the t_scene structure to initialize.
- */
 void	init_parser_and_scene(t_parser *parser, t_scene *scene)
 {
 	parser->line = NULL;
@@ -17,13 +12,10 @@ void	init_parser_and_scene(t_parser *parser, t_scene *scene)
 	scene->camera.fov = 0.0;
 	scene->has_ambient = FALSE;
 	scene->has_light = FALSE;
-	
-	// Initialize ambient and light structures to zero
 	scene->ambient.ratio = 0.0;
 	scene->ambient.color.x = 0.0;
 	scene->ambient.color.y = 0.0;
 	scene->ambient.color.z = 0.0;
-	
 	scene->light.position.x = 0.0;
 	scene->light.position.y = 0.0;
 	scene->light.position.z = 0.0;
@@ -33,13 +25,6 @@ void	init_parser_and_scene(t_parser *parser, t_scene *scene)
 	scene->light.color.z = 0.0;
 }
 
-/**
- * Checks the file extension and read permission for the given filename.
- * Prints an error and frees the scene if invalid.
- * @param filename The path to the file to check.
- * @param scene Pointer to the scene to free on error.
- * @return File descriptor if valid, -1 on error.
- */
 int	validate_extension_and_permission(const char *filename, t_scene *scene)
 {
 	const char	*extension;
@@ -62,11 +47,6 @@ int	validate_extension_and_permission(const char *filename, t_scene *scene)
 	return (fd);
 }
 
-/**
- * Checks if a line is empty or contains only whitespace characters.
- * @param line The line to check.
- * @return TRUE if the line is empty/whitespace-only, FALSE otherwise.
- */
 int	is_empty_line(const char *line)
 {
 	int	i;
@@ -82,12 +62,6 @@ int	is_empty_line(const char *line)
 	return (TRUE);
 }
 
-/**
- * Dispatches the parsing of a token to the appropriate element parser.
- * @param tokens The tokenized line (tokens[0] is the identifier).
- * @param scene Pointer to the scene structure to populate.
- * @return TRUE if parsing was successful, FALSE otherwise.
- */
 int	dispatch_parse_token(char **tokens, t_scene *scene)
 {
 	size_t	token_len;
@@ -110,18 +84,12 @@ int	dispatch_parse_token(char **tokens, t_scene *scene)
 			return (parse_plane(tokens, scene));
 		else if (tokens[0][0] == 'c' && tokens[0][1] == 'y')
 			return (parse_cylinder(tokens, scene));
+		else if (tokens[0][0] == 'c' && tokens[0][1] == 'n')
+			return (parse_cone(tokens, scene));
 	}
 	return (FALSE);
 }
 
-/**
- * Processes a single line from the scene file, handling tokenization, comments,
-	and element parsing.
- * @param parser Pointer to the parser structure.
- * @param scene Pointer to the scene structure.
- * @param line The line to process (will be freed).
- * @return 1 to continue, 0 on error (caller should handle cleanup).
- */
 int	process_scene_line(t_parser *parser, t_scene *scene, char *line)
 {
 	int	parse_result;
@@ -143,7 +111,6 @@ int	process_scene_line(t_parser *parser, t_scene *scene, char *line)
 		parser->line = NULL;
 		return (1);
 	}
-	
 	parse_result = dispatch_parse_token(parser->tokens, scene);
 	if (!parse_result)
 	{
@@ -163,12 +130,6 @@ int	process_scene_line(t_parser *parser, t_scene *scene, char *line)
 	return (parse_result);
 }
 
-/**
- * Parses the scene file and returns a pointer to the scene structure.
- * Handles file validation, parsing, and error reporting.
- * @param filename The path to the scene file.
- * @return Pointer to the parsed scene, or NULL on error.
- */
 t_scene	*parse_scene_file(char *filename)
 {
 	t_scene		*scene;
@@ -179,39 +140,23 @@ t_scene	*parse_scene_file(char *filename)
 
 	scene = (t_scene *)malloc(sizeof(t_scene));
 	if (!scene)
-	{
 		return (NULL);
-	}
-	
 	init_parser_and_scene(&parser, scene);
-	
 	fd = validate_extension_and_permission(filename, scene);
 	if (fd == -1)
-	{
 		return (NULL);
-	}
-	
 	line = get_next_line(fd);
 	while (line != NULL)
 	{
 		result = process_scene_line(&parser, scene, line);
 		if (result == 0)
-		{
 			return (close(fd), free(scene), NULL);
-		}
 		line = get_next_line(fd);
 	}
 	close(fd);
-	
 	if (parser.line_count == 0)
-	{
 		return (ft_fprintf_fd(2, "Error: Empty file\n"), free(scene), NULL);
-	}
-	
 	if (!validate_scene(scene))
-	{
 		return (free(scene), NULL);
-	}
-	
 	return (scene);
 }

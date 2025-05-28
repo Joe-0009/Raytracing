@@ -108,7 +108,7 @@ int	trace_objects(const t_scene *scene, t_ray ray, t_hit *closest_hit)
 		}
 		else if (scene->objects[i].type == CONE)
 		{
-			if (intersect_cone(&scene->objects[i].data.cylinder, ray,
+			if (intersect_cone(&scene->objects[i].data.cone, ray,
 					closest_hit))
 				hit_found = 1;
 		}

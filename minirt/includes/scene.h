@@ -65,7 +65,12 @@ typedef struct s_cylinder
 
 typedef struct s_cone
 {
-    //todo
+    t_point3 vertex;       /* Cone vertex (tip) */
+    t_vec3   axis;         /* Cone axis (normalized) */
+    double   angle;        /* Cone opening angle in radians */
+    double   height;       /* Cone height */
+    t_color3 color;        /* RGB color */
+    t_material material;   /* Material properties */
 } t_cone;
 
 typedef struct s_object
@@ -76,6 +81,7 @@ typedef struct s_object
         t_sphere   sphere;
         t_plane    plane;
         t_cylinder cylinder;
+        t_cone   cone;  
     } data;
 } t_object;
 

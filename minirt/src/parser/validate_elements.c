@@ -54,6 +54,33 @@ int	validate_cylinder_dimensions(double diameter, double height)
 	return (TRUE);
 }
 
+int	validate_cone_dimensions(double angle, double height)
+{
+	if (angle <= 0.0 || height <= 0.0)
+	{
+		ft_fprintf_fd(2, ERR_CONE_FORMAT);
+		ft_fprintf_fd(2, "Cone angle and height must be positive\n");
+		return (FALSE);
+	}
+	if (angle > M_PI)
+	{
+		ft_fprintf_fd(2, ERR_CONE_FORMAT);
+		ft_fprintf_fd(2, "Cone angle must be less than or equal to 180 degrees\n");
+		return (FALSE);
+	}
+	if (angle < 0.01)
+	{
+		ft_fprintf_fd(2, "Warning: Very small cone angle (%.6f radians) may cause "
+			"rendering issues\n", angle);
+	}
+	if (height < 0.001)
+	{
+		ft_fprintf_fd(2, "Warning: Very small cone height (%.6f) may cause "
+			"rendering issues\n", height);
+	}
+	return (TRUE);
+}
+
 int	validate_sphere(t_sphere *sphere)
 {
 	if (!validate_position(sphere->center, "Sphere"))
@@ -114,12 +141,15 @@ int	validate_plane(t_plane *plane)
 	return (TRUE);
 }
 
-int validate_position(t_point3 pos, const char *type)
+int	validate_position(t_point3 pos, const char *type)
 {
-	double dist = sqrt(pos.x * pos.x + pos.y * pos.y + pos.z * pos.z);
+	double	dist;
+
+	dist = sqrt(pos.x * pos.x + pos.y * pos.y + pos.z * pos.z);
 	if (dist > 1000.0)
 	{
-		ft_fprintf_fd(2, "Warning: %s position is far from the origin (%.2f, %.2f, %.2f)\n", type, pos.x, pos.y, pos.z);
+		ft_fprintf_fd(2, "Warning: %s position is far from the origin (%.2f, %.2f, %.2f)\n",
+			type, pos.x, pos.y, pos.z);
 	}
 	return (1);
 }

@@ -1,13 +1,5 @@
 #include "../includes/minirt.h"
 
-/**
- * Add an object to the scene
- *
- * @param scene Pointer to the scene structure
- * @param type Object type (SPHERE, PLANE, CYLINDER)
- * @param object_data Pointer to the object data
- * @return TRUE if successful, FALSE otherwise
- */
 int	add_object_to_scene(t_scene *scene, int type, void *object_data)
 {
 	if (scene->num_objects >= MAX_OBJECTS)
@@ -23,6 +15,8 @@ int	add_object_to_scene(t_scene *scene, int type, void *object_data)
 		scene->objects[scene->num_objects].data.plane = *(t_plane *)object_data;
 	else if (type == CYLINDER)
 		scene->objects[scene->num_objects].data.cylinder = *(t_cylinder *)object_data;
+	else if (type == CONE)
+		scene->objects[scene->num_objects].data.cone = *(t_cone *)object_data;
 	else
 	{
 		ft_fprintf_fd(2, "Error: Unknown object type %d\n", type);

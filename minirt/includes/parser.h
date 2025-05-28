@@ -18,6 +18,7 @@ typedef struct s_parser
 # define ERR_SPHERE_FORMAT "Error: Invalid sphere format\n"
 # define ERR_PLANE_FORMAT "Error: Invalid plane format\n"
 # define ERR_CYLINDER_FORMAT "Error: Invalid cylinder format\n"
+# define ERR_CONE_FORMAT "Error: Invalid cone format\n"
 # define ERR_UNKNOWN_ELEMENT "Error: Unknown element in scene file\n"
 # define ERR_DUPLICATE_ELEMENT "Error: Duplicate unique element in scene file\n"
 # define ERR_MISSING_ELEMENT "Error: Required element missing in scene file\n"
@@ -42,6 +43,7 @@ int     parse_camera(char **tokens, t_scene *scene);
 int     parse_sphere(char **tokens, t_scene *scene);
 int     parse_plane(char **tokens, t_scene *scene);
 int     parse_cylinder(char **tokens, t_scene *scene);
+int     parse_cone(char **tokens, t_scene *scene);
 
 /* Data type parsing */
 int     parse_vector(char *str, t_vec3 *vec);
@@ -57,13 +59,11 @@ int     validate_non_zero_vector(t_vec3 vec);
 int     validate_normalized_vector(t_vec3 vec);
 int     validate_sphere_diameter(double diameter);
 int     validate_cylinder_dimensions(double diameter, double height);
+int     validate_cone_dimensions(double angle, double height);
 int     validate_plane_normal(t_vec3 *normal);
 void    free_tokens(char **tokens);
 
 /* Scene management functions */
 int     add_object_to_scene(t_scene *scene, int type, void *object_data);
-int     validate_sphere_diameter(double diameter);
-int     validate_cylinder_dimensions(double diameter, double height);
-int     validate_plane_normal(t_vec3 *normal);
 
 #endif

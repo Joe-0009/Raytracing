@@ -6,7 +6,7 @@
 A 0.2 255,255,255
 
 # Camera positioned to view all spheres
-C 0,0,-30 0,0,1 70
+C 0,0,-30 0,0,1 150
 
 # Light source positioned above and to the left
 L -20,20,-10 0.7 255,255,255

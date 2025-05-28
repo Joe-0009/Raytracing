@@ -14,13 +14,11 @@ LIBFT = $(LIBFT_DIR)/libft.a
 
 # Source files
 SRC_DIR = src
-EVENTS_DIR = events
 OBJ_DIR = obj
 
 # Find all .c files recursively
 SRCS = $(shell find $(SRC_DIR) -name '*.c')
-EVENTS_SRCS = $(shell find $(EVENTS_DIR) -name '*.c')
-OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o) $(EVENTS_SRCS:$(EVENTS_DIR)/%.c=$(OBJ_DIR)/events/%.o)
+OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 # Rules
 all: $(LIBFT) $(NAME)
@@ -32,10 +30,6 @@ $(NAME): $(OBJS) $(LIBFT)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -L$(LIBFT_DIR) -lft $(LDFLAGS)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
-
-$(OBJ_DIR)/events/%.o: $(EVENTS_DIR)/%.c
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
