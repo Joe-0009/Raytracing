@@ -61,6 +61,20 @@ int intersect_plane(const t_plane *plane, t_ray ray, t_hit *hit)
 }
 
 /*
+ * Calculate intersection with cone
+ * Returns 1 if hit, 0 if no hit
+ * NOTE: cone rendering is disabled - this function always returns 0
+ */
+int intersect_cone(const t_cone *cone, t_ray ray, t_hit *hit)
+{
+	// Plane rendering disabled
+	(void)cone;
+	(void)ray;
+	(void)hit;
+	return (0);
+}
+
+/*
  * Check intersection with all objects in scene
  * Returns 1 if any hit, 0 if no hit
  */
@@ -89,6 +103,12 @@ int	trace_objects(const t_scene *scene, t_ray ray, t_hit *closest_hit)
 		else if (scene->objects[i].type == CYLINDER)
 		{
 			if (intersect_cylinder(&scene->objects[i].data.cylinder, ray,
+					closest_hit))
+				hit_found = 1;
+		}
+		else if (scene->objects[i].type == CONE)
+		{
+			if (intersect_cone(&scene->objects[i].data.cylinder, ray,
 					closest_hit))
 				hit_found = 1;
 		}

@@ -63,6 +63,11 @@ typedef struct s_cylinder
     t_material material;   /* Material properties */
 } t_cylinder;
 
+typedef struct s_cone
+{
+    //todo
+} t_cone;
+
 typedef struct s_object
 {
     int type;              /* Object type (SPHERE, PLANE, CYLINDER) */

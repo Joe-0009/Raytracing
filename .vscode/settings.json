@@ -59,6 +59,7 @@
   "files.associations": {
     "raytrace.h": "c",
     "queue": "cpp",
-    "stack": "cpp"
+    "stack": "cpp",
+    "cmath": "c"
   }
 }

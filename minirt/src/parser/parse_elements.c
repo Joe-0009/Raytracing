@@ -122,7 +122,7 @@ int	parse_sphere(char **tokens, t_scene *scene)
 	double		diameter;
 
 	// Check for basic format: sp x,y,z diameter r,g,b
-	if (!tokens[1] || !tokens[2] || !tokens[3])
+	if (!tokens[1] || !tokens[2] || !tokens[3] )
 	{
 		ft_fprintf_fd(2, ERR_SPHERE_FORMAT);
 		ft_fprintf_fd(2, "Expected format: sp x,y,z diameter r,g,b\n");
