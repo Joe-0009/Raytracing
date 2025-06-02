@@ -12,6 +12,7 @@ miniRT is a 3D raytracer that renders scenes containing spheres, planes, and cyl
 - **Spheres**: Defined by center position, diameter, and color
 - **Planes**: Defined by point, normal vector, and color  
 - **Cylinders**: Defined by center, axis, diameter, height, and color
+- **Cones**: Defined by vertex, axis, angle, height, and color
 
 ### Lighting
 - **Ambient Lighting**: Global illumination with adjustable intensity
@@ -33,6 +34,7 @@ C  0,0,-20                0,0,1           70              # Camera
 sp 0,0,10                 8               255,0,0         # Sphere
 pl 0,-10,0                0,1,0           0,255,0         # Plane
 cy 0,0,10                 0,1,0   8   10  0,0,255        # Cylinder
+cn 0,0,10                 0,-1,0   30  8  255,0,0        # Cone
 ```
 
 ### Format Details
@@ -42,6 +44,7 @@ cy 0,0,10                 0,1,0   8   10  0,0,255        # Cylinder
 - **sp**: Sphere (center, diameter, color)
 - **pl**: Plane (point, normal, color)
 - **cy**: Cylinder (center, axis, diameter, height, color)
+- **cn**: Cone (vertex, axis, angle(degrees), height, color)
 
 ## Build Instructions
 
@@ -80,11 +83,14 @@ Located in `scenes/sphere_scenes/`:
 - `test_multiple_spheres.rt` - 9 spheres with varied positioning
 - `test_sphere_grid.rt` - 14 spheres in grid formation
 - `test_solar_system.rt` - 24 spheres in solar system pattern
+- `test_fov_20.rt` - Testing narrow field of view (20 degrees)
+- `test_fov_120.rt` - Testing wide field of view (120 degrees)
 
 ### Advanced Scenes
 - `test_comprehensive.rt` - Complex scene with multiple objects
 - `test_performance.rt` - Performance testing scene
 - `test_with_lights.rt` - Testing multiple lighting scenarios
+- `test_cone.rt` - Testing cone objects with varied parameters
 
 ## Project Structure
 
@@ -115,6 +121,7 @@ minirt/
 - Ray-sphere intersection calculations
 - Ray-plane intersection calculations  
 - Ray-cylinder intersection calculations
+- Ray-cone intersection calculations
 - Phong lighting model implementation
 - Anti-aliasing support
 
@@ -151,6 +158,9 @@ This project has undergone extensive debugging and optimization:
 2. **Object Addition Problems**: Fixed issues where objects weren't being added to scenes
 3. **Parser Stability**: Enhanced parser robustness and error handling
 4. **Code Organization**: Cleaned up debug code and improved project structure
+5. **Feature Expansion**: Added cone object support to the parser and rendering engine
+6. **Camera Improvement**: Fixed camera ray generation to properly handle all FOV values
+7. **Norminette Compliance**: Refactored code to comply with 42 style guidelines
 
 ## Testing
 

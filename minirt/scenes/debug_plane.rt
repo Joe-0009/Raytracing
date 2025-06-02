@@ -1,0 +1,14 @@
+# Debug Plane Test Scene
+# Simple scene to debug plane rendering issues
+
+# Ambient lighting
+A 0.3 255,255,255
+
+# Camera looking down at a ground plane from above
+C 0,10,0 0,-1,0 70
+
+# Light source
+L 5,15,5 0.8 255,255,255
+
+# Simple ground plane - should fill bottom half of screen
+pl 0,0,0 0,1,0 255,0,0

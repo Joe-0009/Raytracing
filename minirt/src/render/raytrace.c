@@ -37,14 +37,6 @@ t_ray	generate_camera_ray(const t_scene *scene, int x, int y)
 	return (ray);
 }
 
-double	hit_sphere(const t_sphere *sphere, t_ray ray)
-{
-	t_quadratic	q;
-
-	q = sphere_quadratic_coeffs(sphere, ray);
-	return (solve_quadratic(q.a, q.b, q.c, 0.001));
-}
-
 int	trace_ray(const t_scene *scene, t_ray ray)
 {
 	t_hit	closest_hit;

@@ -1,0 +1,26 @@
+# Box-like Scene with Five Planes
+# This scene creates a box-like shape using 5 planes for comprehensive testing
+
+# Ambient lighting - soft white light at 15% intensity
+A 0.15 255,255,255
+
+# Camera positioned inside the box looking outward
+C 0,5,5 0,-0.2,0.8 60
+
+# Primary light source positioned above
+L 5,12,8 0.9 255,255,255
+
+# Ground plane - horizontal dark gray floor
+pl 0,0,0 0,1,0 80,80,80
+
+# Ceiling plane - horizontal light gray ceiling at height 15
+pl 0,15,0 0,-1,0 200,200,200
+
+# Back wall - vertical blue wall
+pl 0,0,20 0,0,-1 120,160,255
+
+# Left wall - vertical red wall
+pl -12,0,0 1,0,0 255,120,120
+
+# Right wall - vertical green wall
+pl 12,0,0 -1,0,0 120,255,120

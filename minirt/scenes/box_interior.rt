@@ -1,0 +1,29 @@
+# Box Interior View - Looking Inside
+# Camera positioned to see inside the box with sphere
+
+# Ambient lighting
+A 0.2 255,255,255
+
+# Camera positioned in front of the box opening, looking in
+C 0,3,8 0,0,-1 70
+
+# Light source positioned above and slightly inside
+L 1,5,2 0.8 255,255,255
+
+# Floor - red plane at ground level
+pl 0,0,0 0,1,0 150,50,50
+
+# Ceiling - light gray plane at height 6
+pl 0,6,0 0,-1,0 200,200,200
+
+# Left wall - green plane (normal points right into room)
+pl -3,0,0 1,0,0 50,150,50
+
+# Right wall - blue plane (normal points left into room)
+pl 3,0,0 -1,0,0 50,50,150
+
+# Back wall - yellow plane (normal points forward toward camera)
+pl 0,0,-2 0,0,1 150,150,50
+
+# Purple sphere floating in the center
+sp 0,3,0 1.2 180,100,180

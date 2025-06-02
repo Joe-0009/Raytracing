@@ -7,15 +7,36 @@
 
 // Color functions moved to color_utils.c
 
+
+/*
+ * Compute the quadratic coefficients for a ray-sphere intersection.
+ * Returns a t_quadratic struct with the coefficients a, b, c.
+ */
+t_quadratic	sphere_quadratic_coeffs(const t_sphere *sphere, t_ray ray)
+{
+	t_vec3		oc;
+	double		r;
+	t_quadratic	q;
+
+	oc = vec3_sub(ray.origin, sphere->center);
+	r = sphere->diameter / 2.0;
+	q.a = vec3_dot(ray.direction, ray.direction);
+	q.b = 2.0 * vec3_dot(oc, ray.direction);
+	q.c = vec3_dot(oc, oc) - r * r;
+	return (q);
+}
+
 /*
  * Calculate intersection with sphere
  * Returns 1 if hit, 0 if no hit
  */
 int	intersect_sphere(const t_sphere *sphere, t_ray ray, t_hit *hit)
 {
-	double	t;
+	t_quadratic	q;
+	double		t;
 
-	t = hit_sphere(sphere, ray);
+	q = sphere_quadratic_coeffs(sphere, ray);
+	t = solve_quadratic(q.a, q.b, q.c, 0.001);
 	if (t > 0.001)
 	{
 		if (hit->t < 0 || t < hit->t)
@@ -49,14 +70,31 @@ int	intersect_cylinder(const t_cylinder *cylinder, t_ray ray, t_hit *hit)
 /*
  * Calculate intersection with plane
  * Returns 1 if hit, 0 if no hit
- * NOTE: Plane rendering is disabled - this function always returns 0
  */
 int intersect_plane(const t_plane *plane, t_ray ray, t_hit *hit)
 {
-	// Plane rendering disabled
-	(void)plane;
-	(void)ray;
-	(void)hit;
+	double	denom;
+	double	t;
+	t_vec3	oc;
+
+	denom = vec3_dot(plane->normal, ray.direction);
+	if (fabs(denom) < 0.0001)
+		return (0);
+	oc = vec3_sub(plane->point, ray.origin);
+	t = vec3_dot(oc, plane->normal) / denom;
+	if (t > 0.001)
+	{
+		if (hit->t < 0 || t < hit->t)
+		{
+			hit->t = t;
+			hit->point = vec3_add(ray.origin, vec3_mult(ray.direction, t));
+			hit->normal = plane->normal;
+			hit->color = plane->material.color;
+			hit->obj_type = PLANE;
+			hit->hit_side = -1;
+			return (1);
+		}
+	}
 	return (0);
 }
 
@@ -117,20 +155,4 @@ int	trace_objects(const t_scene *scene, t_ray ray, t_hit *closest_hit)
 	return (hit_found);
 }
 
-/*
- * Compute the quadratic coefficients for a ray-sphere intersection.
- * Returns a t_quadratic struct with the coefficients a, b, c.
- */
-t_quadratic	sphere_quadratic_coeffs(const t_sphere *sphere, t_ray ray)
-{
-	t_vec3		oc;
-	double		r;
-	t_quadratic	q;
 
-	oc = vec3_sub(ray.origin, sphere->center);
-	r = sphere->diameter / 2.0;
-	q.a = vec3_dot(ray.direction, ray.direction);
-	q.b = 2.0 * vec3_dot(oc, ray.direction);
-	q.c = vec3_dot(oc, oc) - r * r;
-	return (q);
-}
