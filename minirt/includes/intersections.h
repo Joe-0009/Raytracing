@@ -31,6 +31,18 @@ int			intersect_cone(const t_cone *cone, t_ray ray, t_hit *hit);
  * Main intersection handler
  */
 int			trace_objects(const t_scene *scene, t_ray ray, t_hit *closest_hit);
+
+/*
+ * Helper functions for quadratic coefficients
+ */
 t_quadratic	sphere_quadratic_coeffs(const t_sphere *sphere, t_ray ray);
+t_quadratic	cylinder_quadratic_coeffs(const t_cylinder *cylinder, t_ray ray);
+t_quadratic	cone_quadratic_coeffs(const t_cone *cone, t_ray ray);
+
+/*
+ * Helper functions for surface normals
+ */
+t_vec3		cylinder_surface_normal(const t_cylinder *cylinder, t_point3 point);
+t_vec3		cone_surface_normal(const t_cone *cone, t_point3 point);
 
 #endif
