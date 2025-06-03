@@ -16,6 +16,7 @@
 # include "parser.h"
 # include "scene.h"
 # include "math_utils.h"
+# include "transforms.h"
 # include <mlx.h>
 
 /* Error codes */

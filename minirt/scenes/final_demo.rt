@@ -1,0 +1,32 @@
+# Final demonstration scene - all primitives with caps working
+# This scene showcases the complete raytracer with all geometric primitives
+
+# Ambient lighting
+A 0.2 255,255,255
+
+# Camera positioned for good overall view
+C 4,3,6 -0.6,-0.3,-0.8 65
+
+# Main light source
+L 3,5,5 0.8 255,255,255
+
+# Sphere - basic primitive
+sp -2,1,0 1.2 255,100,100
+
+# Plane - infinite surface
+pl 0,-0.5,0 0,1,0 200,200,200
+
+# Cylinder vertical - shows top and bottom caps when viewed from above
+cy 0,0.5,0 0,1,0 0.8 2.0 100,255,100
+
+# Cylinder horizontal - shows end caps clearly
+cy 2,-0.2,1 1,0,0 0.6 2.5 100,150,255
+
+# Cone vertical - shows base cap at bottom
+cn -1,0.5,-2 0,1,0 40 1.8 255,255,100
+
+# Cone angled - shows base cap from side
+cn 2,0.5,-1 0.7,1,0.3 35 1.5 255,100,255
+
+# Background sphere for depth
+sp 1,2,-3 0.8 150,150,255

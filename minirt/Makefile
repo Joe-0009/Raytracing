@@ -4,7 +4,15 @@ NAME = miniRT
 
 # Compiler and flags
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -I./includes -I../minilibx_macos
+# Performance-optimized flags for raytracing rendering (Clang-compatible)
+CFLAGS = -Wall -Wextra -Werror -I./includes -I../minilibx_macos \
+         -O3 -ffast-math -funroll-loops -ftree-vectorize \
+         -fomit-frame-pointer -march=native -mtune=native \
+         -flto -finline-functions \
+         -falign-functions=32 -falign-loops=32 \
+         -fno-stack-protector -fno-unwind-tables \
+         -fno-asynchronous-unwind-tables \
+         -DNDEBUG
 LDFLAGS = -L../minilibx_macos -lmlx -framework OpenGL -framework AppKit
 INCLUDES = -I./includes
 
@@ -22,6 +30,40 @@ OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 # Rules
 all: $(LIBFT) $(NAME)
+
+# Debug build with debugging symbols and no optimization
+debug: CFLAGS = -Wall -Wextra -Werror -I./includes -I../minilibx_macos -g -O0 -DDEBUG
+debug: $(LIBFT) $(NAME)
+
+# Profile build with profiling enabled
+profile: CFLAGS += -pg -fprofile-arcs
+profile: LDFLAGS += -pg
+profile: $(LIBFT) $(NAME)
+
+# Ultra-optimized build for maximum performance (experimental)
+ultra: CFLAGS = -Wall -Wextra -Werror -I./includes -I../minilibx_macos \
+         -Ofast -ffast-math -funroll-loops -ftree-vectorize \
+         -floop-interchange -floop-unroll-and-jam \
+         -fprefetch-loop-arrays -falign-functions=64 \
+         -falign-loops=64 -fomit-frame-pointer \
+         -march=native -mtune=native -mcpu=native \
+         -flto -fwhole-program -fuse-linker-plugin \
+         -finline-functions -finline-limit=5000 \
+         -fgcse-after-reload -fipa-cp-clone \
+         -fmodulo-sched -fmodulo-sched-allow-regmoves \
+         -ftree-loop-distribute-patterns -ftree-loop-im \
+         -ftree-loop-ivcanon -floop-nest-optimize \
+         -fgraphite-identity -floop-parallelize-all \
+         -fpredictive-commoning -fsplit-wide-types \
+         -ftree-partial-pre -fvect-cost-model=unlimited \
+         -falign-jumps=64 -falign-labels=64 \
+         -fno-stack-protector -fno-unwind-tables \
+         -fno-asynchronous-unwind-tables -fno-plt \
+         -fdevirtualize-at-ltrans -fipa-pta \
+         -ftracer -frename-registers \
+         -DNDEBUG -DULTRA_FAST
+ultra: LDFLAGS += -flto -fuse-linker-plugin -Wl,-O3,-sort-common,--as-needed
+ultra: $(LIBFT) $(NAME)
 
 $(LIBFT):
 	@make -C $(LIBFT_DIR)
@@ -53,4 +95,4 @@ test-re: all
 	@echo "Cleaning test logs and running tests..."
 	@cd tests && make re
 
-.PHONY: all clean fclean re test test-re
+.PHONY: all clean fclean re debug profile ultra test test-re

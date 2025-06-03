@@ -1,0 +1,20 @@
+# Test scene for cylinder and cone caps
+# This scene tests the cap intersections for both cylinders and cones
+
+# Ambient lighting
+A 0.2 255,255,255
+
+# Camera positioned to view both objects
+C 0,0,5 0,0,-1 70
+
+# Light from above and to the side
+L -2,3,3 0.8 255,255,255
+
+# Cylinder positioned vertically on the left - should show top and bottom caps
+cy -2,0,0 0,1,0 1.0 2.0 255,100,100
+
+# Cone positioned vertically on the right - should show base cap
+cn 2,0,0 0,1,0 30 2.0 100,255,100
+
+# Plane as ground
+pl 0,-2,0 0,1,0 200,200,200

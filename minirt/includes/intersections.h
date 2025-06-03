@@ -15,6 +15,7 @@ typedef struct s_hit
 	t_vec3 normal;  /* Surface normal at intersection point */
 	t_color3 color; /* Object color */
 	int obj_type;   /* Type of the hit object */
+	int obj_index;  /* Index of the hit object in scene array */
 	int hit_side;   /* For cylinders: 0=bottom cap, 1=top cap, 2=side */
 }			t_hit;
 
@@ -44,5 +45,10 @@ t_quadratic	cone_quadratic_coeffs(const t_cone *cone, t_ray ray);
  */
 t_vec3		cylinder_surface_normal(const t_cylinder *cylinder, t_point3 point);
 t_vec3		cone_surface_normal(const t_cone *cone, t_point3 point);
+
+/*
+ * Helper functions for caps
+ */
+int			intersect_cone_cap(const t_cone *cone, t_ray ray, t_hit *hit);
 
 #endif

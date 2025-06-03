@@ -1,8 +1,10 @@
 #include "../includes/minirt.h"
-#include "../includes/main.h"
 #include "../includes/events.h"
+#include "../includes/main.h"
 #include "../includes/draw.h"
 #include <stdio.h>
+
+t_scene	*g_scene = NULL;
 
 /**
  * Print error message and exit
@@ -91,10 +93,40 @@ void print_scene_info(t_scene *scene)
     }
 }
 
+/* ** Set global scene for transformations ** */
+void	set_scene_for_transforms(t_scene *scene)
+{
+	g_scene = scene;
+}
+
+/*
+** Print controls help
+*/
+void	print_controls_help(void)
+{
+	printf("\n=== MiniRT Transform Controls ===\n");
+	printf("CAMERA MOVEMENT:\n");
+	printf("  W/S - Move forward/backward\n");
+	printf("  A/D - Move left/right\n");
+	printf("  Q/E - Move down/up\n");
+	printf("\nCAMERA ROTATION:\n");
+	printf("  I/K - Look up/down\n");
+	printf("  J/L - Look left/right\n");
+	printf("\nOBJECT CONTROLS:\n");
+	printf("  P/O - Select object (next/previous)\n");
+	printf("  Arrow keys - Move object (left/right/up/down)\n");
+	printf("  +/- - Scale object up/down\n");
+	printf("  R/F - Rotate object around X-axis (forward/reverse)\n");
+	printf("  T/G - Rotate object around Y-axis (forward/reverse)\n");
+	printf("\nOTHER:\n");
+	printf("  SPACE - Show this help\n");
+	printf("  ESC - Exit\n");
+	printf("==============================\n\n");
+}
+
 /**
  * Main function
  */
-
 
 
 int main(int argc, char **argv)
@@ -128,6 +160,10 @@ int main(int argc, char **argv)
     }
     
     create_image(&vars);
+    
+    /* ** Initialize transformation system ** */
+    set_scene_for_transforms(scene);
+    print_controls_help();
     
     main_draw(&vars, scene);
     
