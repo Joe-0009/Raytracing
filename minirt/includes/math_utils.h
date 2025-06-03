@@ -40,6 +40,9 @@ double  vec3_length(t_vec3 v);
 double  vec3_length_squared(t_vec3 v);
 t_vec3  reflect(t_vec3 v, t_vec3 n);
 
+/* Vector rotation */
+t_vec3	vec3_rotate_around_axis(t_vec3 v, t_vec3 axis, double angle);
+
 /* 
  * General math utilities
  */

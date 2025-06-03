@@ -6,7 +6,6 @@
 #include "../includes/raytrace.h"
 #include "../includes/scene.h"
 #include <math.h>
-static int		g_selected_obj = 0;
 
 t_ray	generate_camera_ray(const t_scene *scene, int x, int y)
 {

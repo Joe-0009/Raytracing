@@ -156,22 +156,49 @@ void	scene_translate_object(t_scene *scene, int obj_index, t_vec3 delta)
 }
 
 /*
-** Rotate object in scene
+** Rotate object in scene around its own center
 */
 void	scene_rotate_object(t_scene *scene, int obj_index, t_vec3 rotation)
 {
-	t_transform	transform;
+	t_vec3	axis;
+	double	angle;
 
 	if (obj_index < 0 || obj_index >= scene->num_objects)
-		return ;
-	transform = transform_identity();
-	transform_rotate(&transform, rotation);
-	if (scene->objects[obj_index].type == PLANE)
-		transform_plane(&scene->objects[obj_index].data.plane, &transform);
+		return;
+
+	/* Convert rotation vector to axis and angle */
+	angle = vec3_length(rotation);
+	if (angle < 0.0001)  // Too small to rotate
+		return;
+	axis = vec3_normalize(rotation);
+
+	/* Apply rotation based on object type */
+	if (scene->objects[obj_index].type == SPHERE)
+	{
+		/* Spheres don't need rotation as they look the same from all angles */
+		return;
+	}
+	else if (scene->objects[obj_index].type == PLANE)
+	{
+		/* Rotate plane normal */
+		scene->objects[obj_index].data.plane.normal = 
+			vec3_rotate_around_axis(scene->objects[obj_index].data.plane.normal, axis, angle);
+		scene->objects[obj_index].data.plane.normal = vec3_normalize(scene->objects[obj_index].data.plane.normal);
+	}
 	else if (scene->objects[obj_index].type == CYLINDER)
-		transform_cylinder(&scene->objects[obj_index].data.cylinder, &transform);
+	{
+		/* Rotate cylinder axis */
+		scene->objects[obj_index].data.cylinder.axis = 
+			vec3_rotate_around_axis(scene->objects[obj_index].data.cylinder.axis, axis, angle);
+		scene->objects[obj_index].data.cylinder.axis = vec3_normalize(scene->objects[obj_index].data.cylinder.axis);
+	}
 	else if (scene->objects[obj_index].type == CONE)
-		transform_cone(&scene->objects[obj_index].data.cone, &transform);
+	{
+		/* Rotate cone axis */
+		scene->objects[obj_index].data.cone.axis = 
+			vec3_rotate_around_axis(scene->objects[obj_index].data.cone.axis, axis, angle);
+		scene->objects[obj_index].data.cone.axis = vec3_normalize(scene->objects[obj_index].data.cone.axis);
+	}
 }
 
 /*
