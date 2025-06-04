@@ -1,6 +1,7 @@
 #include "../includes/color_utils.h"
 #include "../includes/events.h"
 #include "../includes/intersections.h"
+#include "../includes/lighting.h"
 #include "../includes/main.h"
 #include "../includes/math_utils.h"
 #include "../includes/raytrace.h"
@@ -52,7 +53,8 @@ int	trace_ray(const t_scene *scene, t_ray ray)
 
 	if (trace_objects(scene, ray, &closest_hit))
 	{
-		final_color = closest_hit.color;
+		/* Calculate lighting instead of using raw object color */
+		final_color = calculate_lighting(scene, &closest_hit);
 		
 		/* ** Highlight selected object by making it lighter ** */
 		if (closest_hit.obj_index == get_selected_object_index())
