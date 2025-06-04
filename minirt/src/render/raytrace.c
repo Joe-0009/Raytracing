@@ -8,6 +8,9 @@
 #include "../includes/scene.h"
 #include <math.h>
 
+/*
+** Generate a camera ray for a given pixel (x, y)
+*/
 t_ray	generate_camera_ray(const t_scene *scene, int x, int y)
 {
 	t_ray	ray;
@@ -30,14 +33,11 @@ t_ray	generate_camera_ray(const t_scene *scene, int x, int y)
 	u = (x - WIDTH / 2.0) * pixel_scale;
 	v = (HEIGHT / 2.0 - y) * pixel_scale;
 	ray.direction = vec3_normalize(vec3_add(
-						vec3_add(
-							vec3_mult(right, u),
-							vec3_mult(up, v)
-						),
-						forward
-					));
+		vec3_add(vec3_mult(right, u), vec3_mult(up, v)),
+		forward));
 	return (ray);
 }
+
 /*
 ** Get the currently selected object index
 */
@@ -46,6 +46,9 @@ int	get_selected_object_index(void)
 	return (g_selected_obj);
 }
 
+/*
+** Trace a ray and return the color for the pixel
+*/
 int	trace_ray(const t_scene *scene, t_ray ray)
 {
 	t_hit	closest_hit;
@@ -53,20 +56,14 @@ int	trace_ray(const t_scene *scene, t_ray ray)
 
 	if (trace_objects(scene, ray, &closest_hit))
 	{
-		/* Calculate lighting instead of using raw object color */
 		final_color = calculate_lighting(scene, &closest_hit);
-		
-		/* ** Highlight selected object by making it lighter ** */
 		if (closest_hit.obj_index == get_selected_object_index())
 		{
-			/* ** Blend with white to create a lighter version of the original color ** */
-			double lightening_factor = 0.4; /* 40% blend with white */
-			
+			double lightening_factor = 0.4;
 			final_color.x = final_color.x + (1.0 - final_color.x) * lightening_factor;
 			final_color.y = final_color.y + (1.0 - final_color.y) * lightening_factor;
 			final_color.z = final_color.z + (1.0 - final_color.z) * lightening_factor;
 		}
-		
 		return (color_to_int(final_color));
 	}
 	return (get_sky_color(ray));

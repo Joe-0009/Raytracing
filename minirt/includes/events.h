@@ -55,7 +55,7 @@
 
 /* Global variables */
 extern t_scene	*g_scene;
-extern int		g_selected_obj;
+extern int	g_selected_obj;
 
 /* Function prototypes for events */
 int		close_window_x(t_vars *vars);
@@ -63,8 +63,6 @@ int		close_window_esc(int keycode, t_vars *vars);
 int		key_handler(int keycode, t_vars *vars);
 void	mlx_hooks(t_vars *vars);
 void	draw_new_image(t_vars *vars, t_scene *scene);
-
-/* Transform controls */
 void	handle_camera_movement(int keycode, t_scene *scene);
 void	handle_camera_rotation(int keycode, t_scene *scene);
 void	handle_object_transforms(int keycode, t_scene *scene);

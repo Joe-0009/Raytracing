@@ -2,9 +2,6 @@
 #include "../../includes/events.h"
 #include <stdio.h>
 
-/*
-** Close window when X button is clicked
-*/
 int	close_window_x(t_vars *vars)
 {
 	(void)vars;
@@ -12,9 +9,6 @@ int	close_window_x(t_vars *vars)
 	return (0);
 }
 
-/*
-** Close window when ESC key is pressed
-*/
 int	close_window_esc(int keycode, t_vars *vars)
 {
 	(void)vars;
@@ -23,9 +17,6 @@ int	close_window_esc(int keycode, t_vars *vars)
 	return (0);
 }
 
-/*
-** Print controls help
-*/
 void	print_controls_help(void)
 {
 	printf("\n=== MiniRT Transform Controls ===\n");
@@ -46,4 +37,4 @@ void	print_controls_help(void)
 	printf("  SPACE - Show this help\n");
 	printf("  ESC - Exit\n");
 	printf("==============================\n\n");
-} 
+}
