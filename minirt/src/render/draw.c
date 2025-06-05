@@ -14,8 +14,8 @@ void	create_image(t_vars *vars)
 	if (!vars->img->img)
 		exit(EXIT_FAILURE);
 	vars->img->addr = mlx_get_data_addr(vars->img->img,
-		&vars->img->bits_per_pixel, &vars->img->line_length,
-		&vars->img->endian);
+			&vars->img->bits_per_pixel, &vars->img->line_length,
+			&vars->img->endian);
 	if (!vars->img->addr)
 		exit(EXIT_FAILURE);
 }
@@ -29,8 +29,8 @@ void	put_pixel(t_vars *vars, int x, int y, int color)
 
 	if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT)
 	{
-		dst = vars->img->addr + (y * vars->img->line_length
-			+ x * (vars->img->bits_per_pixel / 8));
+		dst = vars->img->addr + (y * vars->img->line_length + x
+				* (vars->img->bits_per_pixel / 8));
 		*(unsigned int *)dst = color;
 	}
 }

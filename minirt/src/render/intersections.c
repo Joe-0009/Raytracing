@@ -102,8 +102,8 @@ int	intersect_cylinder_cap(const t_cylinder *cylinder, t_ray ray, t_hit *hit,
 	denom = vec3_dot(cylinder->axis, ray.direction);
 	if (fabs(denom) < 0.0001)
 		return (0);
-	cap_center = vec3_add(cylinder->center,
-			vec3_mult(cylinder->axis, cap_height));
+	cap_center = vec3_add(cylinder->center, vec3_mult(cylinder->axis,
+				cap_height));
 	t = vec3_dot(vec3_sub(cap_center, ray.origin), cylinder->axis) / denom;
 	if (t <= 0.001)
 		return (0);
@@ -151,8 +151,8 @@ int	intersect_cylinder(const t_cylinder *cylinder, t_ray ray, t_hit *hit)
 		t = solve_quadratic(q.a, q.b, q.c, 0.001);
 		if (t > 0.001)
 		{
-			intersection_point = vec3_add(ray.origin,
-					vec3_mult(ray.direction, t));
+			intersection_point = vec3_add(ray.origin, vec3_mult(ray.direction,
+						t));
 			m = vec3_dot(vec3_sub(intersection_point, cylinder->center),
 					cylinder->axis);
 			if (m >= 0 && m <= cylinder->height)
@@ -322,8 +322,8 @@ int	intersect_cone(const t_cone *cone, t_ray ray, t_hit *hit)
 		t = solve_quadratic(q.a, q.b, q.c, 0.001);
 		if (t > 0.001)
 		{
-			intersection_point = vec3_add(ray.origin,
-					vec3_mult(ray.direction, t));
+			intersection_point = vec3_add(ray.origin, vec3_mult(ray.direction,
+						t));
 			m = vec3_dot(vec3_sub(intersection_point, cone->vertex),
 					cone->axis);
 			if (m >= 0 && m <= cone->height)
@@ -390,8 +390,7 @@ int	trace_objects(const t_scene *scene, t_ray ray, t_hit *closest_hit)
 		}
 		else if (scene->objects[i].type == CONE)
 		{
-			if (intersect_cone(&scene->objects[i].data.cone, ray,
-					closest_hit))
+			if (intersect_cone(&scene->objects[i].data.cone, ray, closest_hit))
 			{
 				closest_hit->obj_index = i;
 				hit_found = 1;
@@ -401,5 +400,3 @@ int	trace_objects(const t_scene *scene, t_ray ray, t_hit *closest_hit)
 	}
 	return (hit_found);
 }
-
-
