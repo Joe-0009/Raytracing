@@ -1,4 +1,4 @@
-#include "../includes/minirt.h"
+#include "../includes/minirt_app.h"
 
 /**
  * Print an error message to stderr

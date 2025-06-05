@@ -1,4 +1,4 @@
-#include "../includes/lighting.h"
+#include "../includes/minirt_app.h"
 #include <math.h>
 
 /*

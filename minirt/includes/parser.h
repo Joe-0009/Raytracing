@@ -1,7 +1,7 @@
 #ifndef PARSER_H
 # define PARSER_H
 
-# include "scene.h"
+# include "scene_math.h"
 
 typedef struct s_parser
 {

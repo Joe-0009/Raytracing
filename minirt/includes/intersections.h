@@ -1,9 +1,7 @@
 #ifndef INTERSECTIONS_H
 # define INTERSECTIONS_H
 
-# include "math_utils.h"
-# include "raytrace.h"
-# include "scene.h"
+# include "scene_math.h"
 
 typedef struct s_hit
 {

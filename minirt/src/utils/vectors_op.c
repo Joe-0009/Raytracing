@@ -1,5 +1,4 @@
-
-#include "../../includes/math_utils.h"
+#include "../../includes/scene_math.h"
 #include <math.h>
 t_vec3	vec3_create(double x, double y, double z)
 {

@@ -1,5 +1,4 @@
-#include "../includes/color_utils.h"
-#include "../includes/raytrace.h"
+#include "../includes/minirt_app.h"
 #include <math.h>
 
 /*

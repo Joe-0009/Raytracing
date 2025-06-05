@@ -1,8 +1,5 @@
-#include "../includes/color_utils.h"
-#include "../includes/intersections.h"
-#include "../includes/math_utils.h"
-#include "../includes/raytrace.h"
-#include "../includes/scene.h"
+#include "../includes/minirt_app.h"
+#include "../includes/scene_math.h"
 #include <math.h>
 
 /*

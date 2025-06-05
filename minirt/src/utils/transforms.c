@@ -1,5 +1,4 @@
-#include "../includes/transforms.h"
-#include "../includes/math_utils.h"
+#include "../includes/scene_math.h"
 #include <stdio.h>
 
 /*

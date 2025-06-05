@@ -1,4 +1,4 @@
-#include "../includes/minirt.h"
+#include "../includes/minirt_app.h"
 #include "../includes/parser.h"
 #include <stdio.h>
 

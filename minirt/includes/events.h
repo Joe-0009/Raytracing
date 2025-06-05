@@ -1,7 +1,7 @@
 #ifndef EVENTS_H
 # define EVENTS_H
 
-# include "minirt.h"
+# include "minirt_app.h"
 
 /* Key codes */
 # define KEY_ESC 65307

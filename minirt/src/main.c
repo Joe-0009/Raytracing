@@ -1,7 +1,6 @@
-#include "../includes/minirt.h"
+#include "../includes/minirt_app.h"
 #include "../includes/events.h"
-#include "../includes/main.h"
-#include "../includes/draw.h"
+#include "../includes/render_utils.h"
 #include <stdio.h>
 
 t_scene	*g_scene = NULL;

@@ -1,6 +1,6 @@
-#include "../../includes/main.h"
+#include "../../includes/minirt_app.h"
 #include "../../includes/events.h"
-#include "../../includes/transforms.h"
+#include "../../includes/scene_math.h"
 #include <stdio.h>
 
 extern int	g_selected_obj;

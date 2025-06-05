@@ -1,5 +1,5 @@
 #include <math.h>
-#include "../includes/minirt.h"
+#include "../includes/minirt_app.h"
 
 int	validate_plane_normal(t_vec3 *normal)
 {

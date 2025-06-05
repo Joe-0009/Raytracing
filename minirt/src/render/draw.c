@@ -1,7 +1,5 @@
-#include "../../includes/draw.h"
-#include "../../includes/main.h"
-#include "../../includes/raytrace.h"
-#include "../../includes/scene.h"
+#include "../../includes/minirt_app.h"
+#include "../../includes/scene_math.h"
 #include <stdio.h>
 
 /*

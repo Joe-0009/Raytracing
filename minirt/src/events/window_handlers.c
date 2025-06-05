@@ -1,4 +1,4 @@
-#include "../../includes/main.h"
+#include "../../includes/minirt_app.h"
 #include "../../includes/events.h"
 #include <stdio.h>
 
