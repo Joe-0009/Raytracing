@@ -24,24 +24,3 @@ double	solve_quadratic(double a, double b, double c, double min_t)
 		return (t1);
 	return (-1.0);
 }
-
-/*
-** Rotate a vector around an axis by a given angle (in radians)
-** Uses Rodrigues' rotation formula
-*/
-t_vec3	vec3_rotate_around_axis(t_vec3 v, t_vec3 axis, double angle)
-{
-	t_vec3	result;
-	double	cos_angle;
-	double	sin_angle;
-
-	cos_angle = cos(angle);
-	sin_angle = sin(angle);
-
-	/* Rodrigues' rotation formula: v_rot = v*cos(θ) + (k×v)*sin(θ) + k(k·v)(1-cos(θ)) */
-	result = vec3_mult(v, cos_angle);  // v*cos(θ)
-	result = vec3_add(result, vec3_mult(vec3_cross(axis, v), sin_angle));  // + (k×v)*sin(θ)
-	result = vec3_add(result, vec3_mult(axis, vec3_dot(axis, v) * (1.0 - cos_angle)));  // + k(k·v)(1-cos(θ))
-
-	return (result);
-}

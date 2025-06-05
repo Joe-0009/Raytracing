@@ -5,7 +5,7 @@ NAME = miniRT
 # Compiler and flags
 CC = gcc
 # Performance-optimized flags for raytracing rendering (Clang-compatible)
-CFLAGS = -Wall -Wextra -Werror -I./includes -I../minilibx-linux \
+CFLAGS = -Wall -Wextra -Werror -I./includes -I../minilibx_macos \
          -O3 -ffast-math -funroll-loops -ftree-vectorize \
          -fomit-frame-pointer -march=native -mtune=native \
          -flto -finline-functions \
@@ -13,7 +13,7 @@ CFLAGS = -Wall -Wextra -Werror -I./includes -I../minilibx-linux \
          -fno-stack-protector -fno-unwind-tables \
          -fno-asynchronous-unwind-tables \
          -DNDEBUG
-LDFLAGS = -L../minilibx-linux -lmlx -lXext -lX11 -lm
+LDFLAGS = -L../minilibx_macos -lmlx -framework OpenGL -framework AppKit
 INCLUDES = -I./includes
 
 # Libraries

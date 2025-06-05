@@ -1,0 +1,303 @@
+minirt_app.h: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	[97mMissing or invalid 42 header[0m
+parser.h: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	[97mMissing or invalid 42 header[0m
+events.h: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	[97mMissing or invalid 42 header[0m
+Notice: GLOBAL_VAR_DETECTED  (line:  57, col:   1):	Global variable present in file. Make sure it is a reasonable choice.
+Notice: GLOBAL_VAR_DETECTED  (line:  58, col:   1):	Global variable present in file. Make sure it is a reasonable choice.
+scene_math.h: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	[97mMissing or invalid 42 header[0m
+intersections.h: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	[97mMissing or invalid 42 header[0m
+render_utils.h: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	[97mMissing or invalid 42 header[0m
+ft_strnstr.c: OK!
+ft_isdigit.c: OK!
+ft_putstr_fd.c: OK!
+ft_lstadd_front_bonus.c: OK!
+ft_lstdelone_bonus.c: OK!
+ft_lstadd_back_bonus.c: OK!
+ft_strlcpy.c: OK!
+ft_strlen.c: OK!
+ft_lstmap_bonus.c: OK!
+ft_memcmp.c: OK!
+ft_putnbr_fd.c: OK!
+ft_strchr.c: OK!
+ft_striteri.c: OK!
+ft_bzero.c: OK!
+ft_strjoin.c: OK!
+ft_isascii.c: OK!
+libft.h: OK!
+ft_memcpy.c: OK!
+ft_lstclear_bonus.c: OK!
+get_next_line.c: OK!
+ft_isprint.c: OK!
+ft_putendl_fd.c: OK!
+ft_free.c: OK!
+ft_toupper.c: OK!
+ft_lstiter_bonus.c: OK!
+ft_split.c: OK!
+ft_strrchr.c: OK!
+ft_lstlast_bonus.c: OK!
+ft_isalpha.c: OK!
+ft_memchr.c: OK!
+ft_putchar_fd.c: OK!
+ft_memset.c: OK!
+ft_substr.c: OK!
+ft_strncmp.c: OK!
+ft_strmapi.c: OK!
+ft_strtrim.c: OK!
+ft_lstsize_bonus.c: OK!
+ft_memmove.c: OK!
+ft_lstnew_bonus.c: OK!
+ft_strlcat.c: OK!
+ft_calloc.c: OK!
+ft_strdup.c: OK!
+ft_atoi.c: OK!
+ft_isalnum.c: OK!
+ft_itoa.c: OK!
+ft_tolower.c: OK!
+main.c: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	[97mMissing or invalid 42 header[0m
+Notice: GLOBAL_VAR_DETECTED  (line:   6, col:   1):	Global variable present in file. Make sure it is a reasonable choice.
+Error: TOO_MANY_LINES       (line:  76, col:   1):	Function has more than 25 lines
+Error: TOO_MANY_LINES       (line: 116, col:   1):	Function has more than 25 lines
+intersections.c: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	[97mMissing or invalid 42 header[0m
+intersect_cylinder.c: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	[97mMissing or invalid 42 header[0m
+intersect_plane.c: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	[97mMissing or invalid 42 header[0m
+intersect_sphere.c: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	[97mMissing or invalid 42 header[0m
+draw.c: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	[97mMissing or invalid 42 header[0m
+lighting.c: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	[97mMissing or invalid 42 header[0m
+Error: TOO_MANY_LINES       (line:  52, col:   1):	Function has more than 25 lines
+color_utils.c: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	[97mMissing or invalid 42 header[0m
+raytrace.c: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	[97mMissing or invalid 42 header[0m
+Error: TOO_MANY_VARS_FUNC   (line:  16, col:   1):	[91mToo many variables declarations in a function[0m
+Error: TOO_MANY_VARS_FUNC   (line:  17, col:   1):	[91mToo many variables declarations in a function[0m
+Error: TOO_MANY_VARS_FUNC   (line:  18, col:   1):	[91mToo many variables declarations in a function[0m
+Error: TOO_MANY_VARS_FUNC   (line:  19, col:   1):	[91mToo many variables declarations in a function[0m
+Error: TOO_FEW_TAB          (line:  31, col:   1):	Missing tabs for indent level
+Error: TOO_FEW_TAB          (line:  32, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  50, col:  13):	Found space when expecting tab
+Error: MISALIGNED_VAR_DECL  (line:  50, col:  14):	Misaligned variable declaration
+Error: WRONG_SCOPE_VAR      (line:  57, col:   1):	Variable declared in incorrect scope
+Error: SPACE_REPLACE_TAB    (line:  57, col:  19):	Found space when expecting tab
+Error: DECL_ASSIGN_LINE     (line:  57, col:  38):	Declaration and assignation on a single line
+Error: LINE_TOO_LONG        (line:  58, col:  86):	[94mline too long[0m
+Error: LINE_TOO_LONG        (line:  59, col:  86):	[94mline too long[0m
+Error: LINE_TOO_LONG        (line:  60, col:  86):	[94mline too long[0m
+intersect_cone.c: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	[97mMissing or invalid 42 header[0m
+math_utils.c: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	[97mMissing or invalid 42 header[0m
+Error: EMPTY_LINE_FUNCTION  (line:  40, col:   1):	Empty line in function
+Error: LINE_TOO_LONG        (line:  41, col:   1):	[94mline too long[0m
+Error: WRONG_SCOPE_COMMENT  (line:  41, col:   1):	[95mComment is invalid in this scope[0m
+Error: LINE_TOO_LONG        (line:  41, col:  90):	[94mline too long[0m
+Error: CONSECUTIVE_SPC      (line:  42, col:  38):	[94mTwo or more consecutives spaces[0m
+Error: WRONG_SCOPE_COMMENT  (line:  42, col:  40):	[95mComment is invalid in this scope[0m
+Error: WRONG_SCOPE_COMMENT  (line:  42, col:  40):	[95mComment is invalid in this scope[0m
+Error: CONSECUTIVE_SPC      (line:  43, col:  74):	[94mTwo or more consecutives spaces[0m
+Error: LINE_TOO_LONG        (line:  43, col:  76):	[94mline too long[0m
+Error: WRONG_SCOPE_COMMENT  (line:  43, col:  76):	[95mComment is invalid in this scope[0m
+Error: WRONG_SCOPE_COMMENT  (line:  43, col:  76):	[95mComment is invalid in this scope[0m
+Error: LINE_TOO_LONG        (line:  43, col:  93):	[94mline too long[0m
+Error: LINE_TOO_LONG        (line:  44, col:  83):	[94mline too long[0m
+Error: CONSECUTIVE_SPC      (line:  44, col:  87):	[94mTwo or more consecutives spaces[0m
+Error: LINE_TOO_LONG        (line:  44, col:  89):	[94mline too long[0m
+Error: LINE_TOO_LONG        (line:  44, col:  89):	[94mline too long[0m
+Error: WRONG_SCOPE_COMMENT  (line:  44, col:  89):	[95mComment is invalid in this scope[0m
+Error: WRONG_SCOPE_COMMENT  (line:  44, col:  89):	[95mComment is invalid in this scope[0m
+Error: EMPTY_LINE_FUNCTION  (line:  45, col:   1):	Empty line in function
+transforms.c: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	[97mMissing or invalid 42 header[0m
+Error: TOO_MANY_VARS_FUNC   (line:  28, col:   1):	[91mToo many variables declarations in a function[0m
+Error: WRONG_SCOPE_COMMENT  (line:  35, col:   5):	[95mComment is invalid in this scope[0m
+Error: TOO_MANY_FUNCS       (line:  72, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line:  83, col:   1):	[92mToo many functions in file[0m
+Error: WRONG_SCOPE_COMMENT  (line:  86, col:   5):	[95mComment is invalid in this scope[0m
+Error: LINE_TOO_LONG        (line:  87, col:  84):	[94mline too long[0m
+Error: TOO_MANY_FUNCS       (line:  94, col:   1):	[92mToo many functions in file[0m
+Error: LINE_TOO_LONG        (line:  97, col:  82):	[94mline too long[0m
+Error: TOO_MANY_FUNCS       (line: 103, col:   1):	[92mToo many functions in file[0m
+Error: LINE_TOO_LONG        (line: 105, col:  83):	[94mline too long[0m
+Error: LINE_TOO_LONG        (line: 106, col:  83):	[94mline too long[0m
+Error: WRONG_SCOPE_COMMENT  (line: 107, col:   5):	[95mComment is invalid in this scope[0m
+Error: LINE_TOO_LONG        (line: 108, col:  84):	[94mline too long[0m
+Error: TOO_MANY_FUNCS       (line: 118, col:   1):	[92mToo many functions in file[0m
+Error: WRONG_SCOPE_COMMENT  (line: 122, col:   5):	[95mComment is invalid in this scope[0m
+Error: LINE_TOO_LONG        (line: 123, col:  84):	[94mline too long[0m
+Error: TOO_MANY_FUNCS       (line: 130, col:   1):	[92mToo many functions in file[0m
+Error: LINE_TOO_LONG        (line: 132, col:  83):	[94mline too long[0m
+Error: LINE_TOO_LONG        (line: 133, col:  82):	[94mline too long[0m
+Error: TOO_MANY_FUNCS       (line: 139, col:   1):	[92mToo many functions in file[0m
+Error: LINE_TOO_LONG        (line: 152, col:  82):	[94mline too long[0m
+Error: TOO_MANY_FUNCS       (line: 160, col:   1):	[92mToo many functions in file[0m
+Error: SPACE_AFTER_KW       (line: 166, col:   9):	Missing space after keyword
+Error: EMPTY_LINE_FUNCTION  (line: 167, col:   1):	Empty line in function
+Error: WRONG_SCOPE_COMMENT  (line: 168, col:   5):	[95mComment is invalid in this scope[0m
+Error: CONSECUTIVE_SPC      (line: 170, col:  24):	[94mTwo or more consecutives spaces[0m
+Error: WRONG_SCOPE_COMMENT  (line: 170, col:  26):	[95mComment is invalid in this scope[0m
+Error: WRONG_SCOPE_COMMENT  (line: 170, col:  26):	[95mComment is invalid in this scope[0m
+Error: SPACE_AFTER_KW       (line: 171, col:   9):	Missing space after keyword
+Error: EMPTY_LINE_FUNCTION  (line: 173, col:   1):	Empty line in function
+Error: WRONG_SCOPE_COMMENT  (line: 174, col:   5):	[95mComment is invalid in this scope[0m
+Error: WRONG_SCOPE_COMMENT  (line: 177, col:   9):	[95mComment is invalid in this scope[0m
+Error: SPACE_AFTER_KW       (line: 178, col:   9):	Missing space after keyword
+Error: WRONG_SCOPE_COMMENT  (line: 182, col:   9):	[95mComment is invalid in this scope[0m
+Error: SPC_BEFORE_NL        (line: 183, col:  54):	Space before newline
+Error: LINE_TOO_LONG        (line: 184, col:  82):	[94mline too long[0m
+Error: LINE_TOO_LONG        (line: 185, col:  84):	[94mline too long[0m
+Error: WRONG_SCOPE_COMMENT  (line: 189, col:   9):	[95mComment is invalid in this scope[0m
+Error: SPC_BEFORE_NL        (line: 190, col:  55):	Space before newline
+Error: LINE_TOO_LONG        (line: 191, col:  82):	[94mline too long[0m
+Error: LINE_TOO_LONG        (line: 192, col:  85):	[94mline too long[0m
+Error: WRONG_SCOPE_COMMENT  (line: 196, col:   9):	[95mComment is invalid in this scope[0m
+Error: SPC_BEFORE_NL        (line: 197, col:  51):	Space before newline
+Error: LINE_TOO_LONG        (line: 198, col:  83):	[94mline too long[0m
+Error: LINE_TOO_LONG        (line: 199, col:  82):	[94mline too long[0m
+Error: TOO_MANY_LINES       (line: 201, col:   1):	Function has more than 25 lines
+Error: TOO_MANY_FUNCS       (line: 206, col:   1):	[92mToo many functions in file[0m
+Error: LINE_TOO_LONG        (line: 217, col:  82):	[94mline too long[0m
+Error: TOO_MANY_FUNCS       (line: 225, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 237, col:   1):	[92mToo many functions in file[0m
+vectors_op.c: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	[97mMissing or invalid 42 header[0m
+Error: NL_AFTER_PREPROC     (line:   3, col:   1):	Preprocessor statement must be followed by a newline
+Error: SPC_BEFORE_NL        (line:  31, col:   2):	Space before newline
+Error: TOO_MANY_FUNCS       (line:  33, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line:  38, col:   1):	[92mToo many functions in file[0m
+Error: RETURN_PARENTHESIS   (line:  40, col:  12):	Return value must be in parenthesis
+Error: TOO_MANY_FUNCS       (line:  47, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line:  52, col:   1):	[92mToo many functions in file[0m
+Error: CONSECUTIVE_SPC      (line:  55, col:   2):	[94mTwo or more consecutives spaces[0m
+Error: SPC_BEFORE_NL        (line:  55, col:   3):	Space before newline
+Error: TOO_MANY_FUNCS       (line:  57, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line:  62, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line:  72, col:   1):	[92mToo many functions in file[0m
+matrix.c: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	[97mMissing or invalid 42 header[0m
+Error: TOO_MANY_FUNCS       (line: 114, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 133, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 147, col:   1):	[92mToo many functions in file[0m
+Error: LINE_TOO_LONG        (line: 151, col:  82):	[94mline too long[0m
+Error: LINE_TOO_LONG        (line: 152, col:  82):	[94mline too long[0m
+Error: LINE_TOO_LONG        (line: 153, col:  82):	[94mline too long[0m
+Error: TOO_MANY_FUNCS       (line: 160, col:   1):	[92mToo many functions in file[0m
+Error: LINE_TOO_LONG        (line: 164, col:  89):	[94mline too long[0m
+Error: LINE_TOO_LONG        (line: 165, col:  89):	[94mline too long[0m
+Error: LINE_TOO_LONG        (line: 166, col:  89):	[94mline too long[0m
+parse_numbers.c: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	[97mMissing or invalid 42 header[0m
+validate_elements.c: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	[97mMissing or invalid 42 header[0m
+Error: LINE_TOO_LONG        (line:  46, col:  83):	[94mline too long[0m
+Error: LINE_TOO_LONG        (line:  68, col:  82):	[94mline too long[0m
+Error: LINE_TOO_LONG        (line:  73, col:  84):	[94mline too long[0m
+Error: TOO_MANY_FUNCS       (line:  98, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 127, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_FUNCS       (line: 144, col:   1):	[92mToo many functions in file[0m
+Error: LINE_TOO_LONG        (line: 151, col:  92):	[94mline too long[0m
+Error: BRACE_SHOULD_EOL     (line: 155, col:   1):	Expected newline after brace
+parse_colors.c: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	[97mMissing or invalid 42 header[0m
+Error: VAR_DECL_START_FUNC  (line:   9, col:   1):	Variable declaration not at start of function
+Error: SPACE_REPLACE_TAB    (line:   9, col:   8):	Found space when expecting tab
+Error: MISALIGNED_VAR_DECL  (line:   9, col:   9):	Misaligned variable declaration
+Error: MULT_DECL_LINE       (line:   9, col:  10):	Multiple declarations on a single line
+Error: MULT_DECL_LINE       (line:   9, col:  13):	Multiple declarations on a single line
+parse_vectors.c: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	[97mMissing or invalid 42 header[0m
+Error: VAR_DECL_START_FUNC  (line:  11, col:   1):	Variable declaration not at start of function
+Error: SPACE_REPLACE_TAB    (line:  11, col:  11):	Found space when expecting tab
+Error: MISALIGNED_VAR_DECL  (line:  11, col:  12):	Misaligned variable declaration
+Error: MULT_DECL_LINE       (line:  11, col:  13):	Multiple declarations on a single line
+Error: MULT_DECL_LINE       (line:  11, col:  16):	Multiple declarations on a single line
+validate_scene.c: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	[97mMissing or invalid 42 header[0m
+Error: EMPTY_LINE_FUNCTION  (line:  30, col:   1):	Empty line in function
+Error: LINE_TOO_LONG        (line:  31, col:  86):	[94mline too long[0m
+Error: LINE_TOO_LONG        (line:  33, col:  82):	[94mline too long[0m
+Error: VAR_DECL_START_FUNC  (line:  36, col:   1):	Variable declaration not at start of function
+Error: SPACE_REPLACE_TAB    (line:  36, col:   8):	Found space when expecting tab
+Error: DECL_ASSIGN_LINE     (line:  36, col:  11):	Declaration and assignation on a single line
+Error: LINE_TOO_LONG        (line:  39, col:  82):	[94mline too long[0m
+Error: LINE_TOO_LONG        (line:  44, col:  83):	[94mline too long[0m
+Error: LINE_TOO_LONG        (line:  49, col:  84):	[94mline too long[0m
+Error: TOO_MANY_LINES       (line:  57, col:   1):	Function has more than 25 lines
+Error: LINE_TOO_LONG        (line:  71, col:  82):	[94mline too long[0m
+Error: LINE_TOO_LONG        (line:  73, col:  83):	[94mline too long[0m
+Error: LINE_TOO_LONG        (line:  75, col:  84):	[94mline too long[0m
+add_to_scene.c: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	[97mMissing or invalid 42 header[0m
+Error: LINE_TOO_LONG        (line:  13, col:  82):	[94mline too long[0m
+Error: LINE_TOO_LONG        (line:  17, col:  86):	[94mline too long[0m
+parser_utils.c: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	[97mMissing or invalid 42 header[0m
+Error: SPACE_BEFORE_FUNC    (line:   8, col:   5):	[94mspace before function name[0m
+Error: TOO_FEW_TAB          (line:  10, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  10, col:   5):	Found space when expecting tab
+Error: SPACE_REPLACE_TAB    (line:  10, col:   8):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line:  12, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  12, col:   5):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line:  13, col:   1):	Missing tabs for indent level
+Error: SPACE_AFTER_KW       (line:  13, col:   9):	Missing space after keyword
+Error: SPACE_REPLACE_TAB    (line:  13, col:   9):	Found space when expecting tab
+Error: EMPTY_LINE_FUNCTION  (line:  14, col:   1):	Empty line in function
+Error: SPACE_EMPTY_LINE     (line:  14, col:   1):	Space on empty line
+Error: TOO_FEW_TAB          (line:  15, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  15, col:   5):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line:  16, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  16, col:   5):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line:  17, col:   1):	Missing tabs for indent level
+Error: SPACE_EMPTY_LINE     (line:  17, col:   5):	Space on empty line
+Error: TOO_FEW_TAB          (line:  18, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  18, col:   9):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line:  19, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  19, col:   9):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line:  20, col:   1):	Missing tabs for indent level
+Error: SPACE_EMPTY_LINE     (line:  20, col:   5):	Space on empty line
+Error: TOO_FEW_TAB          (line:  21, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  21, col:   5):	Found space when expecting tab
+parse_elements.c: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	[97mMissing or invalid 42 header[0m
+Error: TOO_MANY_LINES       (line:  50, col:   1):	Function has more than 25 lines
+Error: LINE_TOO_LONG        (line:  75, col:  82):	[94mline too long[0m
+Error: TOO_MANY_LINES       (line:  94, col:   1):	Function has more than 25 lines
+Error: TOO_MANY_LINES       (line: 133, col:   1):	Function has more than 25 lines
+Error: TOO_MANY_LINES       (line: 170, col:   1):	Function has more than 25 lines
+Error: TOO_MANY_FUNCS       (line: 172, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_VARS_FUNC   (line: 179, col:   1):	[91mToo many variables declarations in a function[0m
+Error: LINE_TOO_LONG        (line: 184, col:  88):	[94mline too long[0m
+Error: TOO_MANY_LINES       (line: 235, col:   1):	Function has more than 25 lines
+Error: TOO_MANY_FUNCS       (line: 237, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_VARS_FUNC   (line: 244, col:   1):	[91mToo many variables declarations in a function[0m
+Error: LINE_TOO_LONG        (line: 249, col:  85):	[94mline too long[0m
+Error: TOO_MANY_LINES       (line: 285, col:   1):	Function has more than 25 lines
+Error: TOO_MANY_FUNCS       (line: 287, col:   1):	[92mToo many functions in file[0m
+Error: LINE_TOO_LONG        (line: 299, col:  85):	[94mline too long[0m
+Error: TOO_MANY_LINES       (line: 323, col:   1):	Function has more than 25 lines
+parse_file.c: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	[97mMissing or invalid 42 header[0m
+Error: TOO_MANY_LINES       (line: 131, col:   1):	Function has more than 25 lines
+Error: TOO_MANY_FUNCS       (line: 133, col:   1):	[92mToo many functions in file[0m
+Error: TOO_MANY_LINES       (line: 162, col:   1):	Function has more than 25 lines
+window_handlers.c: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	[97mMissing or invalid 42 header[0m
+object_handlers.c: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	[97mMissing or invalid 42 header[0m
+Notice: GLOBAL_VAR_DETECTED  (line:   6, col:   1):	Global variable present in file. Make sure it is a reasonable choice.
+camera_handlers.c: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	[97mMissing or invalid 42 header[0m
+Error: TOO_MANY_LINES       (line:  63, col:   1):	Function has more than 25 lines
+events.c: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	[97mMissing or invalid 42 header[0m
+Notice: GLOBAL_VAR_DETECTED  (line:   6, col:   1):	Global variable present in file. Make sure it is a reasonable choice.

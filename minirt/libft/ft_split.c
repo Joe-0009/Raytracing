@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yrachidi <yrachidi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: youssefrachidi <youssefrachidi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 13:51:57 by yrachidi          #+#    #+#             */
-/*   Updated: 2024/10/31 13:52:58 by yrachidi         ###   ########.fr       */
+/*   Updated: 2025/06/05 17:31:10 by youssefrach      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,11 @@
 
 static int	count_tokens(const char *s, const char *delims)
 {
-	int count = 0;
-	int i = 0;
+	int	count;
+	int	i;
+
+	count = 0;
+	i = 0;
 	while (s[i])
 	{
 		while (s[i] && ft_strchr(delims, s[i]))
@@ -30,9 +33,15 @@ static int	count_tokens(const char *s, const char *delims)
 	return (count);
 }
 
-static int	fill_split(const char *s, const char *delims, char **result, int count)
+static int	fill_split(const char *s, const char *delims, char **result,
+		int count)
 {
-	int i = 0, j = 0, k;
+	int	i;
+	int	j;
+	int	k;
+
+	i = 0;
+	j = 0;
 	while (j < count)
 	{
 		while (s[i] && ft_strchr(delims, s[i]))
@@ -41,13 +50,6 @@ static int	fill_split(const char *s, const char *delims, char **result, int coun
 		while (s[k] && !ft_strchr(delims, s[k]))
 			k++;
 		result[j] = (char *)malloc(sizeof(char) * (k - i + 1));
-		if (!result[j])
-		{
-			while (--j >= 0)
-				free(result[j]);
-			free(result);
-			return (0);
-		}
 		ft_strlcpy(result[j], &s[i], k - i + 1);
 		i = k;
 		j++;
@@ -58,8 +60,8 @@ static int	fill_split(const char *s, const char *delims, char **result, int coun
 
 char	**ft_split(const char *s, const char *delims)
 {
-	char **result;
-	int count;
+	char	**result;
+	int		count;
 
 	if (!s || !delims)
 		return (NULL);

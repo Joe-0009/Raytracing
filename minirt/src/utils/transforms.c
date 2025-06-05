@@ -20,23 +20,18 @@ t_transform	transform_identity(void)
 */
 void	transform_update_matrix(t_transform *transform)
 {
-	t_matrix4	translation_matrix;
-	t_matrix4	rotation_x_matrix;
-	t_matrix4	rotation_y_matrix;
-	t_matrix4	rotation_z_matrix;
-	t_matrix4	scale_matrix;
 	t_matrix4	temp;
+	t_matrix4	rotation_combined;
 
-	translation_matrix = matrix4_translation(transform->translation);
-	rotation_x_matrix = matrix4_rotation_x(transform->rotation.x);
-	rotation_y_matrix = matrix4_rotation_y(transform->rotation.y);
-	rotation_z_matrix = matrix4_rotation_z(transform->rotation.z);
-	scale_matrix = matrix4_scale(transform->scale);
-	/* ** Apply transformations: Scale -> Rotate -> Translate ** */
-	temp = matrix4_multiply(rotation_x_matrix, scale_matrix);
-	temp = matrix4_multiply(rotation_y_matrix, temp);
-	temp = matrix4_multiply(rotation_z_matrix, temp);
-	transform->matrix = matrix4_multiply(translation_matrix, temp);
+	temp = matrix4_scale(transform->scale);
+	rotation_combined = matrix4_multiply(
+		matrix4_rotation_x(transform->rotation.x), temp);
+	rotation_combined = matrix4_multiply(
+			matrix4_rotation_y(transform->rotation.y), rotation_combined);
+	rotation_combined = matrix4_multiply(
+			matrix4_rotation_z(transform->rotation.z), rotation_combined);
+	transform->matrix = matrix4_multiply(
+			matrix4_translation(transform->translation), rotation_combined);
 }
 
 /*

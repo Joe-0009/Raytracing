@@ -1,9 +1,9 @@
-#include "../../includes/minirt_app.h"
 #include "../../includes/events.h"
+#include "../../includes/minirt_app.h"
 #include "../../includes/scene_math.h"
 #include <stdio.h>
 
-int	g_selected_obj = 0;
+int			g_selected_obj = 0;
 
 void	draw_new_image(t_vars *vars, t_scene *scene)
 {

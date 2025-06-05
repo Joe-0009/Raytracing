@@ -5,12 +5,14 @@ int	parse_color(char *str, t_color3 *color)
 {
 	char	**tokens;
 	int		success;
+	int		r;
+	int		g;
+	int		b;
 
-	int r, g, b;
 	success = TRUE;
 	tokens = ft_split(str, ",");
 	if (!tokens || !tokens[0] || !tokens[1] || !tokens[2])
-		return (ft_fprintf_fd(2, ERR_COLOR_FORMAT), free_tokens(tokens), FALSE);
+		return (printf(ERR_COLOR_FORMAT), free_tokens(tokens), FALSE);
 	r = ft_atoi(tokens[0]);
 	g = ft_atoi(tokens[1]);
 	b = ft_atoi(tokens[2]);
@@ -23,7 +25,7 @@ int	parse_color(char *str, t_color3 *color)
 		color->z = b / 255.0;
 	}
 	else
-		ft_fprintf_fd(2, ERR_COLOR_FORMAT);
+		printf(ERR_COLOR_FORMAT);
 	free_tokens(tokens);
 	return (success);
 }

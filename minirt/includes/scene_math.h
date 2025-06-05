@@ -92,7 +92,7 @@ typedef struct s_cone
 typedef struct s_object
 {
 	int				type;
-	union
+	union			u_object_data
 	{
 		t_sphere	sphere;
 		t_plane		plane;
@@ -189,7 +189,7 @@ void				scene_translate_camera(t_scene *scene, t_vec3 delta);
 void				scene_rotate_camera(t_scene *scene, t_vec3 rotation);
 
 // --- Ray tracing functions ---
-t_ray generate_camera_ray(const t_scene *scene, int x, int y);
-int trace_ray(const t_scene *scene, t_ray ray);
+t_ray				generate_camera_ray(const t_scene *scene, int x, int y);
+int					trace_ray(const t_scene *scene, t_ray ray);
 
 #endif

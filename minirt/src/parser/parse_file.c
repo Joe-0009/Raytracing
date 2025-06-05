@@ -33,14 +33,14 @@ int	validate_extension_and_permission(const char *filename, t_scene *scene)
 	extension = strrchr(filename, '.');
 	if (!extension || ft_strncmp(extension, ".rt", 3) != 0)
 	{
-		ft_fprintf_fd(2, ERR_FILE_EXTENSION);
+		printf(ERR_FILE_EXTENSION);
 		free(scene);
 		return (-1);
 	}
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 	{
-		ft_fprintf_fd(2, ERR_FILE_ACCESS, filename);
+		printf(ERR_FILE_ACCESS, filename);
 		free(scene);
 		return (-1);
 	}
@@ -116,12 +116,12 @@ int	process_scene_line(t_parser *parser, t_scene *scene, char *line)
 	{
 		if (parser->tokens && parser->tokens[0])
 		{
-			ft_fprintf_fd(2, "Error: Unknown identifier: ");
-			ft_fprintf_fd(2, parser->tokens[0]);
-			ft_fprintf_fd(2, "\n");
+			printf("Error: Unknown identifier: ");
+			printf("%s", parser->tokens[0]);
+			printf("\n");
 		}
 		else
-			ft_fprintf_fd(2, "Error: Invalid line format\n");
+			printf("Error: Invalid line format\n");
 	}
 	free(line);
 	free_tokens(parser->tokens);
@@ -155,7 +155,7 @@ t_scene	*parse_scene_file(char *filename)
 	}
 	close(fd);
 	if (parser.line_count == 0)
-		return (ft_fprintf_fd(2, "Error: Empty file\n"), free(scene), NULL);
+		return (printf("Error: Empty file\n"), free(scene), NULL);
 	if (!validate_scene(scene))
 		return (free(scene), NULL);
 	return (scene);

@@ -1,5 +1,5 @@
-#include "../../includes/minirt_app.h"
 #include "../../includes/events.h"
+#include "../../includes/minirt_app.h"
 #include <stdio.h>
 
 int	close_window_x(t_vars *vars)
