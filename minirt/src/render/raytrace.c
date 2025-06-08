@@ -7,7 +7,7 @@
 ** Calculate camera basis vectors
 */
 static void	calculate_camera_basis(const t_scene *scene, t_vec3 *right,
-				t_vec3 *up)
+		t_vec3 *up)
 {
 	t_vec3	forward;
 	t_vec3	world_up;
@@ -31,13 +31,11 @@ t_ray	generate_camera_ray(const t_scene *scene, int x, int y)
 
 	ray.origin = scene->camera.position;
 	calculate_camera_basis(scene, &right, &up);
-	pixel_scale = tan((scene->camera.fov * M_PI / 180.0) / 2.0)
-		/ (WIDTH / 2.0);
+	pixel_scale = tan((scene->camera.fov * M_PI / 180.0) / 2.0) / (WIDTH / 2.0);
 	u = (x - WIDTH / 2.0) * pixel_scale;
-	ray.direction = vec3_normalize(vec3_add(
-		vec3_add(vec3_mult(right, u),
-			vec3_mult(up, (HEIGHT / 2.0 - y) * pixel_scale)),
-		vec3_normalize(scene->camera.orientation)));
+	ray.direction = vec3_normalize(vec3_add(vec3_add(vec3_mult(right, u),
+					vec3_mult(up, (HEIGHT / 2.0 - y) * pixel_scale)),
+				vec3_normalize(scene->camera.orientation)));
 	return (ray);
 }
 
