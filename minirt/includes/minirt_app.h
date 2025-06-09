@@ -17,6 +17,7 @@
 # define HEIGHT 600
 # define WINDOW_NAME_RT "miniRT"
 
+# include "constants.h"
 # include "intersections.h"
 # include "parser.h"
 # include "scene_math.h"

@@ -61,22 +61,35 @@ static int	trace_cone(const t_object *obj, t_ray ray, t_hit *closest_hit,
 	return (0);
 }
 
+
+
 /*
 ** Check intersection with all objects in scene
 ** Returns 1 if any hit, 0 if no hit
+** Optimized with early ray termination
 */
 int	trace_objects(const t_scene *scene, t_ray ray, t_hit *closest_hit)
 {
-	int	i;
-	int	hit_found;
+	int		i;
+	int		hit_found;
+	double	min_distance;
 
-	closest_hit->t = -1;
+	closest_hit->t = -1.0;
 	hit_found = 0;
+	min_distance = 0.002; // Slightly larger epsilon for early termination
+	
+	if (scene->num_objects == 0)
+		return (0);
+	
 	i = 0;
 	while (i < scene->num_objects)
 	{
-		if (scene->objects[i].type == SPHERE && trace_sphere(&scene->objects[i],
-				ray, closest_hit, i))
+		// Early termination: if we found a very close hit, stop searching
+		if (hit_found && closest_hit->t < min_distance)
+			break;
+			
+		if (scene->objects[i].type == SPHERE 
+			&& trace_sphere(&scene->objects[i], ray, closest_hit, i))
 			hit_found = 1;
 		else if (scene->objects[i].type == PLANE
 			&& trace_plane(&scene->objects[i], ray, closest_hit, i))
@@ -87,6 +100,7 @@ int	trace_objects(const t_scene *scene, t_ray ray, t_hit *closest_hit)
 		else if (scene->objects[i].type == CONE
 			&& trace_cone(&scene->objects[i], ray, closest_hit, i))
 			hit_found = 1;
+		
 		i++;
 	}
 	return (hit_found);

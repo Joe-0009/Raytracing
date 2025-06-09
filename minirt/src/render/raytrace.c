@@ -1,6 +1,7 @@
 #include "../includes/events.h"
 #include "../includes/minirt_app.h"
 #include "../includes/scene_math.h"
+#include "../includes/constants.h"
 #include <math.h>
 
 /*
@@ -48,27 +49,29 @@ int	get_selected_object_index(void)
 }
 
 /*
+** Apply selection highlighting to color
+*/
+static t_color3	apply_selection_highlight(t_color3 color)
+{
+	color.x = color.x + (1.0 - color.x) * LIGHTENING_FACTOR;
+	color.y = color.y + (1.0 - color.y) * LIGHTENING_FACTOR;
+	color.z = color.z + (1.0 - color.z) * LIGHTENING_FACTOR;
+	return (color);
+}
+
+/*
 ** Trace a ray and return the color for the pixel
 */
 int	trace_ray(const t_scene *scene, t_ray ray)
 {
 	t_hit		closest_hit;
 	t_color3	final_color;
-	double		lightening_factor;
 
 	if (trace_objects(scene, ray, &closest_hit))
 	{
 		final_color = calculate_lighting(scene, &closest_hit);
 		if (closest_hit.obj_index == get_selected_object_index())
-		{
-			lightening_factor = 0.4;
-			final_color.x = final_color.x + (1.0 - final_color.x)
-				* lightening_factor;
-			final_color.y = final_color.y + (1.0 - final_color.y)
-				* lightening_factor;
-			final_color.z = final_color.z + (1.0 - final_color.z)
-				* lightening_factor;
-		}
+			final_color = apply_selection_highlight(final_color);
 		return (color_to_int(final_color));
 	}
 	return (get_sky_color(ray));

@@ -1,10 +1,11 @@
 #include "../includes/minirt_app.h"
+#include "../includes/constants.h"
 #include <math.h>
 
 /*
 ** Calculate diffuse lighting component with attenuation
 ** Formula: light_intensity × light_color × object_color × max(0, dot(normal, light_dir)) × attenuation
-** where attenuation = 1.0 / (1.0 + 0.01 * distance + 0.001 * distance * distance)
+** where attenuation = 1.0 / (1.0 + ATTENUATION_LINEAR * distance + ATTENUATION_QUADRATIC * distance²)
 */
 t_color3	calculate_diffuse(const t_scene *scene, const t_hit *hit)
 {
@@ -22,7 +23,7 @@ t_color3	calculate_diffuse(const t_scene *scene, const t_hit *hit)
 		dot_product = 0.0;
 	if (is_in_shadow(scene, hit->point, scene->light.position))
 		return (vec3_create(0.0, 0.0, 0.0));
-	attenuation = 1.0 / (1.0 + 0.01 * distance + 0.001 * distance * distance);
+	attenuation = 1.0 / (1.0 + ATTENUATION_LINEAR * distance + ATTENUATION_QUADRATIC * distance * distance);
 	diffuse.x = scene->light.brightness * scene->light.color.x * hit->color.x * dot_product * attenuation;
 	diffuse.y = scene->light.brightness * scene->light.color.y * hit->color.y * dot_product * attenuation;
 	diffuse.z = scene->light.brightness * scene->light.color.z * hit->color.z * dot_product * attenuation;
@@ -41,17 +42,15 @@ int	is_in_shadow(const t_scene *scene, const t_vec3 point,
 	t_hit	shadow_hit;
 	t_vec3	light_dir;
 	double	light_distance;
-	double	epsilon;
 
-	epsilon = 1e-6;
 	light_dir = vec3_sub(light_pos, point);
 	light_distance = vec3_length(light_dir);
 	light_dir = vec3_normalize(light_dir);
-	shadow_ray.origin = vec3_add(point, vec3_mult(light_dir, epsilon));
+	shadow_ray.origin = vec3_add(point, vec3_mult(light_dir, SHADOW_EPSILON));
 	shadow_ray.direction = light_dir;
 	if (trace_objects(scene, shadow_ray, &shadow_hit))
 	{
-		if (shadow_hit.t < light_distance - epsilon)
+		if (shadow_hit.t < light_distance - SHADOW_EPSILON)
 			return (1);
 	}
 	return (0);
