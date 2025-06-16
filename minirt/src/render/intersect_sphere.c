@@ -31,27 +31,20 @@ int	intersect_sphere(const t_sphere *sphere, t_ray ray, t_hit *hit)
 	double		t;
 
 	coeffs = sphere_quadratic_coeffs(sphere, ray);
-	
-	// Quick discriminant check before expensive sqrt
 	if (coeffs.b * coeffs.b < 4.0 * coeffs.a * coeffs.c)
 		return (0);
-		
 	t = solve_quadratic(coeffs.a, coeffs.b, coeffs.c, 0.001);
 	if (t < 0.0)
 		return (0);
 	if (hit->t > 0.0 && t >= hit->t)
 		return (0);
-		
 	hit->t = t;
 	hit->point = vec3_add(ray.origin, vec3_mult(ray.direction, t));
 	hit->normal = vec3_normalize(vec3_sub(hit->point, sphere->center));
 	hit->color = sphere->material.color;
 	hit->obj_type = SPHERE;
 	hit->hit_side = -1;
-	
-	// Ensure normal points against ray direction
 	if (vec3_dot(ray.direction, hit->normal) > 0.0)
 		hit->normal = vec3_mult(hit->normal, -1.0);
-		
 	return (1);
 }

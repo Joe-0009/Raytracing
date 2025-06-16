@@ -2,66 +2,27 @@
 #include "../includes/scene_math.h"
 
 /*
-** Check intersection with sphere object
+** Check intersection with any object type
 ** Returns 1 if hit, 0 if no hit
 */
-static int	trace_sphere(const t_object *obj, t_ray ray, t_hit *closest_hit,
+static int	trace_object(const t_object *obj, t_ray ray, t_hit *closest_hit,
 		int index)
 {
-	if (intersect_sphere(&obj->data.sphere, ray, closest_hit))
-	{
+	int	hit;
+
+	hit = 0;
+	if (obj->type == SPHERE)
+		hit = intersect_sphere(&obj->data.sphere, ray, closest_hit);
+	else if (obj->type == PLANE)
+		hit = intersect_plane(&obj->data.plane, ray, closest_hit);
+	else if (obj->type == CYLINDER)
+		hit = intersect_cylinder(&obj->data.cylinder, ray, closest_hit);
+	else if (obj->type == CONE)
+		hit = intersect_cone(&obj->data.cone, ray, closest_hit);
+	if (hit)
 		closest_hit->obj_index = index;
-		return (1);
-	}
-	return (0);
+	return (hit);
 }
-
-/*
-** Check intersection with plane object
-** Returns 1 if hit, 0 if no hit
-*/
-static int	trace_plane(const t_object *obj, t_ray ray, t_hit *closest_hit,
-		int index)
-{
-	if (intersect_plane(&obj->data.plane, ray, closest_hit))
-	{
-		closest_hit->obj_index = index;
-		return (1);
-	}
-	return (0);
-}
-
-/*
-** Check intersection with cylinder object
-** Returns 1 if hit, 0 if no hit
-*/
-static int	trace_cylinder(const t_object *obj, t_ray ray, t_hit *closest_hit,
-		int index)
-{
-	if (intersect_cylinder(&obj->data.cylinder, ray, closest_hit))
-	{
-		closest_hit->obj_index = index;
-		return (1);
-	}
-	return (0);
-}
-
-/*
-** Check intersection with cone object
-** Returns 1 if hit, 0 if no hit
-*/
-static int	trace_cone(const t_object *obj, t_ray ray, t_hit *closest_hit,
-		int index)
-{
-	if (intersect_cone(&obj->data.cone, ray, closest_hit))
-	{
-		closest_hit->obj_index = index;
-		return (1);
-	}
-	return (0);
-}
-
-
 
 /*
 ** Check intersection with all objects in scene
@@ -76,31 +37,16 @@ int	trace_objects(const t_scene *scene, t_ray ray, t_hit *closest_hit)
 
 	closest_hit->t = -1.0;
 	hit_found = 0;
-	min_distance = 0.002; // Slightly larger epsilon for early termination
-	
+	min_distance = 0.002;
 	if (scene->num_objects == 0)
 		return (0);
-	
 	i = 0;
 	while (i < scene->num_objects)
 	{
-		// Early termination: if we found a very close hit, stop searching
 		if (hit_found && closest_hit->t < min_distance)
 			break;
-			
-		if (scene->objects[i].type == SPHERE 
-			&& trace_sphere(&scene->objects[i], ray, closest_hit, i))
+		if (trace_object(&scene->objects[i], ray, closest_hit, i))
 			hit_found = 1;
-		else if (scene->objects[i].type == PLANE
-			&& trace_plane(&scene->objects[i], ray, closest_hit, i))
-			hit_found = 1;
-		else if (scene->objects[i].type == CYLINDER
-			&& trace_cylinder(&scene->objects[i], ray, closest_hit, i))
-			hit_found = 1;
-		else if (scene->objects[i].type == CONE
-			&& trace_cone(&scene->objects[i], ray, closest_hit, i))
-			hit_found = 1;
-		
 		i++;
 	}
 	return (hit_found);

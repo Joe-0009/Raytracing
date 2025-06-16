@@ -90,11 +90,8 @@ int	intersect_cone_cap(const t_cone *cone, t_ray ray, t_hit *hit)
 	if (t <= MIN_T || (hit->t >= 0 && t >= hit->t))
 		return (0);
 	point = vec3_add(ray.origin, vec3_mult(ray.direction, t));
-	
-	// Precompute cap radius squared
 	constants = get_cone_constants(cone);
 	cap_radius_sq = pow(cone->height * constants.tan_half_angle, 2);
-	
 	if (vec3_length_squared(vec3_sub(vec3_sub(point, base_center),
 				vec3_mult(cone->axis, vec3_dot(vec3_sub(point, base_center),
 						cone->axis)))) > cap_radius_sq)

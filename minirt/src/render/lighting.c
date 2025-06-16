@@ -68,12 +68,11 @@ t_color3	calculate_lighting(const t_scene *scene, const t_hit *hit)
 	t_color3	final_color;
 	t_color3	ambient;
 
-	// Calculate ambient component
 	ambient.x = scene->ambient.ratio * scene->ambient.color.x * hit->color.x;
 	ambient.y = scene->ambient.ratio * scene->ambient.color.y * hit->color.y;
 	ambient.z = scene->ambient.ratio * scene->ambient.color.z * hit->color.z;
 
-	// Combine ambient and diffuse components
+
 	final_color = vec3_add(ambient, calculate_diffuse(scene, hit));
 	final_color = clamp_color(final_color);
 	return (final_color);
