@@ -53,9 +53,7 @@
 # define KEY_O 111
 # define KEY_O_MAC 31
 
-/* Global variables */
-extern t_scene	*g_scene;
-extern int		g_selected_obj;
+
 
 /* Function prototypes for events */
 int				close_window_x(t_vars *vars);

@@ -44,7 +44,7 @@ t_vec3	cylinder_surface_normal(const t_cylinder *cylinder, t_point3 point)
 */
 static void	set_cap_hit_data(t_hit *hit, const t_cylinder *cyl, int is_top_cap)
 {
-	hit->color = cyl->material.color;
+	hit->color = cyl->color;
 	hit->obj_type = CYLINDER;
 	if (is_top_cap)
 	{
@@ -100,10 +100,15 @@ int	intersect_cylinder(const t_cylinder *cylinder, t_ray ray, t_hit *hit)
 	double		t;
 	double		m;
 	t_point3	point;
+	double		closest_hit;
 
+	closest_hit = -1;
 	if (check_cap_hit(cylinder, ray, hit, 0) || check_cap_hit(cylinder, ray,
 			hit, cylinder->height))
-		return (1);
+	{
+		if (hit->t < closest_hit || closest_hit < 0)
+			closest_hit = hit->t;
+	}
 	q = cylinder_quadratic_coeffs(cylinder, ray);
 	if (fabs(q.a) < 0.0001)
 		return (0);
@@ -117,7 +122,7 @@ int	intersect_cylinder(const t_cylinder *cylinder, t_ray ray, t_hit *hit)
 	hit->t = t;
 	hit->point = point;
 	hit->normal = cylinder_surface_normal(cylinder, point);
-	hit->color = cylinder->material.color;
+	hit->color = cylinder->color;
 	hit->obj_type = CYLINDER;
 	hit->hit_side = 2;
 	return (1);

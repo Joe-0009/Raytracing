@@ -112,7 +112,7 @@ int			validate_position(t_point3 pos, const char *type);
 int			validate_non_zero_vector(t_vec3 vec);
 int			validate_normalized_vector(t_vec3 vec);
 int			validate_sphere_diameter(double diameter);
-int			validate_cylinder_dimensions(double diameter, double height);
+int			 (double diameter, double height);
 int			validate_cone_dimensions(double angle, double height);
 int			validate_plane_normal(t_vec3 *normal);
 void		free_tokens(char **tokens);

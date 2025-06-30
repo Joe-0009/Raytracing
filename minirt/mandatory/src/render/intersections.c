@@ -17,8 +17,6 @@ static int	trace_object(const t_object *obj, t_ray ray, t_hit *closest_hit,
 		hit = intersect_plane(&obj->data.plane, ray, closest_hit);
 	else if (obj->type == CYLINDER)
 		hit = intersect_cylinder(&obj->data.cylinder, ray, closest_hit);
-	else if (obj->type == CONE)
-		hit = intersect_cone(&obj->data.cone, ray, closest_hit);
 	if (hit)
 		closest_hit->obj_index = index;
 	return (hit);
@@ -44,7 +42,7 @@ int	trace_objects(const t_scene *scene, t_ray ray, t_hit *closest_hit)
 	while (i < scene->num_objects)
 	{
 		if (hit_found && closest_hit->t < min_distance)
-			break;
+			break ;
 		if (trace_object(&scene->objects[i], ray, closest_hit, i))
 			hit_found = 1;
 		i++;

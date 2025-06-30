@@ -3,8 +3,6 @@
 #include "../../includes/scene_math.h"
 #include <stdio.h>
 
-int			g_selected_obj = 0;
-
 void	draw_new_image(t_vars *vars, t_scene *scene)
 {
 	create_image(vars);
@@ -42,13 +40,13 @@ int	key_handler(int keycode, t_vars *vars)
 {
 	if (keycode == KEY_ESC || keycode == KEY_ESC_MAC)
 		close_window_esc(keycode, vars);
-	else if (g_scene)
+	else if (vars->scene)
 	{
-		handle_camera_movement(keycode, g_scene);
-		handle_camera_rotation(keycode, g_scene);
-		handle_object_transforms(keycode, g_scene);
+		handle_camera_movement(keycode, vars->scene);
+		handle_camera_rotation(keycode, vars->scene);
+		handle_object_transforms(keycode, vars->scene);
 		if (is_redraw_key(keycode))
-			draw_new_image(vars, g_scene);
+			draw_new_image(vars, vars->scene);
 	}
 	if (keycode == KEY_SPACE || keycode == KEY_SPACE_MAC)
 		print_controls_help();

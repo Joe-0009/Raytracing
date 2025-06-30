@@ -1,9 +1,8 @@
+#include "../includes/constants.h"
 #include "../includes/events.h"
 #include "../includes/minirt_app.h"
 #include "../includes/scene_math.h"
-#include "../includes/constants.h"
 #include <math.h>
-
 
 /*
 ** Calculate camera basis vectors
@@ -44,14 +43,6 @@ t_ray	generate_camera_ray(const t_scene *scene, int x, int y)
 }
 
 /*
-** Get the currently selected object index
-*/
-int	get_selected_object_index(void)
-{
-	return (g_selected_obj);
-}
-
-/*
 ** Apply selection highlighting to color
 */
 static t_color3	apply_selection_highlight(t_color3 color)
@@ -73,7 +64,7 @@ int	trace_ray(const t_scene *scene, t_ray ray)
 	if (trace_objects(scene, ray, &closest_hit))
 	{
 		final_color = calculate_lighting(scene, &closest_hit);
-		if (closest_hit.obj_index == get_selected_object_index())
+		if (closest_hit.obj_index == scene->selected_obj)
 			final_color = apply_selection_highlight(final_color);
 		return (color_to_int(final_color));
 	}

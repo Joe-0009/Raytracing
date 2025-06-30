@@ -12,24 +12,6 @@ int	validate_plane_normal(t_vec3 *normal)
 	return (TRUE);
 }
 
-int	validate_cone_dimensions(double angle, double height)
-{
-	if (angle <= 0.0 || height <= 0.0)
-		return (printf(ERR_CONE_FORMAT),
-			printf(ERR_CONE_DIMS_POSITIVE), FALSE);
-	if (angle > M_PI)
-		return (printf(ERR_CONE_FORMAT),
-			printf(ERR_CONE_ANGLE_TOO_LARGE), FALSE);
-	if (angle < 0.01)
-	{
-		printf(WARN_CONE_ANGLE_SMALL, angle);
-	}
-	if (height < 0.001)
-	{
-		printf(WARN_CONE_HEIGHT_SMALL, height);
-	}
-	return (TRUE);
-}
 
 int	validate_sphere(t_sphere *sphere)
 {

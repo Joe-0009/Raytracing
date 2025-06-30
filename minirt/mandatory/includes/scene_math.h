@@ -25,7 +25,6 @@ typedef t_vec3		t_color3;
 # define SPHERE 1
 # define PLANE 2
 # define CYLINDER 3
-# define CONE 4
 # define MAX_OBJECTS 100
 
 typedef struct s_camera
@@ -48,17 +47,11 @@ typedef struct s_light
 	t_color3		color;
 }					t_light;
 
-typedef struct s_material
-{
-	t_color3		color;
-}					t_material;
-
 typedef struct s_sphere
 {
 	t_point3		center;
 	double			diameter;
 	t_color3		color;
-	t_material		material;
 }					t_sphere;
 
 typedef struct s_plane
@@ -66,7 +59,6 @@ typedef struct s_plane
 	t_point3		point;
 	t_vec3			normal;
 	t_color3		color;
-	t_material		material;
 }					t_plane;
 
 typedef struct s_cylinder
@@ -76,18 +68,7 @@ typedef struct s_cylinder
 	double			diameter;
 	double			height;
 	t_color3		color;
-	t_material		material;
 }					t_cylinder;
-
-typedef struct s_cone
-{
-	t_point3		vertex;
-	t_vec3			axis;
-	double			angle;
-	double			height;
-	t_color3		color;
-	t_material		material;
-}					t_cone;
 
 typedef struct s_object
 {
@@ -97,7 +78,6 @@ typedef struct s_object
 		t_sphere	sphere;
 		t_plane		plane;
 		t_cylinder	cylinder;
-		t_cone		cone;
 	} data;
 }					t_object;
 
@@ -110,6 +90,7 @@ typedef struct s_scene
 	int				num_objects;
 	int				has_ambient;
 	int				has_light;
+	int				selected_obj;
 }					t_scene;
 
 // --- Matrix and transform types ---
@@ -175,7 +156,6 @@ void				transform_sphere(t_sphere *sphere, t_transform *transform);
 void				transform_plane(t_plane *plane, t_transform *transform);
 void				transform_cylinder(t_cylinder *cylinder,
 						t_transform *transform);
-void				transform_cone(t_cone *cone, t_transform *transform);
 void				transform_camera(t_camera *camera, t_transform *transform);
 
 // --- Scene transformation utilities ---

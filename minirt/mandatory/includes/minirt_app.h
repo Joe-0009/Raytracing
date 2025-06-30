@@ -46,6 +46,7 @@ typedef struct s_vars
 	void				*mlx;
 	void				*win;
 	t_image				*img;
+	t_scene				*scene;
 }						t_vars;
 
 typedef struct s_hit	t_hit;

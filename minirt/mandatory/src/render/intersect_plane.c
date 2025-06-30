@@ -24,7 +24,7 @@ int	intersect_plane(const t_plane *plane, t_ray ray, t_hit *hit)
 			hit->t = t;
 			hit->point = vec3_add(ray.origin, vec3_mult(ray.direction, t));
 			hit->normal = plane->normal;
-			hit->color = plane->material.color;
+			hit->color = plane->color;
 			hit->obj_type = PLANE;
 			hit->hit_side = -1;
 			return (1);

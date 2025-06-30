@@ -1,14 +1,6 @@
 #include "../includes/minirt_app.h"
 #include <stdio.h>
 
-t_material	create_simple_material(t_color3 color)
-{
-	t_material	material;
-
-	material.color = color;
-	return (material);
-}
-
 int	parse_ambient(char **tokens, t_scene *scene)
 {
 	t_color3	color;
@@ -85,7 +77,6 @@ int	parse_sphere(char **tokens, t_scene *scene)
 	sphere.center = center;
 	sphere.diameter = diameter;
 	sphere.color = color;
-	sphere.material = create_simple_material(color);
 	if (!validate_sphere(&sphere))
 		return (FALSE);
 	if (!add_object_to_scene(scene, SPHERE, &sphere))
@@ -123,7 +114,6 @@ int	parse_plane(char **tokens, t_scene *scene)
 	plane.point = point;
 	plane.normal = normal;
 	plane.color = color;
-	plane.material = create_simple_material(color);
 	if (!add_object_to_scene(scene, PLANE, &plane))
 		return (FALSE);
 	return (TRUE);
@@ -176,45 +166,9 @@ int	parse_cylinder(char **tokens, t_scene *scene)
 	cylinder.diameter = diameter;
 	cylinder.height = height;
 	cylinder.color = color;
-	cylinder.material = create_simple_material(color);
 	if (!validate_cylinder(&cylinder))
 		return (FALSE);
 	if (!add_object_to_scene(scene, CYLINDER, &cylinder))
-		return (FALSE);
-	return (TRUE);
-}
-
-int	parse_cone(char **tokens, t_scene *scene)
-{
-	t_cone		cone;
-	double		angle;
-	double		height;
-	t_color3	color;
-
-	if (!tokens[1] || !tokens[2] || !tokens[3] || !tokens[4] || !tokens[5])
-		return (printf(ERR_CONE_FORMAT),
-			printf(FMT_CONE_EXPECTED), FALSE);
-	if (!parse_vector(tokens[1], &cone.vertex) || !parse_vector(tokens[2], &cone.axis))
-		return (FALSE);
-	if (!validate_non_zero_vector(cone.axis))
-		return (printf(ERR_CONE_FORMAT), FALSE);
-	if (!parse_double(tokens[3], &angle) || !parse_double(tokens[4], &height))
-		return (FALSE);
-	if (angle > 0 && angle <= 180)
-		angle = angle * M_PI / 180.0;
-	if (!validate_cone_dimensions(angle, height))
-		return (FALSE);
-	if (!tokens[5] || !parse_color(tokens[5], &color))
-		return (printf(ERR_CONE_COLOR_INVALID), FALSE);
-	if (tokens[6])
-		return (printf(ERR_CONE_FORMAT),
-			printf(ERR_CONE_TOO_MANY_ARGS), FALSE);
-	cone.axis = vec3_normalize(cone.axis);
-	cone.angle = angle;
-	cone.height = height;
-	cone.color = color;
-	cone.material = create_simple_material(color);
-	if (!add_object_to_scene(scene, CONE, &cone))
 		return (FALSE);
 	return (TRUE);
 }

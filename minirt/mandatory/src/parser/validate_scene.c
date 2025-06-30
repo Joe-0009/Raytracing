@@ -1,8 +1,8 @@
 #include "../includes/minirt_app.h"
 #include "../includes/parser.h"
 #include <math.h>
-#include <string.h>
 #include <stdio.h>
+#include <string.h>
 
 static int	validate_scene_basic(t_scene *scene)
 {

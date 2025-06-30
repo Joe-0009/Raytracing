@@ -17,7 +17,6 @@ typedef struct s_parser
 # define ERR_SPHERE_FORMAT "Error: Invalid sphere format\n"
 # define ERR_PLANE_FORMAT "Error: Invalid plane format\n"
 # define ERR_CYLINDER_FORMAT "Error: Invalid cylinder format\n"
-# define ERR_CONE_FORMAT "Error: Invalid cone format\n"
 # define ERR_UNKNOWN_ELEMENT "Error: Unknown element in scene file\n"
 # define ERR_DUPLICATE_ELEMENT "Error: Duplicate unique element in scene file\n"
 # define ERR_MISSING_ELEMENT "Error: Required element missing in scene file\n"
@@ -51,10 +50,6 @@ typedef struct s_parser
 # define ERR_CYLINDER_AXIS_NOT_NORMALIZED "Error: Cylinder axis not normalized\n"
 # define ERR_CYLINDER_DIMS_POSITIVE "Error: Cylinder dims must be positive\n"
 # define ERR_CYLINDER_HEIGHT_NEGATIVE "Error: Cylinder height negative\n"
-# define ERR_CONE_COLOR_INVALID "Error: Invalid color for cone\n"
-# define ERR_CONE_TOO_MANY_ARGS "Too many arguments for cone\n"
-# define ERR_CONE_DIMS_POSITIVE "Cone angle and height must be positive\n"
-# define ERR_CONE_ANGLE_TOO_LARGE "Error: Cone angle must be <= 180 deg\n"
 # define ERR_CAMERA_FOV_RANGE "Camera FOV must be in [0, 180] degrees\n"
 # define ERR_SCENE_NO_CAMERA "Error: Camera not defined\n"
 # define ERR_SCENE_NO_AMBIENT "Error: Ambient lighting not defined\n"
@@ -71,8 +66,6 @@ typedef struct s_parser
 # define WARN_CYLINDER_DIAMETER_SMALL "Warning: Very small cylinder diameter\n"
 # define WARN_CYLINDER_HEIGHT_SMALL "Warning: Very small cylinder height\n"
 # define WARN_CYLINDER_DIMS_SMALL "Warning: Cylinder dimensions are very small\n"
-# define WARN_CONE_ANGLE_SMALL "Warning: Small cone angle (%.6f rad)\n"
-# define WARN_CONE_HEIGHT_SMALL "Warning: Small cone height (%.6f)\n"
 # define WARN_POSITION_FAR "Warning: %s far from origin (%.2f, %.2f, %.2f)\n"
 
 /* Format strings */
@@ -81,7 +74,6 @@ typedef struct s_parser
 # define FMT_SPHERE_EXPECTED "Expected format: sp x,y,z diameter r,g,b\n"
 # define FMT_PLANE_EXPECTED "Expected format: pl x,y,z nx,ny,nz r,g,b\n"
 # define FMT_CYLINDER_EXPECTED "Expected: cy x,y,z nx,ny,nz diameter height r,g,b\n"
-# define FMT_CONE_EXPECTED "Expected format: cn x,y,z axis_x,y,z angle height r,g,b\n"
 # define FMT_CAMERA_EXPECTED "Expected format: C x,y,z nx,ny,nz fov\n"
 
 /* Function prototypes */
@@ -97,7 +89,6 @@ int			parse_camera(char **tokens, t_scene *scene);
 int			parse_sphere(char **tokens, t_scene *scene);
 int			parse_plane(char **tokens, t_scene *scene);
 int			parse_cylinder(char **tokens, t_scene *scene);
-int			parse_cone(char **tokens, t_scene *scene);
 
 /* Data type parsing */
 int			parse_vector(char *str, t_vec3 *vec);
@@ -111,9 +102,6 @@ int			validate_plane(t_plane *plane);
 int			validate_position(t_point3 pos, const char *type);
 int			validate_non_zero_vector(t_vec3 vec);
 int			validate_normalized_vector(t_vec3 vec);
-int			validate_sphere_diameter(double diameter);
-int			validate_cylinder_dimensions(double diameter, double height);
-int			validate_cone_dimensions(double angle, double height);
 int			validate_plane_normal(t_vec3 *normal);
 void		free_tokens(char **tokens);
 

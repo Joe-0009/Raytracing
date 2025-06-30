@@ -9,6 +9,7 @@ void	init_parser_and_scene(t_parser *parser, t_scene *scene)
 	parser->line_count = 0;
 	parser->has_camera = FALSE;
 	scene->num_objects = 0;
+	scene->selected_obj = 0;
 	scene->camera.fov = 0.0;
 	scene->has_ambient = FALSE;
 	scene->has_light = FALSE;
@@ -84,8 +85,6 @@ int	dispatch_parse_token(char **tokens, t_scene *scene)
 			return (parse_plane(tokens, scene));
 		else if (tokens[0][0] == 'c' && tokens[0][1] == 'y')
 			return (parse_cylinder(tokens, scene));
-		else if (tokens[0][0] == 'c' && tokens[0][1] == 'n')
-			return (parse_cone(tokens, scene));
 	}
 	return (FALSE);
 }

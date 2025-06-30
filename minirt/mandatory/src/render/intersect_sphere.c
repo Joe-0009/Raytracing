@@ -41,7 +41,7 @@ int	intersect_sphere(const t_sphere *sphere, t_ray ray, t_hit *hit)
 	hit->t = t;
 	hit->point = vec3_add(ray.origin, vec3_mult(ray.direction, t));
 	hit->normal = vec3_normalize(vec3_sub(hit->point, sphere->center));
-	hit->color = sphere->material.color;
+	hit->color = sphere->color;
 	hit->obj_type = SPHERE;
 	hit->hit_side = -1;
 	if (vec3_dot(ray.direction, hit->normal) > 0.0)

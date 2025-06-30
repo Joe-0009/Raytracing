@@ -113,19 +113,6 @@ void	transform_cylinder(t_cylinder *cylinder, t_transform *transform)
 }
 
 /*
-** Transform a cone
-*/
-void	transform_cone(t_cone *cone, t_transform *transform)
-{
-	cone->vertex = matrix4_transform_point(transform->matrix, cone->vertex);
-	cone->axis = matrix4_transform_direction(transform->matrix, cone->axis);
-	/* ** For cone height, use uniform scale factor ** */
-	if (transform->scale.x == transform->scale.y
-		&& transform->scale.y == transform->scale.z)
-		cone->height *= transform->scale.y;
-}
-
-/*
 ** Transform a camera
 */
 void	transform_camera(t_camera *camera, t_transform *transform)
@@ -154,8 +141,6 @@ void	scene_translate_object(t_scene *scene, int obj_index, t_vec3 delta)
 	else if (scene->objects[obj_index].type == CYLINDER)
 		transform_cylinder(&scene->objects[obj_index].data.cylinder,
 			&transform);
-	else if (scene->objects[obj_index].type == CONE)
-		transform_cone(&scene->objects[obj_index].data.cone, &transform);
 }
 
 /*
@@ -193,13 +178,6 @@ void	scene_rotate_object(t_scene *scene, int obj_index, t_vec3 rotation)
 				axis, angle);
 		scene->objects[obj_index].data.cylinder.axis = vec3_normalize(scene->objects[obj_index].data.cylinder.axis);
 	}
-	else if (scene->objects[obj_index].type == CONE)
-	{
-		/* Rotate cone axis */
-		scene->objects[obj_index].data.cone.axis = vec3_rotate_around_axis(scene->objects[obj_index].data.cone.axis,
-				axis, angle);
-		scene->objects[obj_index].data.cone.axis = vec3_normalize(scene->objects[obj_index].data.cone.axis);
-	}
 }
 
 /*
@@ -218,8 +196,6 @@ void	scene_scale_object(t_scene *scene, int obj_index, double scale)
 	else if (scene->objects[obj_index].type == CYLINDER)
 		transform_cylinder(&scene->objects[obj_index].data.cylinder,
 			&transform);
-	else if (scene->objects[obj_index].type == CONE)
-		transform_cone(&scene->objects[obj_index].data.cone, &transform);
 }
 
 /*
