@@ -1,11 +1,12 @@
 # Makefile for miniRT
 
 NAME = miniRT
+BONUS_NAME = miniRT_bonus
 
 # Compiler and flags
 CC = gcc
 # Performance-optimized flags for raytracing rendering (Clang-compatible)
-CFLAGS = -Wall -Wextra -Werror -I./includes -I../minilibx_macos \
+CFLAGS = -Wall -Wextra -Werror -I./mandatory/includes -I../minilibx-linux \
          -O3 -ffast-math -funroll-loops -ftree-vectorize \
          -fomit-frame-pointer -march=native -mtune=native \
          -flto -finline-functions \
@@ -13,60 +14,57 @@ CFLAGS = -Wall -Wextra -Werror -I./includes -I../minilibx_macos \
          -fno-stack-protector -fno-unwind-tables \
          -fno-asynchronous-unwind-tables \
          -DNDEBUG
-LDFLAGS = -L../minilibx_macos -lmlx -framework OpenGL -framework AppKit
-INCLUDES = -I./includes
-
+LDFLAGS = -L../minilibx-linux -lmlx -lXext -lX11 -lm -lz
+INCLUDES = -I./mandatory/includes
 # Libraries
-LIBFT_DIR = libft
+LIBFT_DIR = mandatory/libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
 # Source files
-SRC_DIR = src
+SRC_DIR = mandatory/src
+BONUS_DIR = bonus/src
 OBJ_DIR = obj
+BONUS_OBJ_DIR = obj_bonus
+
+# Bonus-specific variables
+BONUS_LIBFT_DIR = bonus/libft
+BONUS_LIBFT = $(BONUS_LIBFT_DIR)/libft.a
+BONUS_INCLUDES = -I./bonus/includes
+BONUS_CFLAGS = -Wall -Wextra -Werror -I./bonus/includes -I../minilibx-linux \
+         -O3 -ffast-math -funroll-loops -ftree-vectorize \
+         -fomit-frame-pointer -march=native -mtune=native \
+         -flto -finline-functions \
+         -falign-functions=32 -falign-loops=32 \
+         -fno-stack-protector -fno-unwind-tables \
+         -fno-asynchronous-unwind-tables \
+         -DNDEBUG
 
 # Find all .c files recursively
 SRCS = $(shell find $(SRC_DIR) -name '*.c')
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
+# Bonus files
+BONUS_SRCS = $(shell find $(BONUS_DIR) -name '*.c' 2>/dev/null || echo "")
+BONUS_OBJS = $(BONUS_SRCS:$(BONUS_DIR)/%.c=$(BONUS_OBJ_DIR)/%.o)
+
 # Rules
 all: $(LIBFT) $(NAME)
 
-# Debug build with debugging symbols and no optimization
-debug: CFLAGS = -Wall -Wextra -Werror -I./includes -I../minilibx_macos -g -O0 -DDEBUG
-debug: $(LIBFT) $(NAME)
+# Bonus target
+bonus: $(BONUS_NAME)
 
-# Profile build with profiling enabled
-profile: CFLAGS += -pg -fprofile-arcs
-profile: LDFLAGS += -pg
-profile: $(LIBFT) $(NAME)
+$(BONUS_NAME): $(BONUS_OBJS) $(BONUS_LIBFT)
+	$(CC) $(CFLAGS) $(BONUS_OBJS) -o $(BONUS_NAME) -L$(BONUS_LIBFT_DIR) -lft $(LDFLAGS)
 
-# Ultra-optimized build for maximum performance (experimental)
-ultra: CFLAGS = -Wall -Wextra -Werror -I./includes -I../minilibx_macos \
-         -Ofast -ffast-math -funroll-loops -ftree-vectorize \
-         -floop-interchange -floop-unroll-and-jam \
-         -fprefetch-loop-arrays -falign-functions=64 \
-         -falign-loops=64 -fomit-frame-pointer \
-         -march=native -mtune=native -mcpu=native \
-         -flto -fwhole-program -fuse-linker-plugin \
-         -finline-functions -finline-limit=5000 \
-         -fgcse-after-reload -fipa-cp-clone \
-         -fmodulo-sched -fmodulo-sched-allow-regmoves \
-         -ftree-loop-distribute-patterns -ftree-loop-im \
-         -ftree-loop-ivcanon -floop-nest-optimize \
-         -fgraphite-identity -floop-parallelize-all \
-         -fpredictive-commoning -fsplit-wide-types \
-         -ftree-partial-pre -fvect-cost-model=unlimited \
-         -falign-jumps=64 -falign-labels=64 \
-         -fno-stack-protector -fno-unwind-tables \
-         -fno-asynchronous-unwind-tables -fno-plt \
-         -fdevirtualize-at-ltrans -fipa-pta \
-         -ftracer -frename-registers \
-         -DNDEBUG -DULTRA_FAST
-ultra: LDFLAGS += -flto -fuse-linker-plugin -Wl,-O3,-sort-common,--as-needed
-ultra: $(LIBFT) $(NAME)
+$(BONUS_OBJ_DIR)/%.o: $(BONUS_DIR)/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(BONUS_CFLAGS) $(BONUS_INCLUDES) -c $< -o $@
 
 $(LIBFT):
 	@make -C $(LIBFT_DIR)
+
+$(BONUS_LIBFT):
+	@make -C $(BONUS_LIBFT_DIR)
 
 $(NAME): $(OBJS) $(LIBFT)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -L$(LIBFT_DIR) -lft $(LDFLAGS)
@@ -76,23 +74,18 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
-	@rm -rf $(OBJ_DIR)
+	@rm -rf $(OBJ_DIR) $(BONUS_OBJ_DIR)
 	@make -C $(LIBFT_DIR) clean
+	@make -C $(BONUS_LIBFT_DIR) clean
 
 fclean: clean
-	@rm -f $(NAME)
+	@rm -f $(NAME) $(BONUS_NAME)
 	@make -C $(LIBFT_DIR) fclean
+	@make -C $(BONUS_LIBFT_DIR) fclean
 
 re: fclean all
 
-# Run tests
-test: all
-	@echo "Running tests..."
-	@cd tests && make
+# Bonus re-compilation
+re_bonus: fclean bonus
 
-# Run tests with clean logs
-test-re: all
-	@echo "Cleaning test logs and running tests..."
-	@cd tests && make re
-
-.PHONY: all clean fclean re debug profile ultra test test-re
+.PHONY: all bonus clean fclean re re_bonus

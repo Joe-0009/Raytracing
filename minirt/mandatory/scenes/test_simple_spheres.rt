@@ -1,0 +1,19 @@
+# Simple Multiple Spheres Test
+# A basic scene with just a few spheres for quick testing
+
+# Ambient lighting
+A 0.2 255,255,255
+
+# Camera
+C 0,0,-20 0,0,1 120
+
+# Light source
+L -10,10,-5 0.7 255,255,255
+
+# Three spheres in a row
+sp -15,0,10 8 255,0,0
+sp 0,0,10 8 0,255,0
+sp 15,0,10 8 0,0,255
+
+# One sphere in front
+sp 0,0,0 5 255,255,0

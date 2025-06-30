@@ -1,0 +1,14 @@
+# Single Plane Test Scene
+# This scene contains one plane to test basic plane intersection
+
+# Ambient lighting - soft white light at 20% intensity
+A 0.2 255,255,255
+
+# Camera positioned to view the plane from an angle
+C 0,5,-10 0,-0.3,1 70
+
+# Light source positioned above and to the left
+L -10,10,-5 0.7 255,255,255
+
+# Ground plane - horizontal gray plane
+pl 0,0,0 0,1,0 128,128,128

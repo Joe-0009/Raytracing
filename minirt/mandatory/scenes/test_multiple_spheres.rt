@@ -1,0 +1,39 @@
+# Multiple Spheres Test Scene
+# This scene contains several spheres with different positions, sizes, and colors
+# to test the parsing and rendering of multiple objects
+
+# Ambient lighting - soft white light at 20% intensity
+A 0.2 255,255,255
+
+# Camera positioned to view all spheres
+C 0,0,-30 0,0,1 150
+
+# Light source positioned above and to the left
+L -20,20,-10 0.7 255,255,255
+
+# Large red sphere in the center
+sp 0,0,20 15 255,0,0
+
+# Medium blue sphere to the right
+sp 25,0,20 10 0,0,255
+
+# Small green sphere to the left
+sp -25,0,20 8 0,255,0
+
+# Yellow sphere above center
+sp 0,15,20 6 255,255,0
+
+# Purple sphere below center
+sp 0,-15,20 6 255,0,255
+
+# Orange sphere in the back
+sp 0,0,35 12 255,165,0
+
+# Small white sphere in front
+sp 0,0,5 4 255,255,255
+
+# Cyan sphere to the back-right
+sp 15,0,30 7 0,255,255
+
+# Pink sphere to the back-left
+sp -15,0,30 7 255,192,203
