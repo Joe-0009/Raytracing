@@ -29,6 +29,7 @@ int	parse_double(char *str, double *value)
 	*value = result;
 	return (TRUE);
 }
+
 int	parse_color(char *str, t_color3 *color)
 {
 	char	**tokens;
@@ -57,6 +58,7 @@ int	parse_color(char *str, t_color3 *color)
 	free_tokens(tokens);
 	return (success);
 }
+
 int	parse_vector(char *str, t_vec3 *vec)
 {
 	char	**tokens;
