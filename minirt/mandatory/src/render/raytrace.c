@@ -6,39 +6,28 @@
 #include <math.h>
 
 /*
-** Calculate camera basis vectors
-*/
-static void	calculate_camera_basis(const t_scene *scene, t_vec3 *right,
-		t_vec3 *up)
-{
-	t_vec3	forward;
-	t_vec3	world_up;
-
-	forward = vec3_normalize(scene->camera.orientation);
-	world_up = vec3_create(0, 1, 0);
-	*right = vec3_normalize(vec3_cross(forward, world_up));
-	*up = vec3_cross(*right, forward);
-}
-
-/*
 ** Generate a camera ray for a given pixel (x, y)
 */
 t_ray	generate_camera_ray(const t_scene *scene, int x, int y)
 {
-	t_ray	ray;
-	t_vec3	right;
-	t_vec3	up;
-	double	pixel_scale;
-	double	u;
-	double	v;
+	t_ray				ray;
+	t_camera_vectors	camera_vectors;
+	double				pixel_scale;
+	double				u;
+	double				v;
 
 	ray.origin = scene->camera.position;
-	calculate_camera_basis(scene, &right, &up);
+	camera_vectors.forward = vec3_normalize(scene->camera.orientation);
+	camera_vectors.right = vec3_normalize(vec3_cross(camera_vectors.forward,
+				vec3_create(0, 1, 0)));
+	camera_vectors.up = vec3_cross(camera_vectors.right,
+			camera_vectors.forward);
 	pixel_scale = tan((scene->camera.fov * M_PI / 180.0) / 2.0) / (WIDTH / 2.0);
 	u = (x - WIDTH / 2.0) * pixel_scale;
 	v = (HEIGHT / 2.0 - y) * pixel_scale;
-	ray.direction = vec3_normalize(vec3_add(vec3_add(vec3_mult(right, u),
-					vec3_mult(up, v)),
+	ray.direction = vec3_normalize(vec3_add(vec3_add(vec3_mult(
+						camera_vectors.right, u),
+					vec3_mult(camera_vectors.up, v)),
 				vec3_normalize(scene->camera.orientation)));
 	return (ray);
 }

@@ -23,6 +23,13 @@ typedef struct s_camera
 	double			fov;
 }					t_camera;
 
+typedef struct s_camera_vectors
+{
+	t_vec3			forward;
+	t_vec3			right;
+	t_vec3			up;
+}					t_camera_vectors;
+
 typedef struct s_ambient
 {
 	double			ratio;

@@ -25,14 +25,14 @@ void	transform_update_matrix(t_transform *transform)
 	t_matrix4	rotation_combined;
 
 	temp = matrix4_scale(transform->scale);
-	rotation_combined = matrix4_multiply(matrix4_rotation_x(transform->rotation.x),
-			temp);
-	rotation_combined = matrix4_multiply(matrix4_rotation_y(transform->rotation.y),
-			rotation_combined);
-	rotation_combined = matrix4_multiply(matrix4_rotation_z(transform->rotation.z),
-			rotation_combined);
-	transform->matrix = matrix4_multiply(matrix4_translation(transform->translation),
-			rotation_combined);
+	rotation_combined = matrix4_multiply(
+			matrix4_rotation_x(transform->rotation.x), temp);
+	rotation_combined = matrix4_multiply(
+			matrix4_rotation_y(transform->rotation.y), rotation_combined);
+	rotation_combined = matrix4_multiply(
+			matrix4_rotation_z(transform->rotation.z), rotation_combined);
+	transform->matrix = matrix4_multiply(
+			matrix4_translation(transform->translation), rotation_combined);
 }
 
 /*
@@ -73,15 +73,17 @@ void	scene_rotate_object(t_scene *scene, int obj_index, t_vec3 rotation)
 		return ;
 	else if (scene->objects[obj_index].type == PLANE)
 	{
-		scene->objects[obj_index].data.plane.normal = vec3_rotate_around_axis(scene->objects[obj_index].data.plane.normal,
-				axis, angle);
-		scene->objects[obj_index].data.plane.normal = vec3_normalize(scene->objects[obj_index].data.plane.normal);
+		scene->objects[obj_index].data.plane.normal = vec3_rotate_around_axis(
+				scene->objects[obj_index].data.plane.normal, axis, angle);
+		scene->objects[obj_index].data.plane.normal = vec3_normalize(
+				scene->objects[obj_index].data.plane.normal);
 	}
 	else if (scene->objects[obj_index].type == CYLINDER)
 	{
-		scene->objects[obj_index].data.cylinder.axis = vec3_rotate_around_axis(scene->objects[obj_index].data.cylinder.axis,
-				axis, angle);
-		scene->objects[obj_index].data.cylinder.axis = vec3_normalize(scene->objects[obj_index].data.cylinder.axis);
+		scene->objects[obj_index].data.cylinder.axis = vec3_rotate_around_axis(
+				scene->objects[obj_index].data.cylinder.axis, axis, angle);
+		scene->objects[obj_index].data.cylinder.axis = vec3_normalize(
+				scene->objects[obj_index].data.cylinder.axis);
 	}
 }
 

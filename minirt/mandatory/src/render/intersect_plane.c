@@ -3,6 +3,28 @@
 #include <math.h>
 
 /*
+** Compute the quadratic coefficients for a ray-cylinder intersection.
+** Returns a t_quadratic struct with the coefficients a, b, c.
+*/
+t_quadratic	cylinder_quadratic_coeffs(const t_cylinder *cylinder, t_ray ray)
+{
+	t_vec3		oc;
+	t_vec3		ray_axis_cross;
+	t_vec3		oc_axis_cross;
+	double		radius;
+	t_quadratic	q;
+
+	oc = vec3_sub(ray.origin, cylinder->center);
+	radius = cylinder->diameter / 2.0;
+	ray_axis_cross = vec3_cross(ray.direction, cylinder->axis);
+	oc_axis_cross = vec3_cross(oc, cylinder->axis);
+	q.a = vec3_dot(ray_axis_cross, ray_axis_cross);
+	q.b = 2.0 * vec3_dot(ray_axis_cross, oc_axis_cross);
+	q.c = vec3_dot(oc_axis_cross, oc_axis_cross) - radius * radius;
+	return (q);
+}
+
+/*
 ** Calculate intersection with plane
 ** Returns 1 if hit, 0 if no hit
 */

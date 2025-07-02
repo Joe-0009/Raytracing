@@ -1,4 +1,3 @@
-
 #include "../includes/events.h"
 #include "../includes/scene.h"
 #include <stdio.h>
