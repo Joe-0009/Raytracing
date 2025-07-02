@@ -97,6 +97,7 @@ int	intersect_cylinder(const t_cylinder *cylinder, t_ray ray, t_hit *hit)
 	double		t;
 	int			cap_hit;
 
+	cap_hit = 0;
 	cap_hit = check_cap_hit(cylinder, ray, hit, 0) || check_cap_hit(cylinder,
 			ray, hit, cylinder->height);
 	q = cylinder_quadratic_coeffs(cylinder, ray);
