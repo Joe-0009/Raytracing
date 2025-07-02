@@ -31,20 +31,26 @@ int	trace_objects(const t_scene *scene, t_ray ray, t_hit *closest_hit)
 {
 	int		i;
 	int		hit_found;
-	double	min_distance;
+	t_hit	temp_hit;
+	double	closest_distance;
 
-	closest_hit->t = -1.0;
 	hit_found = 0;
-	min_distance = 0.002;
+	closest_distance = INFINITY;
 	if (scene->num_objects == 0)
 		return (0);
 	i = 0;
 	while (i < scene->num_objects)
 	{
-		if (hit_found && closest_hit->t < min_distance)
-			break ;
-		if (trace_object(&scene->objects[i], ray, closest_hit, i))
-			hit_found = 1;
+		temp_hit.t = -1.0;
+		if (trace_object(&scene->objects[i], ray, &temp_hit, i))
+		{
+			if (temp_hit.t > 0.001 && temp_hit.t < closest_distance)
+			{
+				*closest_hit = temp_hit;
+				closest_distance = temp_hit.t;
+				hit_found = 1;
+			}
+		}
 		i++;
 	}
 	return (hit_found);

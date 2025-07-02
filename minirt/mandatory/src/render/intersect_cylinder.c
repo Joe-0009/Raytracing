@@ -95,11 +95,13 @@ int	intersect_cylinder(const t_cylinder *cylinder, t_ray ray, t_hit *hit)
 {
 	t_quadratic	q;
 	double		t;
+	int			top_cap_hit;
+	int			bottom_cap_hit;
 	int			cap_hit;
 
-	cap_hit = 0;
-	cap_hit = check_cap_hit(cylinder, ray, hit, 0) || check_cap_hit(cylinder,
-			ray, hit, cylinder->height);
+	bottom_cap_hit = check_cap_hit(cylinder, ray, hit, 0);
+	top_cap_hit = check_cap_hit(cylinder, ray, hit, cylinder->height);
+	cap_hit = bottom_cap_hit || top_cap_hit;
 	q = cylinder_quadratic_coeffs(cylinder, ray);
 	if (fabs(q.a) < 0.0001)
 		return (cap_hit);
@@ -108,7 +110,5 @@ int	intersect_cylinder(const t_cylinder *cylinder, t_ray ray, t_hit *hit)
 		return (cap_hit);
 	if (!check_cylinder_surface(cylinder, ray, hit, t))
 		return (cap_hit);
-	if (cap_hit && t >= hit->t)
-		return (1);
 	return (1);
 }
