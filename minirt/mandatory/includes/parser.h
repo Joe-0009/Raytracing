@@ -11,75 +11,75 @@ typedef struct s_parser
 	int		has_camera;
 }			t_parser;
 
-/* Error codes */
+/* General error codes */
 # define ERR_ARGS "Error: Invalid number of arguments\n"
 # define ERR_FORMAT "Error: Invalid file format\n"
 # define ERR_SCENE "Error: Invalid scene configuration\n"
+# define ERR_MEMORY "Error: Memory allocation failed\n"
+# define ERR_VALUE_RANGE "Error: Value out of allowed range\n"
 
-# define ERR_AMBIENT_FORMAT "Error: Invalid ambient lighting format\n"
-# define ERR_CAMERA_FORMAT "Error: Invalid camera format\n"
-# define ERR_LIGHT_FORMAT "Error: Invalid light format\n"
-# define ERR_SPHERE_FORMAT "Error: Invalid sphere format\n"
-# define ERR_PLANE_FORMAT "Error: Invalid plane format\n"
-# define ERR_CYLINDER_FORMAT "Error: Invalid cylinder format\n"
+/* File and parsing errors */
+# define ERR_FILE_EXTENSION "Error: File must have .rt extension\n"
+# define ERR_FILE_ACCESS "Error: Could not open file %s\n"
 # define ERR_UNKNOWN_ELEMENT "Error: Unknown element in scene file\n"
 # define ERR_DUPLICATE_ELEMENT "Error: Duplicate unique element in scene file\n"
 # define ERR_MISSING_ELEMENT "Error: Required element missing in scene file\n"
+# define ERR_UNKNOWN_IDENTIFIER "Error: Line %d: Unknown identifier '%s'\n"
 # define ERR_VECTOR_FORMAT "Error: Invalid vector format\n"
 # define ERR_COLOR_FORMAT "Error: Invalid color format\n"
-# define ERR_VALUE_RANGE "Error: Value out of allowed range\n"
-# define ERR_FILE_EXTENSION "Error: File must have .rt extension\n"
-# define ERR_FILE_ACCESS "Error: Could not open file %s\n"
-# define ERR_UNKNOWN_IDENTIFIER "Error: Line %d: Unknown identifier '%s'\n"
-# define ERR_MEMORY "Error: Memory allocation failed\n"
 
-/* Additional error messages for printf statements */
+/* Scene validation errors */
+# define ERR_SCENE_NO_CAMERA "Error: Camera not defined\n"
+# define ERR_SCENE_NO_AMBIENT "Error: Ambient lighting not defined\n"
+# define ERR_SCENE_NO_LIGHT "Error: Light source not defined\n"
+# define ERR_SCENE_NO_CAMERA_RENDER "Error: No camera in scene\n"
+
+/* Camera related errors */
+# define ERR_CAMERA_FORMAT "Error: Invalid camera format\n"
+# define ERR_CAMERA_FOV_RANGE "Camera FOV must be in [0, 180] degrees\n"
+# define ERR_CAMERA_ORIENTATION_ZERO "Error: Camera orientation zero\n"
+# define FMT_CAMERA_EXPECTED "Expected format: C x,y,z nx,ny,nz fov\n"
+
+/* Ambient lighting errors */
+# define ERR_AMBIENT_FORMAT "Error: Invalid ambient lighting format\n"
 # define ERR_AMBIENT_ALREADY_DEFINED "Error: Ambient lighting already defined\n"
 # define ERR_AMBIENT_RATIO_RANGE "Error: Ambient ratio must be in [0.0, 1.0]\n"
 # define ERR_AMBIENT_COLOR_INVALID "Error: Invalid color for ambient lighting\n"
-# define ERR_AMBIENT_TOO_MANY_ARGS "Too many arguments for ambient\n"
+# define FMT_AMBIENT_EXPECTED "Expected format: A ratio r,g,b\n"
+
+/* Light source errors */
+# define ERR_LIGHT_FORMAT "Error: Invalid light format\n"
 # define ERR_LIGHT_ALREADY_DEFINED "Error: Light source already defined\n"
 # define ERR_LIGHT_BRIGHTNESS_RANGE "Error: Light brightness in [0.0, 1.0]\n"
 # define ERR_LIGHT_COLOR_INVALID "Error: Invalid color for light source\n"
-# define ERR_LIGHT_TOO_MANY_ARGS "Too many arguments for light source\n"
+# define FMT_LIGHT_EXPECTED "Expected format: L x,y,z brightness r,g,b\n"
+
+/* Sphere related errors */
+# define ERR_SPHERE_FORMAT "Error: Invalid sphere format\n"
 # define ERR_SPHERE_COLOR_INVALID "Error: Invalid color for sphere\n"
-# define ERR_SPHERE_TOO_MANY_ARGS "Too many arguments for sphere\n"
 # define ERR_SPHERE_DIAMETER_POSITIVE "Sphere diameter must be positive\n"
+# define WARN_SPHERE_DIAMETER_SMALL "Warning: Very small sphere diameter\n"
+# define FMT_SPHERE_EXPECTED "Expected format: sp x,y,z diameter r,g,b\n"
+
+/* Plane related errors */
+# define ERR_PLANE_FORMAT "Error: Invalid plane format\n"
 # define ERR_PLANE_COLOR_INVALID "Error: Invalid color for plane\n"
-# define ERR_PLANE_TOO_MANY_ARGS "Too many arguments for plane\n"
 # define ERR_PLANE_NORMAL_ZERO "Error: Plane normal vector cannot be (0,0,0)\n"
 # define ERR_PLANE_NORMAL_NOT_NORMALIZED "Error: Plane normal not normalized\n"
+# define FMT_PLANE_EXPECTED "Expected format: pl x,y,z nx,ny,nz r,g,b\n"
+
+/* Cylinder related errors */
+# define ERR_CYLINDER_FORMAT "Error: Invalid cylinder format\n"
 # define ERR_CYLINDER_COLOR_INVALID "Error: Invalid cylinder color\n"
-# define ERR_CYLINDER_TOO_MANY_ARGS "Too many arguments for cylinder\n"
 # define ERR_CYLINDER_AXIS_ZERO "Error: Cylinder axis cannot be zero\n"
 # define ERR_CYLINDER_AXIS_NOT_NORMALIZED "Error: Cylinder axis not normalized\n"
 # define ERR_CYLINDER_DIMS_POSITIVE "Error: Cylinder dims must be positive\n"
 # define ERR_CYLINDER_HEIGHT_NEGATIVE "Error: Cylinder height negative\n"
-# define ERR_CAMERA_FOV_RANGE "Camera FOV must be in [0, 180] degrees\n"
-# define ERR_SCENE_NO_CAMERA "Error: Camera not defined\n"
-# define ERR_SCENE_NO_AMBIENT "Error: Ambient lighting not defined\n"
-# define ERR_SCENE_NO_LIGHT "Error: Light source not defined\n"
-# define ERR_CAMERA_ORIENTATION_ZERO "Error: Camera orientation zero\n"
-# define ERR_SPHERE_INVALID "Error: Invalid sphere\n"
-# define ERR_CYLINDER_INVALID "Error: Invalid cylinder\n"
-# define ERR_PLANE_INVALID "Error: Invalid plane\n"
-# define ERR_SCENE_NO_CAMERA_RENDER "Error: No camera in scene\n"
-
-/* Warning messages */
-# define WARN_SPHERE_DIAMETER_SMALL "Warning: Very small sphere diameter\n"
-# define WARN_SPHERE_DIAMETER_VERY_SMALL "Warning: Sphere diameter is very small\n"
-# define WARN_CYLINDER_DIAMETER_SMALL "Warning: Very small cylinder diameter\n"
-# define WARN_CYLINDER_HEIGHT_SMALL "Warning: Very small cylinder height\n"
 # define WARN_CYLINDER_DIMS_SMALL "Warning: Cylinder dimensions are very small\n"
-# define WARN_POSITION_FAR "Warning: %s far from origin (%.2f, %.2f, %.2f)\n"
-
-/* Format strings */
-# define FMT_AMBIENT_EXPECTED "Expected format: A ratio r,g,b\n"
-# define FMT_LIGHT_EXPECTED "Expected format: L x,y,z brightness r,g,b\n"
-# define FMT_SPHERE_EXPECTED "Expected format: sp x,y,z diameter r,g,b\n"
-# define FMT_PLANE_EXPECTED "Expected format: pl x,y,z nx,ny,nz r,g,b\n"
 # define FMT_CYLINDER_EXPECTED "Expected: cy x,y,z nx,ny,nz diameter height r,g,b\n"
-# define FMT_CAMERA_EXPECTED "Expected format: C x,y,z nx,ny,nz fov\n"
+
+/* Warning messages - General */
+# define WARN_POSITION_FAR "Warning: %s far from origin (%.2f, %.2f, %.2f)\n"
 
 /* Function prototypes */
 /* File and scene loading */
