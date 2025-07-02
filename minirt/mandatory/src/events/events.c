@@ -1,6 +1,6 @@
 #include "../../includes/events.h"
 #include "../../includes/minirt_app.h"
-#include "../../includes/scene_math.h"
+#include "../../includes/scene.h"
 #include <stdio.h>
 
 void	draw_new_image(t_vars *vars, t_scene *scene)
@@ -8,18 +8,6 @@ void	draw_new_image(t_vars *vars, t_scene *scene)
 	create_image(vars);
 	main_draw(vars, scene);
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
-}
-
-static int	is_redraw_key_mac(int keycode)
-{
-	if (keycode == 13 || keycode == 0 || keycode == 1 || keycode == 2
-		|| keycode == 12 || keycode == 14 || keycode == 34 || keycode == 38
-		|| keycode == 40 || keycode == 37 || keycode == 126 || keycode == 125
-		|| keycode == 123 || keycode == 124 || keycode == 24 || keycode == 27
-		|| keycode == 15 || keycode == 17 || keycode == 3 || keycode == 5
-		|| keycode == 35 || keycode == 31)
-		return (1);
-	return (0);
 }
 
 static int	is_redraw_key(int keycode)
@@ -33,12 +21,12 @@ static int	is_redraw_key(int keycode)
 		|| keycode == KEY_F || keycode == KEY_G || keycode == KEY_P
 		|| keycode == KEY_O)
 		return (1);
-	return (is_redraw_key_mac(keycode));
+	return (0);
 }
 
 int	key_handler(int keycode, t_vars *vars)
 {
-	if (keycode == KEY_ESC || keycode == KEY_ESC_MAC)
+	if (keycode == KEY_ESC)
 		close_window_esc(keycode, vars);
 	else if (vars->scene)
 	{
@@ -48,7 +36,7 @@ int	key_handler(int keycode, t_vars *vars)
 		if (is_redraw_key(keycode))
 			draw_new_image(vars, vars->scene);
 	}
-	if (keycode == KEY_SPACE || keycode == KEY_SPACE_MAC)
+	if (keycode == KEY_SPACE)
 		print_controls_help();
 	return (0);
 }

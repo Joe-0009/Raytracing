@@ -1,4 +1,5 @@
-#include "../includes/scene_math.h"
+#include "../includes/events.h"
+#include "../includes/scene.h"
 #include <stdio.h>
 
 /*
@@ -35,95 +36,6 @@ void	transform_update_matrix(t_transform *transform)
 }
 
 /*
-** Add translation to transform
-*/
-void	transform_translate(t_transform *transform, t_vec3 translation)
-{
-	transform->translation = vec3_add(transform->translation, translation);
-	transform_update_matrix(transform);
-}
-
-/*
-** Add rotation to transform
-*/
-void	transform_rotate(t_transform *transform, t_vec3 rotation)
-{
-	transform->rotation = vec3_add(transform->rotation, rotation);
-	transform_update_matrix(transform);
-}
-
-/*
-** Apply uniform scale to transform
-*/
-void	transform_scale_uniform(t_transform *transform, double scale)
-{
-	transform->scale = vec3_mult(transform->scale, scale);
-	transform_update_matrix(transform);
-}
-
-/*
-** Apply non-uniform scale to transform
-*/
-void	transform_scale(t_transform *transform, t_vec3 scale)
-{
-	transform->scale.x *= scale.x;
-	transform->scale.y *= scale.y;
-	transform->scale.z *= scale.z;
-	transform_update_matrix(transform);
-}
-
-/*
-** Transform a sphere
-*/
-void	transform_sphere(t_sphere *sphere, t_transform *transform)
-{
-	sphere->center = matrix4_transform_point(transform->matrix, sphere->center);
-	/* ** For sphere diameter, use uniform scale factor ** */
-	if (transform->scale.x == transform->scale.y
-		&& transform->scale.y == transform->scale.z)
-		sphere->diameter *= transform->scale.x;
-}
-
-/*
-** Transform a plane
-*/
-void	transform_plane(t_plane *plane, t_transform *transform)
-{
-	plane->point = matrix4_transform_point(transform->matrix, plane->point);
-	plane->normal = matrix4_transform_direction(transform->matrix,
-			plane->normal);
-}
-
-/*
-** Transform a cylinder
-*/
-void	transform_cylinder(t_cylinder *cylinder, t_transform *transform)
-{
-	cylinder->center = matrix4_transform_point(transform->matrix,
-			cylinder->center);
-	cylinder->axis = matrix4_transform_direction(transform->matrix,
-			cylinder->axis);
-	/* ** For cylinder diameter, use uniform scale factor ** */
-	if (transform->scale.x == transform->scale.y
-		&& transform->scale.y == transform->scale.z)
-	{
-		cylinder->diameter *= transform->scale.x;
-		cylinder->height *= transform->scale.y;
-	}
-}
-
-/*
-** Transform a camera
-*/
-void	transform_camera(t_camera *camera, t_transform *transform)
-{
-	camera->position = matrix4_transform_point(transform->matrix,
-			camera->position);
-	camera->orientation = matrix4_transform_direction(transform->matrix,
-			camera->orientation);
-}
-
-/*
 ** Translate object in scene
 */
 void	scene_translate_object(t_scene *scene, int obj_index, t_vec3 delta)
@@ -153,27 +65,20 @@ void	scene_rotate_object(t_scene *scene, int obj_index, t_vec3 rotation)
 
 	if (obj_index < 0 || obj_index >= scene->num_objects)
 		return ;
-	/* Convert rotation vector to axis and angle */
 	angle = vec3_length(rotation);
-	if (angle < 0.0001) // Too small to rotate
+	if (angle < 0.0001)
 		return ;
 	axis = vec3_normalize(rotation);
-	/* Apply rotation based on object type */
 	if (scene->objects[obj_index].type == SPHERE)
-	{
-		/* Spheres don't need rotation as they look the same from all angles */
 		return ;
-	}
 	else if (scene->objects[obj_index].type == PLANE)
 	{
-		/* Rotate plane normal */
 		scene->objects[obj_index].data.plane.normal = vec3_rotate_around_axis(scene->objects[obj_index].data.plane.normal,
 				axis, angle);
 		scene->objects[obj_index].data.plane.normal = vec3_normalize(scene->objects[obj_index].data.plane.normal);
 	}
 	else if (scene->objects[obj_index].type == CYLINDER)
 	{
-		/* Rotate cylinder axis */
 		scene->objects[obj_index].data.cylinder.axis = vec3_rotate_around_axis(scene->objects[obj_index].data.cylinder.axis,
 				axis, angle);
 		scene->objects[obj_index].data.cylinder.axis = vec3_normalize(scene->objects[obj_index].data.cylinder.axis);
@@ -196,28 +101,4 @@ void	scene_scale_object(t_scene *scene, int obj_index, double scale)
 	else if (scene->objects[obj_index].type == CYLINDER)
 		transform_cylinder(&scene->objects[obj_index].data.cylinder,
 			&transform);
-}
-
-/*
-** Translate camera in scene
-*/
-void	scene_translate_camera(t_scene *scene, t_vec3 delta)
-{
-	t_transform	transform;
-
-	transform = transform_identity();
-	transform_translate(&transform, delta);
-	transform_camera(&scene->camera, &transform);
-}
-
-/*
-** Rotate camera in scene
-*/
-void	scene_rotate_camera(t_scene *scene, t_vec3 rotation)
-{
-	t_transform	transform;
-
-	transform = transform_identity();
-	transform_rotate(&transform, rotation);
-	transform_camera(&scene->camera, &transform);
 }

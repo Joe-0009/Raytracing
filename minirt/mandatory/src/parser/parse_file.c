@@ -32,35 +32,20 @@ int	validate_extension_and_permission(const char *filename, t_scene *scene)
 	int			fd;
 
 	extension = strrchr(filename, '.');
-	if (!extension || ft_strncmp(extension, ".rt", 3) != 0)
+	if (!extension || ft_strncmp(extension, ".rt", 4) != 0)
 	{
 		printf(ERR_FILE_EXTENSION);
-		free(scene);
+		ft_free_scene(&scene);
 		return (-1);
 	}
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 	{
 		printf(ERR_FILE_ACCESS, filename);
-		free(scene);
+		ft_free_scene(&scene);
 		return (-1);
 	}
 	return (fd);
-}
-
-int	is_empty_line(const char *line)
-{
-	int	i;
-
-	i = 0;
-	while (line[i])
-	{
-		if (line[i] != ' ' && line[i] != '\t' && line[i] != '\n'
-			&& line[i] != '\r')
-			return (FALSE);
-		i++;
-	}
-	return (TRUE);
 }
 
 int	dispatch_parse_token(char **tokens, t_scene *scene)
@@ -96,37 +81,22 @@ int	process_scene_line(t_parser *parser, t_scene *scene, char *line)
 	parser->line_count++;
 	parser->line = line;
 	if (is_empty_line(line))
-	{
-		free(line);
-		parser->line = NULL;
-		return (1);
-	}
+		return (ft_free((void **)&line), 1);
 	parser->tokens = ft_split(line, " \t\n\r");
 	if (!parser->tokens || !parser->tokens[0] || parser->tokens[0][0] == '#')
-	{
-		free(line);
-		free_tokens(parser->tokens);
-		parser->tokens = NULL;
-		parser->line = NULL;
-		return (1);
-	}
+		return (ft_free((void **)&line), free_tokens(parser->tokens), 1);
 	parse_result = dispatch_parse_token(parser->tokens, scene);
 	if (!parse_result)
 	{
 		if (parser->tokens && parser->tokens[0])
 		{
 			printf("Error: Unknown identifier: ");
-			printf("%s", parser->tokens[0]);
-			printf("\n");
+			printf("%s\n", parser->tokens[0]);
 		}
 		else
 			printf("Error: Invalid line format\n");
 	}
-	free(line);
-	free_tokens(parser->tokens);
-	parser->tokens = NULL;
-	parser->line = NULL;
-	return (parse_result);
+	return (ft_free((void **)&line), free_tokens(parser->tokens), parse_result);
 }
 
 t_scene	*parse_scene_file(char *filename)
@@ -138,8 +108,6 @@ t_scene	*parse_scene_file(char *filename)
 	int			result;
 
 	scene = (t_scene *)malloc(sizeof(t_scene));
-	if (!scene)
-		return (NULL);
 	init_parser_and_scene(&parser, scene);
 	fd = validate_extension_and_permission(filename, scene);
 	if (fd == -1)
@@ -149,13 +117,13 @@ t_scene	*parse_scene_file(char *filename)
 	{
 		result = process_scene_line(&parser, scene, line);
 		if (result == 0)
-			return (close(fd), free(scene), NULL);
+			return (close(fd), ft_free_scene(&scene), NULL);
 		line = get_next_line(fd);
 	}
 	close(fd);
 	if (parser.line_count == 0)
-		return (printf("Error: Empty file\n"), free(scene), NULL);
+		return (printf("Error: Empty file\n"), ft_free_scene(&scene), NULL);
 	if (!validate_scene(scene))
-		return (free(scene), NULL);
+		return (ft_free_scene(&scene), NULL);
 	return (scene);
 }

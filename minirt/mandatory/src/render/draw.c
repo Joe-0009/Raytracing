@@ -1,5 +1,5 @@
 #include "../../includes/minirt_app.h"
-#include "../../includes/scene_math.h"
+#include "../../includes/scene.h"
 #include <stdio.h>
 
 /*

@@ -1,7 +1,7 @@
 #ifndef PARSER_H
 # define PARSER_H
 
-# include "scene_math.h"
+# include "scene.h"
 
 typedef struct s_parser
 {
@@ -10,6 +10,11 @@ typedef struct s_parser
 	int		line_count;
 	int		has_camera;
 }			t_parser;
+
+/* Error codes */
+# define ERR_ARGS "Error: Invalid number of arguments\n"
+# define ERR_FORMAT "Error: Invalid file format\n"
+# define ERR_SCENE "Error: Invalid scene configuration\n"
 
 # define ERR_AMBIENT_FORMAT "Error: Invalid ambient lighting format\n"
 # define ERR_CAMERA_FORMAT "Error: Invalid camera format\n"
@@ -103,7 +108,13 @@ int			validate_position(t_point3 pos, const char *type);
 int			validate_non_zero_vector(t_vec3 vec);
 int			validate_normalized_vector(t_vec3 vec);
 int			validate_plane_normal(t_vec3 *normal);
+
+/* Memory management utilities */
+void		ft_free(void **ptr);
+void		ft_free_array(char ***tokens);
+void		ft_free_scene(t_scene **scene);
 void		free_tokens(char **tokens);
+int			is_empty_line(const char *line);
 
 /* Scene management functions */
 int			add_object_to_scene(t_scene *scene, int type, void *object_data);

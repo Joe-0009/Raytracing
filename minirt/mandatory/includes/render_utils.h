@@ -2,7 +2,7 @@
 # define RENDER_UTILS_H
 
 # include "minirt_app.h"
-# include "scene_math.h"
+# include "scene.h"
 
 /* Color utilities */
 int			color_to_int(t_color3 color);
@@ -15,7 +15,6 @@ void		put_pixel(t_vars *vars, int x, int y, int color);
 void		main_draw(t_vars *vars, t_scene *scene);
 
 /* Lighting utilities */
-t_color3	calculate_ambient(const t_scene *scene, const t_hit *hit);
 t_color3	calculate_diffuse(const t_scene *scene, const t_hit *hit);
 int			is_in_shadow(const t_scene *scene, const t_vec3 point,
 				const t_vec3 light_pos);

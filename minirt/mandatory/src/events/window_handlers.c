@@ -12,7 +12,7 @@ int	close_window_x(t_vars *vars)
 int	close_window_esc(int keycode, t_vars *vars)
 {
 	(void)vars;
-	if (keycode == KEY_ESC || keycode == KEY_ESC_MAC)
+	if (keycode == KEY_ESC)
 		exit(0);
 	return (0);
 }

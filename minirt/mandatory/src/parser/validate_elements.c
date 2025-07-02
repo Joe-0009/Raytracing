@@ -12,7 +12,6 @@ int	validate_plane_normal(t_vec3 *normal)
 	return (TRUE);
 }
 
-
 int	validate_sphere(t_sphere *sphere)
 {
 	if (!validate_position(sphere->center, "Sphere"))

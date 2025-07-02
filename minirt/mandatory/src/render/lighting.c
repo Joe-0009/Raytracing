@@ -1,5 +1,6 @@
 #include "../includes/constants.h"
 #include "../includes/minirt_app.h"
+#include "../includes/render_utils.h"
 #include <math.h>
 
 /*

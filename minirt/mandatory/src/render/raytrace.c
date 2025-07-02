@@ -1,7 +1,8 @@
 #include "../includes/constants.h"
 #include "../includes/events.h"
 #include "../includes/minirt_app.h"
-#include "../includes/scene_math.h"
+#include "../includes/render_utils.h"
+#include "../includes/scene.h"
 #include <math.h>
 
 /*

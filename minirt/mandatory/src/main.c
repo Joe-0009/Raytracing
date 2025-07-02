@@ -1,5 +1,6 @@
 #include "../includes/events.h"
 #include "../includes/minirt_app.h"
+#include "../includes/parser.h"
 #include "../includes/render_utils.h"
 #include <stdio.h>
 
@@ -110,7 +111,7 @@ int	main(int argc, char **argv)
 	t_vars	vars;
 
 	if (argc != 2)
-		error_exit(ERR_ARGS);
+		error_exit(ERR_FILE_ACCESS);
 	scene = parse_scene_file(argv[1]);
 	if (!scene)
 		error_exit(ERR_SCENE);
@@ -121,6 +122,6 @@ int	main(int argc, char **argv)
 	mlx_hooks(&vars);
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.img->img, 0, 0);
 	mlx_loop(vars.mlx);
-	free(scene);
+	ft_free_scene(&scene);
 	return (0);
 }
