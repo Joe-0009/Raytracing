@@ -1,0 +1,51 @@
+#include "../includes/minirt_app_bonus.h"
+#include "../includes/scene_bonus.h"
+
+int	parse_cylinder(char **tokens, t_scene *scene)
+{
+	t_cylinder	cylinder;
+
+	if (!tokens[1] || !tokens[2] || !tokens[3] || !tokens[4] || !tokens[5])
+		return (printf(ERR_CYLINDER_FORMAT), printf(FMT_CYLINDER_EXPECTED),
+			FALSE);
+	if (!parse_vector(tokens[1], &cylinder.center))
+		return (FALSE);
+	if (!parse_vector(tokens[2], &cylinder.axis))
+		return (FALSE);
+	if (!parse_double(tokens[3], &cylinder.diameter))
+		return (FALSE);
+	if (!parse_double(tokens[4], &cylinder.height))
+		return (FALSE);
+	if (!parse_color(tokens[5], &cylinder.color))
+		return (printf(ERR_CYLINDER_COLOR_INVALID), FALSE);
+	if (tokens[6])
+		return (printf(ERR_CYLINDER_FORMAT), printf(FMT_CYLINDER_EXPECTED),
+			FALSE);
+	cylinder.axis = vec3_normalize(cylinder.axis);
+	if (!add_object_to_scene(scene, CYLINDER, &cylinder))
+		return (FALSE);
+	return (TRUE);
+}
+
+int	parse_cone(char **tokens, t_scene *scene)
+{
+	t_cone cone;
+
+	if (!tokens[1] || !tokens[2] || !tokens[3] || !tokens[4] || !tokens[5]
+		|| tokens[6])
+		return (printf(ERR_CONE_FORMAT), printf(FMT_CONE_EXPECTED), FALSE);
+	if (!parse_vector(tokens[1], &cone.center))
+		return (FALSE);
+	if (!parse_vector(tokens[2], &cone.axis))
+		return (FALSE);
+	if (!parse_double(tokens[3], &cone.diameter))
+		return (FALSE);
+	if (!parse_double(tokens[4], &cone.height))
+		return (FALSE);
+	if (!parse_color(tokens[5], &cone.color))
+		return (FALSE);
+	cone.axis = vec3_normalize(cone.axis);
+	if (!add_object_to_scene(scene, CONE, &cone))
+		return (FALSE);
+	return (TRUE);
+}

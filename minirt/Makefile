@@ -1,7 +1,7 @@
 # Makefile for miniRT
 
 NAME = miniRT
-BONUS_NAME = miniRT_bonus
+BONUS_NAME = minirt_bonus
 
 # Compiler and flags
 CC = gcc
@@ -44,7 +44,7 @@ SRCS = $(shell find $(SRC_DIR) -name '*.c')
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 # Bonus files
-BONUS_SRCS = $(shell find $(BONUS_DIR) -name '*.c' 2>/dev/null || echo "")
+BONUS_SRCS = $(shell find $(BONUS_DIR) -name '*_bonus.c' 2>/dev/null || echo "")
 BONUS_OBJS = $(BONUS_SRCS:$(BONUS_DIR)/%.c=$(BONUS_OBJ_DIR)/%.o)
 
 # Rules

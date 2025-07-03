@@ -1,0 +1,21 @@
+# Test scene with all primitives: sphere, cylinder, cone, and plane
+A 0.2 255,255,255
+
+C 0,3,10 0,0,-1 70
+
+L 8,8,8 0.7 255,255,255
+
+# Gray floor plane
+pl 0,-1,0 0,1,0 128,128,128
+
+# Red sphere
+sp -3,1,0 2 255,0,0
+
+# Green vertical cylinder
+cy 0,0,0 0,1,0 1.5 3 0,255,0
+
+# Blue horizontal cylinder
+cy 3,1,0 1,0,0 1 2 0,0,255
+
+# Yellow cone
+cn 0,0,-3 0,1,0 30 3 255,255,0

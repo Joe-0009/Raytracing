@@ -5,7 +5,7 @@
 A 0.15 255,255,255
 
 # Camera positioned inside the box looking outward
-C 0,5,5 0,-0.2,0.8 60
+C 0,2,-1 0,-0.2,0.8 60
 
 # Primary light source positioned above
 L 5,12,8 0.9 255,255,255
@@ -24,3 +24,7 @@ pl -12,0,0 1,0,0 255,120,120
 
 # Right wall - vertical green wall
 pl 12,0,0 -1,0,0 120,255,120
+
+sp 0,3,1 0.5 255,255,0
+
+cy 0,1,0 0,1,0 0.5 2 255,0,255
