@@ -2,16 +2,6 @@
 #include <math.h>
 #include <stdio.h>
 
-int	validate_plane_normal(t_vec3 *normal)
-{
-	if (!validate_non_zero_vector(*normal))
-		return (printf(ERR_PLANE_FORMAT), FALSE);
-	*normal = vec3_normalize(*normal);
-	if (!validate_normalized_vector(*normal))
-		return (printf(ERR_PLANE_FORMAT), FALSE);
-	return (TRUE);
-}
-
 int	validate_plane(t_plane *plane)
 {
 	if (!validate_position(plane->point, "Plane"))
@@ -54,7 +44,7 @@ int	validate_cylinder(t_cylinder *cylinder)
 	return (TRUE);
 }
 
-int validate_cone(t_cone *cone)
+int	validate_cone(t_cone *cone)
 {
 	if (!validate_position(cone->vertex, "Cone"))
 		return (FALSE);
@@ -63,8 +53,7 @@ int validate_cone(t_cone *cone)
 	if (!validate_normalized_vector(cone->axis))
 		return (printf(ERR_CONE_AXIS_NOT_NORMALIZED), FALSE);
 	if (cone->height <= 0.0)
-		return (printf(ERR_CONE_FORMAT), printf(ERR_CONE_DIMS_POSITIVE),
-			FALSE);
+		return (printf(ERR_CONE_FORMAT), printf(ERR_CONE_DIMS_POSITIVE), FALSE);
 	if (cone->height < 0)
 		return (printf(ERR_CONE_HEIGHT_NEGATIVE), FALSE);
 	if (cone->height < 0.1)
@@ -81,4 +70,3 @@ int	validate_position(t_point3 pos, const char *type)
 		printf(WARN_POSITION_FAR, type, pos.x, pos.y, pos.z);
 	return (1);
 }
-

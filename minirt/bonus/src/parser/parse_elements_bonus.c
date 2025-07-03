@@ -3,71 +3,61 @@
 
 int	parse_ambient(char **tokens, t_scene *scene)
 {
-	t_color3	color;
-	double		ratio;
+	t_ambient ambient;
 
 	if (!tokens[1] || !tokens[2] || tokens[3])
 		return (printf(ERR_AMBIENT_FORMAT), printf(FMT_AMBIENT_EXPECTED),
 			FALSE);
 	if (scene->has_ambient)
 		return (printf(ERR_AMBIENT_ALREADY_DEFINED), FALSE);
-	if (!parse_double(tokens[1], &ratio))
+	if (!parse_double(tokens[1], &ambient.ratio))
 		return (FALSE);
-	if (ratio < 0.0 || ratio > 1.0)
+	if (ambient.ratio < 0.0 || ambient.ratio > 1.0)
 		return (printf(ERR_AMBIENT_RATIO_RANGE), FALSE);
-	if (!parse_color(tokens[2], &color))
+	if (!parse_color(tokens[2], &ambient.color))
 		return (printf(ERR_AMBIENT_COLOR_INVALID), FALSE);
-	scene->ambient.ratio = ratio;
-	scene->ambient.color = color;
 	scene->has_ambient = TRUE;
+	scene->ambient = ambient;
 	return (TRUE);
 }
 
 int	parse_camera(char **tokens, t_scene *scene)
 {
-	t_vec3	position;
-	t_vec3	orientation;
-	double	fov;
+	t_camera camera;
 
 	if (!tokens[1] || !tokens[2] || !tokens[3] || tokens[4])
 		return (printf(ERR_CAMERA_FORMAT), printf(FMT_CAMERA_EXPECTED), FALSE);
-	if (!parse_vector(tokens[1], &position) || !parse_vector(tokens[2],
-			&orientation) || !parse_double(tokens[3], &fov))
+	if (!parse_vector(tokens[1], &camera.position) || !parse_vector(tokens[2],
+			&camera.orientation) || !parse_double(tokens[3], &camera.fov))
 		return (FALSE);
-	if (!validate_non_zero_vector(orientation))
+	if (!validate_non_zero_vector(camera.orientation))
 		return (printf(ERR_CAMERA_FORMAT), FALSE);
-	orientation = vec3_normalize(orientation);
-	if (!validate_normalized_vector(orientation))
+	camera.orientation = vec3_normalize(camera.orientation);
+	if (!validate_normalized_vector(camera.orientation))
 		return (printf(ERR_CAMERA_FORMAT), FALSE);
-	if (fov < 0.0 || fov > 180.0)
+	if (camera.fov < 0.0 || camera.fov > 180.0)
 		return (printf(ERR_CAMERA_FORMAT), printf(ERR_CAMERA_FOV_RANGE), FALSE);
-	scene->camera.position = position;
-	scene->camera.orientation = orientation;
-	scene->camera.fov = fov;
+	scene->camera = camera;
 	return (TRUE);
 }
 
 int	parse_light(char **tokens, t_scene *scene)
 {
-	t_vec3		position;
-	t_color3	color;
-	double		brightness;
+
+	// multiple lights to fix
+	t_light light;
 
 	if (!tokens[1] || !tokens[2] || !tokens[3] || tokens[4])
 		return (printf(ERR_LIGHT_FORMAT), printf(FMT_LIGHT_EXPECTED), FALSE);
-	if (scene->has_light)
-		return (printf(ERR_LIGHT_ALREADY_DEFINED), FALSE);
-	if (!parse_vector(tokens[1], &position))
+	if (!parse_vector(tokens[1], &light.position))
 		return (FALSE);
-	if (!parse_double(tokens[2], &brightness))
+	if (!parse_double(tokens[2], &light.brightness))
 		return (FALSE);
-	if (brightness < 0.0 || brightness > 1.0)
+	if (light.brightness < 0.0 || light.brightness > 1.0)
 		return (printf(ERR_LIGHT_BRIGHTNESS_RANGE), FALSE);
-	if (!parse_color(tokens[3], &color))
+	if (!parse_color(tokens[3], &light.color))
 		return (printf(ERR_LIGHT_COLOR_INVALID), FALSE);
-	scene->light.position = position;
-	scene->light.brightness = brightness;
-	scene->light.color = color;
+	scene->light = light;
 	scene->has_light = TRUE;
 	return (TRUE);
 }
@@ -75,21 +65,15 @@ int	parse_light(char **tokens, t_scene *scene)
 int	parse_sphere(char **tokens, t_scene *scene)
 {
 	t_sphere	sphere;
-	t_vec3		center;
-	t_color3	color;
-	double		diameter;
 
 	if (!tokens[1] || !tokens[2] || !tokens[3] || tokens[4])
 		return (printf(ERR_SPHERE_FORMAT), printf(FMT_SPHERE_EXPECTED), FALSE);
-	if (!parse_vector(tokens[1], &center))
+	if (!parse_vector(tokens[1], &sphere.center))
 		return (FALSE);
-	if (!parse_double(tokens[2], &diameter))
+	if (!parse_double(tokens[2], &sphere.diameter))
 		return (FALSE);
-	if (!parse_color(tokens[3], &color))
+	if (!parse_color(tokens[3], &sphere.color))
 		return (printf(ERR_SPHERE_COLOR_INVALID), FALSE);
-	sphere.center = center;
-	sphere.diameter = diameter;
-	sphere.color = color;
 	if (!add_object_to_scene(scene, SPHERE, &sphere))
 		return (FALSE);
 	return (TRUE);
@@ -103,8 +87,6 @@ int	parse_plane(char **tokens, t_scene *scene)
 		return (printf(ERR_PLANE_FORMAT), printf(FMT_PLANE_EXPECTED), FALSE);
 	if (!parse_vector(tokens[1], &plane.point) || !parse_vector(tokens[2],
 			&plane.normal))
-		return (FALSE);
-	if (!validate_plane_normal(&plane.normal))
 		return (FALSE);
 	if (!parse_color(tokens[3], &plane.color))
 		return (printf(ERR_PLANE_COLOR_INVALID), FALSE);
