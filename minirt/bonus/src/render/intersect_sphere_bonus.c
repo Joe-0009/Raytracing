@@ -6,7 +6,7 @@
 ** Compute quadratic coefficients for ray-sphere intersection
 ** Returns coefficients in t_quadratic struct
 */
-t_quadratic	sphere_quadratic_coeffs(const t_sphere *sphere, t_ray ray)
+static t_quadratic	sphere_quadratic_coeffs(const t_sphere *sphere, t_ray ray)
 {
 	t_quadratic	coeffs;
 	t_vec3		oc;

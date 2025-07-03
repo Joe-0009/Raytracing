@@ -5,7 +5,7 @@
 /*
 ** Calculate the surface normal for a point on the cylinder.
 */
-t_vec3	cylinder_surface_normal(const t_cylinder *cylinder, t_point3 point)
+static t_vec3	cylinder_surface_normal(const t_cylinder *cylinder, t_point3 point)
 {
 	double		m;
 	t_vec3		axis_projection;

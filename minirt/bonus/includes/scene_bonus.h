@@ -67,11 +67,22 @@ typedef struct s_cylinder
 	t_color3		color;
 }					t_cylinder;
 
+/*
+** Precompute cone constants for optimization
+*/
+typedef struct s_cone_constants
+{
+	double			cos_angle;
+	double			sin_angle;
+	double			cos_angle_sq;
+	double			tan_half_angle;
+}					t_cone_constants;
+
 typedef struct s_cone
 {
-	t_vec3			center;
+	t_point3		vertex;
 	t_vec3			axis;
-	double			diameter;
+	double			angle;
 	double			height;
 	t_color3		color;
 }					t_cone;
@@ -119,14 +130,13 @@ int					intersect_plane(const t_plane *plane, t_ray ray,
 						t_hit *hit);
 int					intersect_cylinder(const t_cylinder *cylinder, t_ray ray,
 						t_hit *hit);
+int					intersect_cone(const t_cone *cone, t_ray ray, t_hit *hit);
 int					trace_objects(const t_scene *scene, t_ray ray,
 						t_hit *closest_hit);
-t_quadratic			sphere_quadratic_coeffs(const t_sphere *sphere, t_ray ray);
 t_quadratic			cylinder_quadratic_coeffs(const t_cylinder *cylinder,
 						t_ray ray);
-t_vec3				cylinder_surface_normal(const t_cylinder *cylinder,
-						t_point3 point);
-
+t_cone_constants	get_cone_constants(const t_cone *cone);
+t_quadratic			cone_quadratic_coeffs(const t_cone *cone, t_ray ray);
 /* Ray tracing functions */
 t_ray				generate_camera_ray(const t_scene *scene, int x, int y);
 int					trace_ray(const t_scene *scene, t_ray ray);

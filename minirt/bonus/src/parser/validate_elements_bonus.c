@@ -56,18 +56,18 @@ int	validate_cylinder(t_cylinder *cylinder)
 
 int validate_cone(t_cone *cone)
 {
-	if (!validate_position(cone->center, "Cone"))
+	if (!validate_position(cone->vertex, "Cone"))
 		return (FALSE);
 	if (!validate_non_zero_vector(cone->axis))
 		return (printf(ERR_CONE_AXIS_ZERO), FALSE);
 	if (!validate_normalized_vector(cone->axis))
 		return (printf(ERR_CONE_AXIS_NOT_NORMALIZED), FALSE);
-	if (cone->diameter <= 0.0 || cone->height <= 0.0)
+	if (cone->height <= 0.0)
 		return (printf(ERR_CONE_FORMAT), printf(ERR_CONE_DIMS_POSITIVE),
 			FALSE);
 	if (cone->height < 0)
 		return (printf(ERR_CONE_HEIGHT_NEGATIVE), FALSE);
-	if (cone->diameter < 0.1 || cone->height < 0.1)
+	if (cone->height < 0.1)
 		return (printf(WARN_CONE_DIMS_SMALL), FALSE);
 	return (TRUE);
 }

@@ -1,17 +1,29 @@
-# Debug scene for cone base cap
-# This scene positions camera to look at cone from the side to see base
+# Debug scene for two cones stacked vertically at center
+# Camera positioned to view both cones from the side
 
 # Ambient lighting  
-A 0.3 255,255,255
+A 0.2 255,255,255
 
-# Camera positioned to the side to see cone base
-C 3,0,0 -1,0,0 70
+# Camera positioned to the side to see both cones
+C 5,2,0 -1,0,0 70
 
-# Light from the side
-L 3,2,2 0.7 255,255,255
+# Light source positioned to illuminate both cones
+L 4,4,3 0.8 255,255,255
 
-# Single cone with vertex at origin, pointing up - base should be visible at bottom
-cn 0,0,0 0,1,0 30 2.0 100,255,100
+# First cone - bottom cone with vertex at origin, pointing up
+cn 0,0,0 0,1,0 20 2.0 100,255,100
+
+# Second cone - top cone with vertex above first cone, pointing up
+cn 0,3,0 0,1,0 15 1.5 255,100,100
+
+# Sphere - positioned in front (closest to camera)
+sp 0,1,-1 1.0 255,255,0
+
+# Cylinder - positioned in the middle
+cy 0,0.5,0 0,1,0 0.8 2.0 0,255,255
+
+# Background plane - positioned behind everything
+pl 0,0,-3 0,0,1 100,100,255
 
 # Reference plane below
 pl 0,-1.5,0 0,1,0 150,150,150

@@ -3,6 +3,29 @@
 #include <math.h>
 
 /*
+** Compute the quadratic coefficients for a ray-cone intersection.
+** Returns a t_quadratic struct with the coefficients a, b, c.
+*/
+t_quadratic	cone_quadratic_coeffs(const t_cone *cone, t_ray ray)
+{
+	t_vec3				oc;
+	double				dv;
+	double				ocv;
+	t_quadratic			q;
+	t_cone_constants	constants;
+
+	oc = vec3_sub(ray.origin, cone->vertex);
+	constants = get_cone_constants(cone);
+	dv = vec3_dot(ray.direction, cone->axis);
+	ocv = vec3_dot(oc, cone->axis);
+	q.a = dv * dv - constants.cos_angle_sq;
+	q.b = 2.0 * (dv * ocv - vec3_dot(ray.direction, oc)
+			* constants.cos_angle_sq);
+	q.c = ocv * ocv - vec3_dot(oc, oc) * constants.cos_angle_sq;
+	return (q);
+}
+
+/*
 ** Compute the quadratic coefficients for a ray-cylinder intersection.
 ** Returns a t_quadratic struct with the coefficients a, b, c.
 */
