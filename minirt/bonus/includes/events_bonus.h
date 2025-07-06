@@ -3,7 +3,7 @@
 
 # include "minirt_app_bonus.h"
 
-/* Key codes */
+/* Key codes for standard MLX */
 # define KEY_ESC 65307
 # define KEY_W 119
 # define KEY_A 97
@@ -15,8 +15,8 @@
 # define KEY_DOWN 65364
 # define KEY_LEFT 65361
 # define KEY_RIGHT 65363
-# define KEY_PLUS 65451
-# define KEY_MINUS 65453
+# define KEY_PLUS 61
+# define KEY_MINUS 45
 # define KEY_R 114
 # define KEY_T 116
 # define KEY_F 102
@@ -52,6 +52,7 @@ void			transform_plane(t_plane *plane, t_transform *transform);
 void			transform_cylinder(t_cylinder *cylinder,
 					t_transform *transform);
 void			transform_camera(t_camera *camera, t_transform *transform);
+void			transform_cone(t_cone *cone, t_transform *transform);
 
 /* Scene transformation utilities */
 void			scene_translate_object(t_scene *scene, int obj_index,
@@ -71,6 +72,7 @@ void			draw_new_image(t_vars *vars, t_scene *scene);
 void			handle_camera_movement(int keycode, t_scene *scene);
 void			handle_camera_rotation(int keycode, t_scene *scene);
 void			handle_object_transforms(int keycode, t_scene *scene);
+void			handle_sphere_texture_rotation(int keycode, t_scene *scene);
 void			print_controls_help(void);
 
 #endif

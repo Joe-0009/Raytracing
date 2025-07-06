@@ -3,25 +3,23 @@
 #include <stdio.h>
 
 /*
-** Create a new image for rendering
+** Create a new image for rendering with standard MLX
 */
 void	create_image(t_vars *vars)
 {
 	vars->img = malloc(sizeof(t_image));
 	if (!vars->img)
-		exit(EXIT_FAILURE);
+		error_exit("Error: Image structure allocation failed\n");
 	vars->img->img = mlx_new_image(vars->mlx, WIDTH, HEIGHT);
 	if (!vars->img->img)
-		exit(EXIT_FAILURE);
+		error_exit("Error: MLX image creation failed\n");
 	vars->img->addr = mlx_get_data_addr(vars->img->img,
 			&vars->img->bits_per_pixel, &vars->img->line_length,
 			&vars->img->endian);
-	if (!vars->img->addr)
-		exit(EXIT_FAILURE);
 }
 
 /*
-** Put a pixel of a given color at (x, y)
+** Put a pixel of a given color at (x, y) using standard MLX
 */
 void	put_pixel(t_vars *vars, int x, int y, int color)
 {
@@ -36,17 +34,17 @@ void	put_pixel(t_vars *vars, int x, int y, int color)
 }
 
 /*
-** Main draw loop for the scene
+** Render a section of the screen (for multithreading)
 */
-void	main_draw(t_vars *vars, t_scene *scene)
+void	render_section(t_vars *vars, t_scene *scene, int start_y, int end_y)
 {
 	t_ray	ray;
 	int		x;
 	int		y;
 	int		color;
 
-	y = 0;
-	while (y < HEIGHT)
+	y = start_y;
+	while (y < end_y)
 	{
 		x = 0;
 		while (x < WIDTH)
@@ -58,4 +56,47 @@ void	main_draw(t_vars *vars, t_scene *scene)
 		}
 		y++;
 	}
+}
+
+/*
+** Thread function for parallel rendering
+*/
+void	*render_thread(void *arg)
+{
+	t_thread_data	*data;
+
+	data = (t_thread_data *)arg;
+	render_section(data->vars, data->scene, data->start_y, data->end_y);
+	return (NULL);
+}
+
+/*
+** Main draw function using multithreading
+*/
+void	main_draw(t_vars *vars, t_scene *scene)
+{
+	pthread_t		threads[NUM_THREADS];
+	t_thread_data	thread_data[NUM_THREADS];
+	int				i;
+	int				rows_per_thread;
+	int				remaining_rows;
+
+	rows_per_thread = HEIGHT / NUM_THREADS;
+	remaining_rows = HEIGHT % NUM_THREADS;
+	i = 0;
+	while (i < NUM_THREADS)
+	{
+		thread_data[i].vars = vars;
+		thread_data[i].scene = scene;
+		thread_data[i].start_y = i * rows_per_thread;
+		thread_data[i].end_y = (i + 1) * rows_per_thread;
+		thread_data[i].thread_id = i;
+		if (i == NUM_THREADS - 1)
+			thread_data[i].end_y += remaining_rows;
+		pthread_create(&threads[i], NULL, render_thread, &thread_data[i]);
+		i++;
+	}
+	i = -1;
+	while (++i < NUM_THREADS)
+		pthread_join(threads[i], NULL);
 }

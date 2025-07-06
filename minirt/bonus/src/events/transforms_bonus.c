@@ -53,6 +53,9 @@ void	scene_translate_object(t_scene *scene, int obj_index, t_vec3 delta)
 	else if (scene->objects[obj_index].type == CYLINDER)
 		transform_cylinder(&scene->objects[obj_index].data.cylinder,
 			&transform);
+	else if (scene->objects[obj_index].type == CONE)
+		transform_cone(&scene->objects[obj_index].data.cone,
+			&transform);
 }
 
 /*
@@ -85,6 +88,13 @@ void	scene_rotate_object(t_scene *scene, int obj_index, t_vec3 rotation)
 		scene->objects[obj_index].data.cylinder.axis = vec3_normalize(
 				scene->objects[obj_index].data.cylinder.axis);
 	}
+	else if (scene->objects[obj_index].type == CONE)
+	{
+		scene->objects[obj_index].data.cone.axis = vec3_rotate_around_axis(
+				scene->objects[obj_index].data.cone.axis, axis, angle);
+		scene->objects[obj_index].data.cone.axis = vec3_normalize(
+				scene->objects[obj_index].data.cone.axis);
+	}
 }
 
 /*
@@ -102,5 +112,8 @@ void	scene_scale_object(t_scene *scene, int obj_index, double scale)
 		transform_sphere(&scene->objects[obj_index].data.sphere, &transform);
 	else if (scene->objects[obj_index].type == CYLINDER)
 		transform_cylinder(&scene->objects[obj_index].data.cylinder,
+			&transform);
+	else if (scene->objects[obj_index].type == CONE)
+		transform_cone(&scene->objects[obj_index].data.cone,
 			&transform);
 }

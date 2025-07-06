@@ -5,6 +5,7 @@
 
 void	draw_new_image(t_vars *vars, t_scene *scene)
 {
+	mlx_destroy_image(vars->mlx, vars->img->img);
 	create_image(vars);
 	main_draw(vars, scene);
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
@@ -24,9 +25,33 @@ static int	is_redraw_key(int keycode)
 	return (0);
 }
 
+int	close_window_esc(int keycode, t_vars *vars)
+{
+	if (keycode == 65307)
+	{
+		mlx_destroy_image(vars->mlx, vars->img->img);
+		mlx_destroy_window(vars->mlx, vars->win);
+		mlx_destroy_display(vars->mlx);
+		free(vars->mlx);
+		ft_free_scene(&vars->scene);
+		exit(EXIT_SUCCESS);
+	}
+	return (0);
+}
+
+int	close_window_x(t_vars *vars)
+{
+	mlx_destroy_image(vars->mlx, vars->img->img);
+	mlx_destroy_window(vars->mlx, vars->win);
+	mlx_destroy_display(vars->mlx);
+	free(vars->mlx);
+	ft_free_scene(&vars->scene);
+	exit(EXIT_SUCCESS);
+}
+
 int	key_handler(int keycode, t_vars *vars)
 {
-	if (keycode == KEY_ESC)
+	if (keycode == 65307)
 		close_window_esc(keycode, vars);
 	else if (vars->scene)
 	{
@@ -36,7 +61,7 @@ int	key_handler(int keycode, t_vars *vars)
 		if (is_redraw_key(keycode))
 			draw_new_image(vars, vars->scene);
 	}
-	if (keycode == KEY_SPACE)
+	if (keycode == 32)
 		print_controls_help();
 	return (0);
 }

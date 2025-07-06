@@ -2,20 +2,7 @@
 #include "../../includes/minirt_app_bonus.h"
 #include <stdio.h>
 
-int	close_window_x(t_vars *vars)
-{
-	(void)vars;
-	exit(0);
-	return (0);
-}
-
-int	close_window_esc(int keycode, t_vars *vars)
-{
-	(void)vars;
-	if (keycode == KEY_ESC)
-		exit(0);
-	return (0);
-}
+// Functions moved to events_bonus.c to avoid duplication
 
 void	print_controls_help(void)
 {

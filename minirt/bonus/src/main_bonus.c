@@ -2,7 +2,10 @@
 #include "../includes/minirt_app_bonus.h"
 #include "../includes/parser_bonus.h"
 #include "../includes/render_utils_bonus.h"
+#include "../includes/scene_bonus.h"
 #include <stdio.h>
+
+# include <mlx.h>
 
 void	error_exit(char *message)
 {
@@ -33,6 +36,10 @@ int	main(int argc, char **argv)
 		error_exit(ERR_SCENE);
 	init_mlx_and_window(&vars);
 	vars.scene = scene;
+	
+	// Load textures after MLX initialization
+	load_scene_textures(vars.mlx, scene);
+	
 	main_draw(&vars, scene);
 	mlx_hooks(&vars);
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.img->img, 0, 0);

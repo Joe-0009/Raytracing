@@ -12,18 +12,11 @@ void	init_parser_and_scene(t_parser *parser, t_scene *scene)
 	scene->selected_obj = 0;
 	scene->camera.fov = 0.0;
 	scene->has_ambient = FALSE;
-	scene->has_light = FALSE;
 	scene->ambient.ratio = 0.0;
 	scene->ambient.color.x = 0.0;
 	scene->ambient.color.y = 0.0;
 	scene->ambient.color.z = 0.0;
-	scene->light.position.x = 0.0;
-	scene->light.position.y = 0.0;
-	scene->light.position.z = 0.0;
-	scene->light.brightness = 0.0;
-	scene->light.color.x = 0.0;
-	scene->light.color.y = 0.0;
-	scene->light.color.z = 0.0;
+	scene->nbr_of_lights = 0;
 }
 
 int	validate_extension_and_permission(const char *filename, t_scene *scene)
@@ -52,15 +45,25 @@ int	dispatch_parse_token(char **tokens, t_scene *scene)
 {
 	size_t	token_len;
 
+	printf("DEBUG: Dispatching token: '%s'\n", tokens[0]);
 	token_len = strlen(tokens[0]);
 	if (token_len == 1)
 	{
 		if (tokens[0][0] == 'A')
+		{
+			printf("DEBUG: Parsing ambient\n");
 			return (parse_ambient(tokens, scene));
+		}
 		else if (tokens[0][0] == 'C')
+		{
+			printf("DEBUG: Parsing camera\n");
 			return (parse_camera(tokens, scene));
+		}
 		else if (tokens[0][0] == 'L')
+		{
+			printf("DEBUG: Parsing light\n");
 			return (parse_light(tokens, scene));
+		}
 	}
 	else if (token_len == 2)
 	{

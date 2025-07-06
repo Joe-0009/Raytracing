@@ -29,6 +29,7 @@ int	intersect_sphere(const t_sphere *sphere, t_ray ray, t_hit *hit)
 {
 	t_quadratic	coeffs;
 	double		t;
+	double		radius;
 
 	coeffs = sphere_quadratic_coeffs(sphere, ray);
 	if (coeffs.b * coeffs.b < 4.0 * coeffs.a * coeffs.c)
@@ -41,7 +42,41 @@ int	intersect_sphere(const t_sphere *sphere, t_ray ray, t_hit *hit)
 	hit->t = t;
 	hit->point = vec3_add(ray.origin, vec3_mult(ray.direction, t));
 	hit->normal = vec3_normalize(vec3_sub(hit->point, sphere->center));
-	hit->color = sphere->color;
+	
+	// Calculate UV coordinates for texture mapping with rotation
+	radius = sphere->diameter / 2.0;
+	hit->uv = sphere_uv_mapping_with_rotation(hit->point, sphere->center, radius, sphere->rotation);
+	
+	// Apply bump mapping if available
+	if (sphere->texture.has_bump_map && sphere->texture.bump_data)
+	{
+		t_vec3 tangent, bitangent;
+		t_vec3 normalized_point;
+		
+		// Calculate tangent space for sphere
+		normalized_point = vec3_normalize(vec3_sub(hit->point, sphere->center));
+		
+		// For a sphere, tangent is perpendicular to normal in the direction of increasing U
+		tangent = vec3_create(-normalized_point.z, 0, normalized_point.x);
+		if (vec3_length(tangent) < 0.001)  // Handle poles
+			tangent = vec3_create(1, 0, 0);
+		else
+			tangent = vec3_normalize(tangent);
+		
+		// Bitangent is cross product of normal and tangent
+		bitangent = vec3_normalize(vec3_cross(hit->normal, tangent));
+		
+		// Apply bump mapping to normal
+		hit->normal = apply_bump_mapping(hit->normal, hit->uv, &sphere->texture, 
+			tangent, bitangent);
+	}
+	
+	// Use texture if available, otherwise use object color
+	if (sphere->texture.has_texture)
+		hit->color = sample_texture(&sphere->texture, hit->uv);
+	else
+		hit->color = sphere->color;
+	
 	hit->obj_type = SPHERE;
 	hit->hit_side = -1;
 	if (vec3_dot(ray.direction, hit->normal) > 0.0)

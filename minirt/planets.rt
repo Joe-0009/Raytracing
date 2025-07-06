@@ -1,0 +1,18 @@
+A 0.2 255,255,255
+
+C 0,0,20 0,0,-1 70
+L -40,50,0 0.6 255,255,255
+
+sp 0,0,0 6 255,255,255 earthmap1k.xpm
+sp 15,0,0 4 255,255,255 marsmap1k.xpm
+sp -15,0,0 3 255,255,255 moonmap1k.xpm
+
+sp 0,12,0 2 255,255,255 jupitermap.xpm
+sp 8,12,0 1.5 255,255,255 saturnmap.xpm
+sp -8,12,0 1 255,255,255 uranusmap.xpm
+
+sp 0,-12,0 2.5 255,255,255 venusmap.xpm
+sp 10,-12,0 1 255,255,255 mercurymap.xpm
+sp -10,-12,0 0.8 255,255,255 plutomap1k.xpm
+
+sp 0,0,-15 8 255,255,255 sunmap.xpm

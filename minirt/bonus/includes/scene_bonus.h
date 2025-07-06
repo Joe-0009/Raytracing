@@ -3,6 +3,32 @@
 
 # include "math_utils_bonus.h"
 
+/* Texture structure */
+typedef struct s_texture
+{
+	int				width;
+	int				height;
+	unsigned char	*data;
+	int				has_texture;
+	void			*mlx_img;
+	char			*path;
+	
+	/* Bump mapping support */
+	int				has_bump_map;
+	int				bump_width;
+	int				bump_height;
+	unsigned char	*bump_data;
+	void			*bump_mlx_img;
+	char			*bump_path;
+}					t_texture;
+
+/* UV coordinates for texture mapping */
+typedef struct s_uv
+{
+	double			u;
+	double			v;
+}					t_uv;
+
 /* Ray type */
 typedef struct s_ray
 {
@@ -16,6 +42,7 @@ typedef struct s_ray
 # define CYLINDER 3
 # define CONE 4
 # define MAX_OBJECTS 100
+# define MAX_LIGHTS 10
 
 typedef struct s_camera
 {
@@ -49,6 +76,8 @@ typedef struct s_sphere
 	t_point3		center;
 	double			diameter;
 	t_color3		color;
+	t_texture		texture;
+	t_vec3			rotation;
 }					t_sphere;
 
 typedef struct s_plane
@@ -56,6 +85,7 @@ typedef struct s_plane
 	t_point3		point;
 	t_vec3			normal;
 	t_color3		color;
+	t_texture		texture;
 }					t_plane;
 
 typedef struct s_cylinder
@@ -65,6 +95,7 @@ typedef struct s_cylinder
 	double			diameter;
 	double			height;
 	t_color3		color;
+	t_texture		texture;
 }					t_cylinder;
 
 /*
@@ -85,6 +116,7 @@ typedef struct s_cone
 	double			angle;
 	double			height;
 	t_color3		color;
+	t_texture		texture;
 }					t_cone;
 
 typedef struct s_object
@@ -103,11 +135,11 @@ typedef struct s_scene
 {
 	t_camera		camera;
 	t_ambient		ambient;
-	t_light			light;
+	t_light			light[MAX_LIGHTS];
+	int				nbr_of_lights;
 	t_object		objects[MAX_OBJECTS];
 	int				num_objects;
 	int				has_ambient;
-	int				has_light;
 	int				selected_obj;
 }					t_scene;
 
@@ -118,6 +150,7 @@ typedef struct s_hit
 	t_vec3			point;
 	t_vec3			normal;
 	t_color3		color;
+	t_uv			uv;
 	int				obj_type;
 	int				obj_index;
 	int				hit_side;
@@ -140,5 +173,18 @@ t_quadratic			cone_quadratic_coeffs(const t_cone *cone, t_ray ray);
 /* Ray tracing functions */
 t_ray				generate_camera_ray(const t_scene *scene, int x, int y);
 int					trace_ray(const t_scene *scene, t_ray ray);
+
+/* Texture functions */
+t_texture			load_texture(void *mlx, const char *filename);
+t_texture			load_bump_map(void *mlx, const char *filename);
+void				load_scene_textures(void *mlx, t_scene *scene);
+void				free_texture(void *mlx, t_texture *texture);
+t_color3			sample_texture(const t_texture *texture, t_uv uv);
+double				sample_bump_map(const t_texture *texture, t_uv uv);
+t_vec3				apply_bump_mapping(t_vec3 normal, t_uv uv, const t_texture *texture, 
+					t_vec3 tangent, t_vec3 bitangent);
+t_uv				sphere_uv_mapping(t_vec3 point, t_vec3 center, double radius);
+t_uv				sphere_uv_mapping_with_rotation(t_vec3 point, t_vec3 center, double radius, t_vec3 rotation);
+t_color3			procedural_earth_texture(t_uv uv);
 
 #endif

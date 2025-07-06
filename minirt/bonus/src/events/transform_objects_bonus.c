@@ -39,3 +39,17 @@ void	transform_cylinder(t_cylinder *cylinder, t_transform *transform)
 		cylinder->height *= transform->scale.y;
 	}
 }
+
+void	transform_cone(t_cone *cone, t_transform *transform)
+{
+	cone->vertex = matrix4_transform_point(transform->matrix,
+			cone->vertex);
+	cone->axis = matrix4_transform_direction(transform->matrix,
+			cone->axis);
+	if (transform->scale.x == transform->scale.y
+		&& transform->scale.y == transform->scale.z)
+	{
+		cone->angle *= transform->scale.x;
+		cone->height *= transform->scale.y;
+	}
+}

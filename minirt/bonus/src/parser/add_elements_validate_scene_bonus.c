@@ -35,17 +35,43 @@ int	add_object_to_scene(t_scene *scene, int type, void *object_data)
 
 static int	validate_scene_basic(t_scene *scene)
 {
+	printf("Debug: validate_scene_basic called\n");
+	
 	if (!scene)
+	{
+		printf("Debug: validate_scene_basic - scene is NULL\n");
 		return (printf(ERR_MEMORY), FALSE);
+	}
+	
+	printf("Debug: validate_scene_basic - camera.fov = %f\n", scene->camera.fov);
 	if (scene->camera.fov == 0.0)
+	{
+		printf("Debug: validate_scene_basic - no camera\n");
 		return (printf(ERR_SCENE_NO_CAMERA), FALSE);
+	}
+	
+	printf("Debug: validate_scene_basic - has_ambient = %d\n", scene->has_ambient);
 	if (!scene->has_ambient)
+	{
+		printf("Debug: validate_scene_basic - no ambient light\n");
 		return (printf(ERR_SCENE_NO_AMBIENT), FALSE);
-	if (!scene->has_light)
+	}
+	
+	printf("Debug: validate_scene_basic - nbr_of_lights = %d\n", scene->nbr_of_lights);
+	if (scene->nbr_of_lights == 0)
+	{
+		printf("Debug: validate_scene_basic - no lights\n");
 		return (printf(ERR_SCENE_NO_LIGHT), FALSE);
+	}
+	
 	if (scene->camera.orientation.x == 0 && scene->camera.orientation.y == 0
 		&& scene->camera.orientation.z == 0)
+	{
+		printf("Debug: validate_scene_basic - camera orientation is zero\n");
 		return (printf(ERR_CAMERA_ORIENTATION_ZERO), FALSE);
+	}
+	
+	printf("Debug: validate_scene_basic - success!\n");
 	return (TRUE);
 }
 

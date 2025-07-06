@@ -17,12 +17,10 @@ int	color_to_int(t_color3 color)
 */
 int	get_sky_color(t_ray ray)
 {
-	double	grad;
-
-	grad = 0.5 * (ray.direction.y + 1.0);
-	return (((int)((1.0 - grad) * 255 + grad * 135) << 16)
-		| ((int)((1.0 - grad) * 255 + grad * 206) << 8)
-		| (int)((1.0 - grad) * 255 + grad * 235));
+	(void)ray;  // Unused parameter
+	return ((DEFAULT_SKY_COLOR_R << 16)
+		| (DEFAULT_SKY_COLOR_G << 8)
+		| DEFAULT_SKY_COLOR_B);
 }
 
 /*

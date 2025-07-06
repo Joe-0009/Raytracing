@@ -60,6 +60,14 @@
     "raytrace.h": "c",
     "queue": "cpp",
     "stack": "cpp",
-    "cmath": "c"
+    "cmath": "c",
+    "parser.h": "c",
+    "minirt_app.h": "c",
+    "events.h": "c",
+    "scene.h": "c",
+    "parser_bonus.h": "c",
+    "scene_bonus.h": "c",
+    "fcntl.h": "c",
+    "events_bonus.h": "c"
   }
 }

@@ -9,6 +9,9 @@ int	parse_cylinder(char **tokens, t_scene *scene)
 	if (!tokens[1] || !tokens[2] || !tokens[3] || !tokens[4] || !tokens[5])
 		return (printf(ERR_CYLINDER_FORMAT), printf(FMT_CYLINDER_EXPECTED),
 			FALSE);
+	if (tokens[6] && tokens[7])
+		return (printf(ERR_CYLINDER_FORMAT), printf(FMT_CYLINDER_EXPECTED),
+			FALSE);
 	if (!parse_vector(tokens[1], &cylinder.center))
 		return (FALSE);
 	if (!parse_vector(tokens[2], &cylinder.axis))
@@ -19,9 +22,19 @@ int	parse_cylinder(char **tokens, t_scene *scene)
 		return (FALSE);
 	if (!parse_color(tokens[5], &cylinder.color))
 		return (printf(ERR_CYLINDER_COLOR_INVALID), FALSE);
+	
+	// Initialize texture as no texture
+	cylinder.texture.has_texture = 0;
+	cylinder.texture.data = NULL;
+	cylinder.texture.mlx_img = NULL;
+	
+	// Parse optional texture parameter
 	if (tokens[6])
-		return (printf(ERR_CYLINDER_FORMAT), printf(FMT_CYLINDER_EXPECTED),
-			FALSE);
+	{
+		if (!parse_texture(tokens[6], &cylinder.texture, NULL))
+			return (FALSE);
+	}
+	
 	cylinder.axis = vec3_normalize(cylinder.axis);
 	if (!add_object_to_scene(scene, CYLINDER, &cylinder))
 		return (FALSE);
@@ -32,8 +45,9 @@ int	parse_cone(char **tokens, t_scene *scene)
 {
 	t_cone cone;
 
-	if (!tokens[1] || !tokens[2] || !tokens[3] || !tokens[4] || !tokens[5]
-		|| tokens[6])
+	if (!tokens[1] || !tokens[2] || !tokens[3] || !tokens[4] || !tokens[5])
+		return (printf(ERR_CONE_FORMAT), printf(FMT_CONE_EXPECTED), FALSE);
+	if (tokens[6] && tokens[7])
 		return (printf(ERR_CONE_FORMAT), printf(FMT_CONE_EXPECTED), FALSE);
 	if (!parse_vector(tokens[1], &cone.vertex))
 		return (FALSE);
@@ -47,6 +61,19 @@ int	parse_cone(char **tokens, t_scene *scene)
 		return (FALSE);
 	if (!parse_color(tokens[5], &cone.color))
 		return (FALSE);
+	
+	// Initialize texture as no texture
+	cone.texture.has_texture = 0;
+	cone.texture.data = NULL;
+	cone.texture.mlx_img = NULL;
+	
+	// Parse optional texture parameter
+	if (tokens[6])
+	{
+		if (!parse_texture(tokens[6], &cone.texture, NULL))
+			return (FALSE);
+	}
+	
 	cone.axis = vec3_normalize(cone.axis);
 	if (!add_object_to_scene(scene, CONE, &cone))
 		return (FALSE);

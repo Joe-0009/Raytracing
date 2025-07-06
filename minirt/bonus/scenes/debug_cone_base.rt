@@ -7,11 +7,9 @@ A 0.2 255,255,255
 # Camera positioned to the side to see both cones
 C 5,2,0 -1,0,0 70
 
-# Light source positioned to illuminate both cones
-L 4,4,3 0.8 255,255,255
-
-# Second light source from the opposite side for better illumination
-L -3,2,2 0.6 255,200,150
+L 10,10,10 0.6 255,255,255
+L -10,10,10 0.4 255,100,100
+L 0,-10,10 0.3 100,255,100
 
 # First cone - bottom cone with vertex at origin, pointing up
 cn 0,0,0 0,1,0 20 2.0 100,255,100

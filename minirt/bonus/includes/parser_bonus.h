@@ -59,7 +59,7 @@ typedef struct s_parser
 # define ERR_SPHERE_COLOR_INVALID "Error: Invalid color for sphere\n"
 # define ERR_SPHERE_DIAMETER_POSITIVE "Sphere diameter must be positive\n"
 # define WARN_SPHERE_DIAMETER_SMALL "Warning: Very small sphere diameter\n"
-# define FMT_SPHERE_EXPECTED "Expected format: sp x,y,z diameter r,g,b\n"
+# define FMT_SPHERE_EXPECTED "Expected format: sp x,y,z diameter r,g,b [texture]\n"
 
 /* Plane related errors */
 # define ERR_PLANE_FORMAT "Error: Invalid plane format\n"
@@ -108,6 +108,7 @@ int			parse_cone(char **tokens, t_scene *scene);
 int			parse_vector(char *str, t_vec3 *vec);
 int			parse_color(char *str, t_color3 *color);
 int			parse_double(char *str, double *value);
+int			parse_texture(char *str, t_texture *texture, void *mlx);
 
 /* Object validation */
 int			validate_sphere(t_sphere *sphere);
