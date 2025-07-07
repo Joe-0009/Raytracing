@@ -110,140 +110,71 @@ int	validate_normalized_vector(t_vec3 vec)
 	return (TRUE);
 }
 
-/*
-** Parse texture string that can contain both bump and texture maps
-** Syntax: "bum:imgs/earthbump1k.xpm txm:imgs/earthmap1k.xpm" or "txm:imgs/moonmap1k.xpm"
-*/
-int	parse_texture(char *str, t_texture *texture, void *mlx)
+void	init_texture_bump_struct(t_texture *texture, t_bump *bump)
 {
-	char	**tokens;
-	char	*bump_file;
-	char	*texture_file;
-	char	full_path[256];
-	int		i;
-	
-	if (!str || !texture)
-		return (FALSE);
-	
-	// Initialize texture structure
-	texture->has_texture = 0;
-	texture->data = NULL;
-	texture->mlx_img = NULL;
-	texture->width = 0;
-	texture->height = 0;
-	texture->path = NULL;
-	texture->has_bump_map = 0;
-	texture->bump_data = NULL;
-	texture->bump_mlx_img = NULL;
-	texture->bump_width = 0;
-	texture->bump_height = 0;
-	texture->bump_path = NULL;
-	
-	// Check if "none" or empty string (no texture)
-	if (ft_strncmp(str, "none", 4) == 0 || ft_strlen(str) == 0)
-		return (TRUE);
-	
-	// Split by spaces to handle multiple texture types
-	tokens = ft_split(str, " ");
-	if (!tokens)
-		return (FALSE);
-	
-	bump_file = NULL;
-	texture_file = NULL;
-	
-	// Parse each token
-	i = 0;
-	while (tokens[i])
+	if (texture)
 	{
-		if (ft_strncmp(tokens[i], "bum:", 4) == 0)
-			bump_file = tokens[i] + 4;  // Skip "bum:" prefix
-		else if (ft_strncmp(tokens[i], "txm:", 4) == 0)
-			texture_file = tokens[i] + 4;  // Skip "txm:" prefix
-		else
-		{
-			// For backward compatibility, treat files without prefix as texture
-			texture_file = tokens[i];
-		}
-		i++;
+		texture->has_texture = 0;
+		texture->texture_data = NULL;
+		texture->texture_mlx_img = NULL;
+		texture->texture_width = 0;
+		texture->texture_height = 0;
+		texture->texture_path = NULL;
 	}
-	
-	// Process texture file
+	if (bump)
+	{
+		bump->has_bump_map = 0;
+		bump->bump_data = NULL;
+		bump->bump_mlx_img = NULL;
+		bump->bump_width = 0;
+		bump->bump_height = 0;
+		bump->bump_path = NULL;
+	}
+}
+
+/*
+** Parse texture string that can contain texture maps
+** Syntax: "txm:earthmap1k.xpm"
+*/
+int	parse_texture(char *str, t_texture *texture)
+{
+	char	*texture_file;
+
+	texture_file = NULL;
+	init_texture_bump_struct(texture, NULL);
+	if (ft_strncmp(str, "txm:", 4) == 0)
+		texture_file = str + 4;
 	if (texture_file)
 	{
-		// Handle imgs/ vs images/ directory
-		if (ft_strncmp(texture_file, "imgs/", 5) == 0)
-		{
-			ft_strlcpy(full_path, "images/", sizeof(full_path));
-			ft_strlcat(full_path, texture_file + 5, sizeof(full_path));  // Skip "imgs/"
-		}
-		else
-		{
-			ft_strlcpy(full_path, "images/", sizeof(full_path));
-			ft_strlcat(full_path, texture_file, sizeof(full_path));
-		}
-		
-		if (!mlx)
-		{
-			texture->path = ft_strdup(full_path);
-			if (!texture->path)
-			{
-				free_tokens(tokens);
-				return (FALSE);
-			}
-			texture->has_texture = 1;
-		}
-		else
-		{
-			*texture = load_texture(mlx, full_path);
-			if (!texture->has_texture)
-				printf("Warning: Could not load texture '%s'\n", full_path);
-		}
+		texture->texture_path = ft_strdup(texture_file);
+		texture->has_texture = 1;
 	}
-	
-	// Process bump file
+	else
+		return (printf("Not the right format for texture files !\n"), FALSE);
+	return (TRUE);
+}
+
+/*
+** Parse texture string that can contain bump
+** Syntax: "bum:earthbump1k.xpm
+*/
+
+int	parse_bump(char *str, t_bump *bump)
+{
+	char	*bump_file;
+
+	init_texture_bump_struct(NULL, bump);
+	bump_file = NULL;
+	if (ft_strncmp(str, "bum:", 4) == 0)
+		bump_file = str + 4;
 	if (bump_file)
 	{
-		// Handle imgs/ vs images/ directory
-		if (ft_strncmp(bump_file, "imgs/", 5) == 0)
-		{
-			ft_strlcpy(full_path, "images/", sizeof(full_path));
-			ft_strlcat(full_path, bump_file + 5, sizeof(full_path));  // Skip "imgs/"
-		}
-		else
-		{
-			ft_strlcpy(full_path, "images/", sizeof(full_path));
-			ft_strlcat(full_path, bump_file, sizeof(full_path));
-		}
-		
-		if (!mlx)
-		{
-			texture->bump_path = ft_strdup(full_path);
-			if (!texture->bump_path)
-			{
-				if (texture->path)
-					free(texture->path);
-				free_tokens(tokens);
-				return (FALSE);
-			}
-			texture->has_bump_map = 1;
-		}
-		else
-		{
-			// Load bump map (we'll implement load_bump_map function)
-			t_texture bump_texture = load_bump_map(mlx, full_path);
-			if (bump_texture.has_texture)
-			{
-				texture->has_bump_map = 1;
-				texture->bump_width = bump_texture.width;
-				texture->bump_height = bump_texture.height;
-				texture->bump_data = bump_texture.data;
-				texture->bump_mlx_img = bump_texture.mlx_img;
-			}
-			else
-				printf("Warning: Could not load bump map '%s'\n", full_path);
-		}
+		bump->bump_path = ft_strdup(bump_file);
+		if (!bump->bump_path)
+			return (FALSE);
+		bump->has_bump_map = 1;
 	}
-	
-	free_tokens(tokens);
+	else
+		return (printf("Not the right format for bump files !\n"), FALSE);
 	return (TRUE);
 }

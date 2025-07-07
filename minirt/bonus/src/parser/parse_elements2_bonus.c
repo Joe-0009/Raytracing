@@ -22,19 +22,8 @@ int	parse_cylinder(char **tokens, t_scene *scene)
 		return (FALSE);
 	if (!parse_color(tokens[5], &cylinder.color))
 		return (printf(ERR_CYLINDER_COLOR_INVALID), FALSE);
-	
-	// Initialize texture as no texture
-	cylinder.texture.has_texture = 0;
-	cylinder.texture.data = NULL;
-	cylinder.texture.mlx_img = NULL;
-	
-	// Parse optional texture parameter
 	if (tokens[6])
-	{
-		if (!parse_texture(tokens[6], &cylinder.texture, NULL))
-			return (FALSE);
-	}
-	
+		return (FALSE);
 	cylinder.axis = vec3_normalize(cylinder.axis);
 	if (!add_object_to_scene(scene, CYLINDER, &cylinder))
 		return (FALSE);
@@ -61,19 +50,8 @@ int	parse_cone(char **tokens, t_scene *scene)
 		return (FALSE);
 	if (!parse_color(tokens[5], &cone.color))
 		return (FALSE);
-	
-	// Initialize texture as no texture
-	cone.texture.has_texture = 0;
-	cone.texture.data = NULL;
-	cone.texture.mlx_img = NULL;
-	
-	// Parse optional texture parameter
 	if (tokens[6])
-	{
-		if (!parse_texture(tokens[6], &cone.texture, NULL))
-			return (FALSE);
-	}
-	
+		return (FALSE);
 	cone.axis = vec3_normalize(cone.axis);
 	if (!add_object_to_scene(scene, CONE, &cone))
 		return (FALSE);

@@ -50,20 +50,11 @@ int	dispatch_parse_token(char **tokens, t_scene *scene)
 	if (token_len == 1)
 	{
 		if (tokens[0][0] == 'A')
-		{
-			printf("DEBUG: Parsing ambient\n");
 			return (parse_ambient(tokens, scene));
-		}
 		else if (tokens[0][0] == 'C')
-		{
-			printf("DEBUG: Parsing camera\n");
 			return (parse_camera(tokens, scene));
-		}
 		else if (tokens[0][0] == 'L')
-		{
-			printf("DEBUG: Parsing light\n");
 			return (parse_light(tokens, scene));
-		}
 	}
 	else if (token_len == 2)
 	{

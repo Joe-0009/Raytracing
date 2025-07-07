@@ -6,21 +6,24 @@
 /* Texture structure */
 typedef struct s_texture
 {
-	int				width;
-	int				height;
-	unsigned char	*data;
+	int				texture_width;
+	int				texture_height;
+	unsigned char	*texture_data;
 	int				has_texture;
-	void			*mlx_img;
-	char			*path;
-	
-	/* Bump mapping support */
+	void			*texture_mlx_img;
+	char			*texture_path;
+}					t_texture;
+
+/* Bump mapping support */
+typedef struct s_bump
+{
 	int				has_bump_map;
 	int				bump_width;
 	int				bump_height;
 	unsigned char	*bump_data;
 	void			*bump_mlx_img;
 	char			*bump_path;
-}					t_texture;
+}					t_bump;
 
 /* UV coordinates for texture mapping */
 typedef struct s_uv
@@ -77,6 +80,7 @@ typedef struct s_sphere
 	double			diameter;
 	t_color3		color;
 	t_texture		texture;
+	t_bump			bump;
 	t_vec3			rotation;
 }					t_sphere;
 
@@ -85,7 +89,6 @@ typedef struct s_plane
 	t_point3		point;
 	t_vec3			normal;
 	t_color3		color;
-	t_texture		texture;
 }					t_plane;
 
 typedef struct s_cylinder
@@ -95,7 +98,6 @@ typedef struct s_cylinder
 	double			diameter;
 	double			height;
 	t_color3		color;
-	t_texture		texture;
 }					t_cylinder;
 
 /*
@@ -116,7 +118,6 @@ typedef struct s_cone
 	double			angle;
 	double			height;
 	t_color3		color;
-	t_texture		texture;
 }					t_cone;
 
 typedef struct s_object
@@ -181,10 +182,13 @@ void				load_scene_textures(void *mlx, t_scene *scene);
 void				free_texture(void *mlx, t_texture *texture);
 t_color3			sample_texture(const t_texture *texture, t_uv uv);
 double				sample_bump_map(const t_texture *texture, t_uv uv);
-t_vec3				apply_bump_mapping(t_vec3 normal, t_uv uv, const t_texture *texture, 
-					t_vec3 tangent, t_vec3 bitangent);
-t_uv				sphere_uv_mapping(t_vec3 point, t_vec3 center, double radius);
-t_uv				sphere_uv_mapping_with_rotation(t_vec3 point, t_vec3 center, double radius, t_vec3 rotation);
+t_vec3				apply_bump_mapping(t_vec3 normal, t_uv uv,
+						const t_texture *texture, t_vec3 tangent,
+						t_vec3 bitangent);
+t_uv				sphere_uv_mapping(t_vec3 point, t_vec3 center,
+						double radius);
+t_uv				sphere_uv_mapping_with_rotation(t_vec3 point, t_vec3 center,
+						double radius, t_vec3 rotation);
 t_color3			procedural_earth_texture(t_uv uv);
 
 #endif
