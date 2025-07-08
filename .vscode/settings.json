@@ -68,6 +68,10 @@
     "parser_bonus.h": "c",
     "scene_bonus.h": "c",
     "fcntl.h": "c",
-    "events_bonus.h": "c"
+    "events_bonus.h": "c",
+    "array": "c",
+    "string": "c",
+    "string_view": "c",
+    "span": "c"
   }
 }

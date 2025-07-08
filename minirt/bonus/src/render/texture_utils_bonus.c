@@ -9,74 +9,7 @@
 # define M_PI 3.14159265358979323846
 #endif
 
-/*
-** Load a texture using MLX image loading (XPM or PNG)
-*/
-t_texture	load_texture(void *mlx, const char *filename)
-{
-	t_texture	texture;
-	char		*data_addr;
-	int			bits_per_pixel;
-	int			line_length;
-	int			endian;
-	int			pixel;
 
-	int i, j;
-	texture.has_texture = 0;
-	texture.data = NULL;
-	texture.mlx_img = NULL;
-	texture.width = 0;
-	texture.height = 0;
-	texture.path = NULL;
-	texture.has_bump_map = 0;
-	texture.bump_data = NULL;
-	texture.bump_mlx_img = NULL;
-	texture.bump_width = 0;
-	texture.bump_height = 0;
-	texture.bump_path = NULL;
-	// Determine file type and load accordingly
-	if (strstr(filename, ".xpm"))
-		texture.mlx_img = mlx_xpm_file_to_image(mlx, (char *)filename,
-				&texture.width, &texture.height);
-	else
-	{
-		printf("Error: Unsupported image format. Only XPM files are supported.\n");
-		return (texture);
-	}
-	if (!texture.mlx_img)
-		return (texture);
-	// Get image data
-	data_addr = mlx_get_data_addr(texture.mlx_img, &bits_per_pixel,
-			&line_length, &endian);
-	if (!data_addr)
-	{
-		mlx_destroy_image(mlx, texture.mlx_img);
-		return (texture);
-	}
-	// Convert MLX image data to our RGB format
-	texture.data = malloc(texture.width * texture.height * 3);
-	if (!texture.data)
-	{
-		mlx_destroy_image(mlx, texture.mlx_img);
-		return (texture);
-	}
-	for (i = 0; i < texture.height; i++)
-	{
-		for (j = 0; j < texture.width; j++)
-		{
-			pixel = *(int *)(data_addr + (i * line_length + j * (bits_per_pixel
-							/ 8)));
-			texture.data[(i * texture.width + j) * 3] = (pixel >> 16) & 0xFF;   
-				// R
-			texture.data[(i * texture.width + j) * 3 + 1] = (pixel >> 8) & 0xFF;
-				// G
-			texture.data[(i * texture.width + j) * 3 + 2] = pixel & 0xFF;       
-				// B
-		}
-	}
-	texture.has_texture = 1;
-	return (texture);
-}
 
 /*
 ** Free texture memory
@@ -257,123 +190,127 @@ t_color3	procedural_earth_texture(t_uv uv)
 }
 
 /*
-** Load all textures in the scene after MLX initialization
+** Load a texture using MLX image loading (XPM or PNG)
 */
-void	load_scene_textures(void *mlx, t_scene *scene)
+void	load_texture(void *mlx, t_texture *texture)
 {
-	int			i;
-	t_sphere	*sphere;
-	t_texture	loaded_texture;
-	t_texture	loaded_bump;
-
-	if (!mlx || !scene)
-		return ;
-	for (i = 0; i < scene->num_objects; i++)
-	{
-		if (scene->objects[i].type == SPHERE)
-		{
-			sphere = &scene->objects[i].data.sphere;
-			if (sphere->texture.has_texture && sphere->texture.texture_path)
-			{
-				loaded_texture = load_texture(mlx, sphere->texture.texture_path);
-				if (loaded_texture.has_texture)
-				{
-					sphere->texture.texture_width = loaded_texture.texture_width;
-					sphere->texture.texture_height = loaded_texture.texture_height;
-					sphere->texture.texture_data = loaded_texture.texture_data;
-					sphere->texture.texture_mlx_img = loaded_texture.texture_mlx_img;
-				}
-				else
-				{
-					sphere->texture.has_texture = 0;
-				}
-			}
-			if (sphere->texture.has_bump_map && sphere->texture.bump_path)
-			{
-				loaded_bump = load_bump_map(mlx, sphere->texture.bump_path);
-				if (loaded_bump.has_texture)
-				{
-					sphere->texture.bump_width = loaded_bump.width;
-					sphere->texture.bump_height = loaded_bump.height;
-					sphere->texture.bump_data = loaded_bump.data;
-					sphere->texture.bump_mlx_img = loaded_bump.mlx_img;
-				}
-				else
-				{
-					sphere->texture.has_bump_map = 0;
-				}
-			}
-		}
-	}
-}
-
-/*
-** Load a bump map texture (same as regular texture but for bump mapping)
-*/
-t_texture	load_bump_map(void *mlx, const char *filename)
-{
-	t_texture	texture;
 	char		*data_addr;
 	int			bits_per_pixel;
 	int			line_length;
 	int			endian;
 	int			pixel;
-
 	int i, j;
-	texture.has_texture = 0;
-	texture.data = NULL;
-	texture.mlx_img = NULL;
-	texture.width = 0;
-	texture.height = 0;
-	texture.path = NULL;
-	texture.has_bump_map = 0;
-	texture.bump_data = NULL;
-	texture.bump_mlx_img = NULL;
-	texture.bump_width = 0;
-	texture.bump_height = 0;
-	texture.bump_path = NULL;
-	// Determine file type and load accordingly
-	if (strstr(filename, ".xpm"))
-		texture.mlx_img = mlx_xpm_file_to_image(mlx, (char *)filename,
-				&texture.width, &texture.height);
+
+	if (strstr(texture->texture_path, ".xpm"))
+		texture->texture_mlx_img = mlx_xpm_file_to_image(mlx, (char *)texture->texture_path,
+				&texture->texture_width, &texture->texture_height);
 	else
 	{
-		printf("Error: Unsupported bump map format. Only XPM files are supported.\n");
-		return (texture);
+		printf("Error: Only XPM files are supported.\n");
+		return;
 	}
-	if (!texture.mlx_img)
-		return (texture);
-	// Get image data
-	data_addr = mlx_get_data_addr(texture.mlx_img, &bits_per_pixel,
+	if (!texture->texture_mlx_img)
+		return;
+	data_addr = mlx_get_data_addr(texture->texture_mlx_img, &bits_per_pixel,
 			&line_length, &endian);
 	if (!data_addr)
 	{
-		mlx_destroy_image(mlx, texture.mlx_img);
-		return (texture);
+		mlx_destroy_image(mlx, texture->texture_mlx_img);
+		return;
 	}
-	// Convert MLX image data to our RGB format (we'll use grayscale for bump)
-	texture.data = malloc(texture.width * texture.height * 3);
-	if (!texture.data)
+	texture->texture_data = malloc(texture->texture_width * texture->texture_height * 3);
+	if (!texture->texture_data)
 	{
-		mlx_destroy_image(mlx, texture.mlx_img);
-		return (texture);
+		mlx_destroy_image(mlx, texture->texture_mlx_img);
+		return;
 	}
-	for (i = 0; i < texture.height; i++)
+	i = -1;
+	while (++i < texture->texture_height)
 	{
-		for (j = 0; j < texture.width; j++)
+		j = -1; 
+		while (++j < texture->texture_width)
 		{
 			pixel = *(int *)(data_addr + (i * line_length + j * (bits_per_pixel
 							/ 8)));
-			texture.data[(i * texture.width + j) * 3] = (pixel >> 16) & 0xFF;   
-				// R
-			texture.data[(i * texture.width + j) * 3 + 1] = (pixel >> 8) & 0xFF;
-				// G
-			texture.data[(i * texture.width + j) * 3 + 2] = pixel & 0xFF;       
-				// B
+			texture->texture_data[(i * texture->texture_width + j) * 3] = (pixel >> 16) & 0xFF;
+			texture->texture_data[(i * texture->texture_width + j) * 3 + 1] = (pixel >> 8) & 0xFF;
+			texture->texture_data[(i * texture->texture_width + j) * 3 + 2] = pixel & 0xFF;
 		}
 	}
-	texture.has_texture = 1;
-	return (texture);
+	texture->has_texture = 1;
+}
+
+/*
+** Load a bump map texture (same as regular texture but for bump mapping)
+*/
+void	load_bump_map(void *mlx, t_bump *bump)
+{
+	char		*data_addr;
+	int			bits_per_pixel;
+	int			line_length;
+	int			endian;
+	int			pixel;
+	int i, j;
+
+	if (strstr(bump->bump_path, ".xpm"))
+		bump->bump_mlx_img = mlx_xpm_file_to_image(mlx, (char *)bump->bump_path,
+				&bump->bump_width, &bump->bump_height);
+	else
+	{
+		printf("Error: Only XPM files are supported.\n");
+		return;
+	}
+	if (!bump->bump_mlx_img)
+		return;
+	data_addr = mlx_get_data_addr(bump->bump_mlx_img, &bits_per_pixel,
+			&line_length, &endian);
+	if (!data_addr)
+	{
+		mlx_destroy_image(mlx, bump->bump_mlx_img);
+		return ;
+	}
+	bump->bump_data = malloc(bump->bump_width * bump->bump_height * 3);
+	if (!bump->bump_data)
+	{
+		mlx_destroy_image(mlx, bump->bump_mlx_img);
+		return ;
+	}
+	i = -1;
+	while (++i < bump->bump_height)
+	{
+		j = -1; 
+		while (++j < bump->bump_width)
+		{
+			pixel = *(int *)(data_addr + (i * line_length + j * (bits_per_pixel
+							/ 8)));
+			bump->bump_data[(i * bump->bump_width + j) * 3] = (pixel >> 16) & 0xFF;
+			bump->bump_data[(i * bump->bump_width + j) * 3 + 1] = (pixel >> 8) & 0xFF;
+			bump->bump_data[(i * bump->bump_width + j) * 3 + 2] = pixel & 0xFF;
+		}
+	}
+	bump->has_bump_map = 1;
+}
+
+/*
+** Load all textures in the scene after MLX initialization
+*/
+void	load_scene_texture_bump(void *mlx, t_scene *scene)
+{
+	int			i;
+
+	if (!mlx || !scene)
+		return ;
+	i = -1;
+	while (++i < scene->num_objects)
+	{
+		if (scene->objects[i].type == SPHERE)
+		{
+			if (scene->objects[i].data.sphere.texture.has_texture && scene->objects[i].data.sphere.texture.texture_path)
+				load_texture(mlx, &scene->objects[i].data.sphere.texture);
+			if (scene->objects[i].data.sphere.bump.has_bump_map && scene->objects[i].data.sphere.bump.bump_path)
+				load_bump_map(mlx, &scene->objects[i].data.sphere.bump);
+		}
+	}
 }
 
 /*

@@ -112,24 +112,18 @@ int	validate_normalized_vector(t_vec3 vec)
 
 void	init_texture_bump_struct(t_texture *texture, t_bump *bump)
 {
-	if (texture)
-	{
-		texture->has_texture = 0;
-		texture->texture_data = NULL;
-		texture->texture_mlx_img = NULL;
-		texture->texture_width = 0;
-		texture->texture_height = 0;
-		texture->texture_path = NULL;
-	}
-	if (bump)
-	{
-		bump->has_bump_map = 0;
-		bump->bump_data = NULL;
-		bump->bump_mlx_img = NULL;
-		bump->bump_width = 0;
-		bump->bump_height = 0;
-		bump->bump_path = NULL;
-	}
+	texture->has_texture = 0;
+	texture->texture_data = NULL;
+	texture->texture_mlx_img = NULL;
+	texture->texture_width = 0;
+	texture->texture_height = 0;
+	texture->texture_path = NULL;
+	bump->has_bump_map = 0;
+	bump->bump_data = NULL;
+	bump->bump_mlx_img = NULL;
+	bump->bump_width = 0;
+	bump->bump_height = 0;
+	bump->bump_path = NULL;
 }
 
 /*
@@ -141,9 +135,10 @@ int	parse_texture(char *str, t_texture *texture)
 	char	*texture_file;
 
 	texture_file = NULL;
-	init_texture_bump_struct(texture, NULL);
 	if (ft_strncmp(str, "txm:", 4) == 0)
 		texture_file = str + 4;
+	else
+		return (printf("Not the right format for sphere object !\n"), FALSE);
 	if (texture_file)
 	{
 		texture->texture_path = ft_strdup(texture_file);
@@ -163,10 +158,11 @@ int	parse_bump(char *str, t_bump *bump)
 {
 	char	*bump_file;
 
-	init_texture_bump_struct(NULL, bump);
 	bump_file = NULL;
 	if (ft_strncmp(str, "bum:", 4) == 0)
 		bump_file = str + 4;
+	else
+    	return (printf("Not the right format for bump files !\n"), FALSE);
 	if (bump_file)
 	{
 		bump->bump_path = ft_strdup(bump_file);

@@ -108,7 +108,9 @@ int			parse_cone(char **tokens, t_scene *scene);
 int			parse_vector(char *str, t_vec3 *vec);
 int			parse_color(char *str, t_color3 *color);
 int			parse_double(char *str, double *value);
+void		init_texture_bump_struct(t_texture *texture, t_bump *bump);
 int			parse_texture(char *str, t_texture *texture);
+int			parse_bump(char *str, t_bump *bump);
 
 /* Object validation */
 int			validate_sphere(t_sphere *sphere);

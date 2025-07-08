@@ -67,7 +67,7 @@ int	parse_sphere(char **tokens, t_scene *scene)
 {
 	t_sphere	sphere;
 
-	if (!tokens[1] || !tokens[2] || !tokens[3])
+	if (!tokens[1] || !tokens[2] || !tokens[3] || tokens[6])
 		return (printf(ERR_SPHERE_FORMAT), printf(FMT_SPHERE_EXPECTED), FALSE);
 	if (!parse_vector(tokens[1], &sphere.center))
 		return (FALSE);
@@ -76,6 +76,7 @@ int	parse_sphere(char **tokens, t_scene *scene)
 	if (!parse_color(tokens[3], &sphere.color))
 		return (printf(ERR_SPHERE_COLOR_INVALID), FALSE);
 	sphere.rotation = vec3_create(0, 0, 0);
+	init_texture_bump_struct(&sphere.texture, &sphere.bump);
 	if (tokens[4])
 	{
 		if (!parse_texture(tokens[4], &sphere.texture))
