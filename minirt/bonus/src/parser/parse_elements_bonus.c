@@ -73,9 +73,9 @@ int	parse_sphere(char **tokens, t_scene *scene)
 		return (FALSE);
 	if (!parse_double(tokens[2], &sphere.diameter))
 		return (FALSE);
+	sphere.radius = sphere.diameter / 2.0;
 	if (!parse_color(tokens[3], &sphere.color))
 		return (printf(ERR_SPHERE_COLOR_INVALID), FALSE);
-	sphere.rotation = vec3_create(0, 0, 0);
 	init_texture_bump_struct(&sphere.texture, &sphere.bump);
 	if (tokens[4])
 	{

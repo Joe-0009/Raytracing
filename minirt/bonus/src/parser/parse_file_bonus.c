@@ -45,7 +45,6 @@ int	dispatch_parse_token(char **tokens, t_scene *scene)
 {
 	size_t	token_len;
 
-	printf("DEBUG: Dispatching token: '%s'\n", tokens[0]);
 	token_len = strlen(tokens[0]);
 	if (token_len == 1)
 	{

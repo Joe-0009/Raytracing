@@ -36,7 +36,7 @@ int	main(int argc, char **argv)
 		error_exit(ERR_SCENE);
 	init_mlx_and_window(&vars);
 	vars.scene = scene;
-	load_scene_textures(vars.mlx, scene);
+	load_scene_texture_bump(vars.mlx, scene);
 	main_draw(&vars, scene);
 	mlx_hooks(&vars);
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.img->img, 0, 0);

@@ -78,10 +78,10 @@ typedef struct s_sphere
 {
 	t_point3		center;
 	double			diameter;
+	double			radius;
 	t_color3		color;
 	t_texture		texture;
 	t_bump			bump;
-	t_vec3			rotation;
 }					t_sphere;
 
 typedef struct s_plane
@@ -176,19 +176,14 @@ t_ray				generate_camera_ray(const t_scene *scene, int x, int y);
 int					trace_ray(const t_scene *scene, t_ray ray);
 
 /* Texture functions */
-t_texture			load_texture(void *mlx, const char *filename);
-t_texture			load_bump_map(void *mlx, const char *filename);
-void				load_scene_textures(void *mlx, t_scene *scene);
 void				free_texture(void *mlx, t_texture *texture);
+void				free_bump(void *mlx, t_bump *bump);
 t_color3			sample_texture(const t_texture *texture, t_uv uv);
-double				sample_bump_map(const t_texture *texture, t_uv uv);
+double				sample_bump_map(const t_bump *bump, t_uv uv);
 t_vec3				apply_bump_mapping(t_vec3 normal, t_uv uv,
-						const t_texture *texture, t_vec3 tangent,
+						const t_bump *bump, t_vec3 tangent,
 						t_vec3 bitangent);
-t_uv				sphere_uv_mapping(t_vec3 point, t_vec3 center,
-						double radius);
-t_uv				sphere_uv_mapping_with_rotation(t_vec3 point, t_vec3 center,
-						double radius, t_vec3 rotation);
-t_color3			procedural_earth_texture(t_uv uv);
+t_uv				sphere_uv_mapping(t_vec3 normalized);
+void				load_scene_texture_bump(void *mlx, t_scene *scene);
 
 #endif
