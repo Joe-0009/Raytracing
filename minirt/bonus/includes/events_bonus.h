@@ -28,6 +28,10 @@
 # define KEY_SPACE 32
 # define KEY_P 112
 # define KEY_O 111
+# define KEY_U 117
+# define KEY_Y 121
+# define KEY_H 104
+# define KEY_N 110
 
 /* Transform type for interactive transformations */
 typedef struct s_transform

@@ -58,16 +58,24 @@ static int	validate_scene_objects(t_scene *scene)
 	{
 		if (scene->objects[i].type == SPHERE
 			&& !validate_sphere(&scene->objects[i].data.sphere))
+		{
 			return (FALSE);
+		}
 		else if (scene->objects[i].type == CYLINDER
 			&& !validate_cylinder(&scene->objects[i].data.cylinder))
+		{
 			return (FALSE);
+		}
 		else if (scene->objects[i].type == PLANE
 			&& !validate_plane(&scene->objects[i].data.plane))
+		{
 			return (FALSE);
+		}
 		else if (scene->objects[i].type == CONE
 			&& !validate_cone(&scene->objects[i].data.cone))
+		{
 			return (FALSE);
+		}
 		i++;
 	}
 	return (TRUE);
@@ -76,6 +84,12 @@ static int	validate_scene_objects(t_scene *scene)
 int	validate_scene(t_scene *scene)
 {
 	if (!validate_scene_basic(scene))
+	{
 		return (FALSE);
-	return (validate_scene_objects(scene));
+	}
+	if (!validate_scene_objects(scene))
+	{
+		return (FALSE);
+	}
+	return (TRUE);
 }

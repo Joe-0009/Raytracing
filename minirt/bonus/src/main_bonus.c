@@ -31,13 +31,25 @@ int	main(int argc, char **argv)
 
 	if (argc != 2)
 		error_exit(ERR_ARGS);
+	printf("DEBUG: Starting parse_scene_file\n");
 	scene = parse_scene_file(argv[1]);
 	if (!scene)
 		error_exit(ERR_SCENE);
+	printf("DEBUG: Parsing completed successfully\n");
+	printf("DEBUG: Scene has %d objects\n", scene->num_objects);
+	if (scene->num_objects > 0 && scene->objects[0].type == SPHERE)
+	{
+		printf("DEBUG: First object is sphere with texture.is_active=%d\n", 
+			scene->objects[0].data.sphere.texture.is_active);
+	}
+	printf("DEBUG: Initializing MLX\n");
 	init_mlx_and_window(&vars);
 	vars.scene = scene;
+	printf("DEBUG: Loading textures\n");
 	load_scene_texture_bump(vars.mlx, scene);
+	printf("DEBUG: Starting main_draw\n");
 	main_draw(&vars, scene);
+	printf("DEBUG: main_draw completed\n");
 	mlx_hooks(&vars);
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.img->img, 0, 0);
 	mlx_loop(vars.mlx);

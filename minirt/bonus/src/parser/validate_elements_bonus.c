@@ -16,13 +16,19 @@ int	validate_plane(t_plane *plane)
 int	validate_sphere(t_sphere *sphere)
 {
 	if (!validate_position(sphere->center, "Sphere"))
+	{
 		return (FALSE);
+	}
 	if (sphere->diameter <= 0.0)
+	{
 		return (printf(ERR_SPHERE_FORMAT), printf(ERR_SPHERE_DIAMETER_POSITIVE),
 			FALSE);
+	}
 	if (sphere->diameter < 0.1)
+	{
 		return (printf(ERR_SPHERE_FORMAT), printf(WARN_SPHERE_DIAMETER_SMALL),
 			FALSE);
+	}
 	return (TRUE);
 }
 

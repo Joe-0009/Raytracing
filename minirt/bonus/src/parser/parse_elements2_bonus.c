@@ -2,11 +2,11 @@
 #include "../includes/scene_bonus.h"
 #include <math.h>
 
-int	parse_cylinder(char **tokens, t_scene *scene)
+int	parse_cylinder(char **tokens, t_scene *scene, int token_count)
 {
 	t_cylinder	cylinder;
 
-	if (!tokens[1] || !tokens[2] || !tokens[3] || !tokens[4] || !tokens[5])
+	if (token_count < 5)
 		return (printf(ERR_CYLINDER_FORMAT), printf(FMT_CYLINDER_EXPECTED),
 			FALSE);
 	if (tokens[6] && tokens[7])
@@ -30,7 +30,7 @@ int	parse_cylinder(char **tokens, t_scene *scene)
 	return (TRUE);
 }
 
-int	parse_cone(char **tokens, t_scene *scene)
+int	parse_cone(char **tokens, t_scene *scene, int token_count)
 {
 	t_cone cone;
 

@@ -42,7 +42,7 @@ int	intersect_sphere(const t_sphere *sphere, t_ray ray, t_hit *hit)
 	center_to_hit = vec3_sub(hit->point, sphere->center);
 	hit->normal = vec3_normalize(center_to_hit);
 	hit->uv = sphere_uv_mapping(hit->normal);
-	if (sphere->bump.has_bump_map)
+	if (sphere->bump.is_active)
 	{
 		tangent = vec3_create(-hit->normal.z, 0, hit->normal.x);
 		if (vec3_length(tangent) < 0.001)
@@ -53,7 +53,7 @@ int	intersect_sphere(const t_sphere *sphere, t_ray ray, t_hit *hit)
 		hit->normal = apply_bump_mapping(hit->normal, hit->uv, &sphere->bump,
 				tangent, bitangent);
 	}
-	if (sphere->texture.has_texture)
+	if (sphere->texture.is_active)
 		hit->color = sample_texture(&sphere->texture, hit->uv);
 	else
 		hit->color = sphere->color;

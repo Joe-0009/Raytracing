@@ -96,21 +96,21 @@ int			validate_scene(t_scene *scene);
 int			validate_scene_rendering(t_scene *scene);
 
 /* Element parsing functions */
-int			parse_ambient(char **tokens, t_scene *scene);
-int			parse_light(char **tokens, t_scene *scene);
-int			parse_camera(char **tokens, t_scene *scene);
-int			parse_sphere(char **tokens, t_scene *scene);
-int			parse_plane(char **tokens, t_scene *scene);
-int			parse_cylinder(char **tokens, t_scene *scene);
-int			parse_cone(char **tokens, t_scene *scene);
+int			parse_ambient(char **tokens, t_scene *scene, int token_count);
+int			parse_light(char **tokens, t_scene *scene, int token_count);
+int			parse_camera(char **tokens, t_scene *scene, int token_count);
+int			parse_sphere(char **tokens, t_scene *scene, int token_count);
+int			parse_plane(char **tokens, t_scene *scene, int token_count);
+int			parse_cylinder(char **tokens, t_scene *scene, int token_count);
+int			parse_cone(char **tokens, t_scene *scene, int token_count);
 
 /* Data type parsing */
 int			parse_vector(char *str, t_vec3 *vec);
 int			parse_color(char *str, t_color3 *color);
 int			parse_double(char *str, double *value);
-void		init_texture_bump_struct(t_texture *texture, t_bump *bump);
-int			parse_texture(char *str, t_texture *texture);
-int			parse_bump(char *str, t_bump *bump);
+void		init_texture_bump_struct(t_surface_map *texture, t_surface_map *bump);
+int			parse_texture(char *str, t_surface_map *texture);
+int			parse_bump(char *str, t_surface_map *bump);
 
 /* Object validation */
 int			validate_sphere(t_sphere *sphere);

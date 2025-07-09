@@ -20,6 +20,9 @@ void	print_controls_help(void)
 	printf("  +/- - Scale object up/down\n");
 	printf("  R/F - Rotate object around X-axis (forward/reverse)\n");
 	printf("  T/G - Rotate object around Y-axis (forward/reverse)\n");
+	printf("\nTEXTURE ROTATION (spheres only):\n");
+	printf("  U/Y - Rotate texture clockwise/counter-clockwise\n");
+	printf("  H/N - Rotate bump map clockwise/counter-clockwise\n");
 	printf("\nOTHER:\n");
 	printf("  SPACE - Show this help\n");
 	printf("  ESC - Exit\n");

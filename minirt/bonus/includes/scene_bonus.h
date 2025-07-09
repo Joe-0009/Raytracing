@@ -3,27 +3,24 @@
 
 # include "math_utils_bonus.h"
 
-/* Texture structure */
-typedef struct s_texture
+/* Unified surface map structure for textures and bump maps */
+typedef struct s_surface_map
 {
-	int				texture_width;
-	int				texture_height;
-	unsigned char	*texture_data;
-	int				has_texture;
-	void			*texture_mlx_img;
-	char			*texture_path;
-}					t_texture;
+	int				width;
+	int				height;
+	unsigned char	*data;
+	int				is_active;
+	void			*mlx_img;
+	char			*path;
+	int				map_type;  // 0 = texture, 1 = bump
+	double			rotation_x;  // Rotation around X axis (radians)
+	double			rotation_y;  // Rotation around Y axis (radians)
+	double			rotation_z;  // Rotation around Z axis (radians)
+}					t_surface_map;
 
-/* Bump mapping support */
-typedef struct s_bump
-{
-	int				has_bump_map;
-	int				bump_width;
-	int				bump_height;
-	unsigned char	*bump_data;
-	void			*bump_mlx_img;
-	char			*bump_path;
-}					t_bump;
+/* Map type constants */
+# define MAP_TYPE_TEXTURE 0
+# define MAP_TYPE_BUMP 1
 
 /* UV coordinates for texture mapping */
 typedef struct s_uv
@@ -80,8 +77,8 @@ typedef struct s_sphere
 	double			diameter;
 	double			radius;
 	t_color3		color;
-	t_texture		texture;
-	t_bump			bump;
+	t_surface_map	texture;
+	t_surface_map	bump;
 }					t_sphere;
 
 typedef struct s_plane
@@ -176,14 +173,15 @@ t_ray				generate_camera_ray(const t_scene *scene, int x, int y);
 int					trace_ray(const t_scene *scene, t_ray ray);
 
 /* Texture functions */
-void				free_texture(void *mlx, t_texture *texture);
-void				free_bump(void *mlx, t_bump *bump);
-t_color3			sample_texture(const t_texture *texture, t_uv uv);
-double				sample_bump_map(const t_bump *bump, t_uv uv);
+void				free_surface_map(void *mlx, t_surface_map *surface_map);
+void				load_surface_map(void *mlx, t_surface_map *surface_map);
+t_color3			sample_texture(const t_surface_map *texture, t_uv uv);
+double				sample_bump_map(const t_surface_map *bump, t_uv uv);
 t_vec3				apply_bump_mapping(t_vec3 normal, t_uv uv,
-						const t_bump *bump, t_vec3 tangent,
+						const t_surface_map *bump, t_vec3 tangent,
 						t_vec3 bitangent);
 t_uv				sphere_uv_mapping(t_vec3 normalized);
+t_uv				apply_uv_rotation(t_uv uv, const t_surface_map *surface_map);
 void				load_scene_texture_bump(void *mlx, t_scene *scene);
 
 #endif

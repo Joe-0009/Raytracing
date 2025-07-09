@@ -3,12 +3,12 @@ A 0.2 255,255,255
 C 0,0,15 0,0,-1 70
 L -20,20,10 0.7 255,255,255
 
-sp -8,4,0 3 255,255,255 SoccerBall.xpm
-sp 0,4,0 3 255,255,255 BasketballColor.xpm
-sp 8,4,0 3 255,255,255 BeachBallColor.xpm
+sp -8,4,0 3 255,255,255 txm:images/SoccerBall.xpm 
+sp 0,4,0 3 255,255,255 txm:images/BasketballColor.xpm
+sp 8,4,0 3 255,255,255 txm:images/BeachBallColor.xpm
 
-sp -8,-4,0 3 255,255,255 NewTennisBallColor.xpm
-sp 0,-4,0 3 255,255,255 SoftballColor.xpm
-sp 8,-4,0 3 255,255,255 Ball1.xpm
+sp -8,-4,0 3 255,255,255 txm:images/NewTennisBallColor.xpm
+sp 0,-4,0 3 255,255,255 txm:images/SoftballColor.xpm
+sp 8,-4,0 3 255,255,255 txm:images/Ball1.xpm
 
-pl 0,-10,0 0,1,0 100,100,100 none
+pl 0,-10,0 0,1,0 100,100,100 
