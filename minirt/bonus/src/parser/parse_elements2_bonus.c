@@ -34,6 +34,8 @@ int	parse_cone(char **tokens, t_scene *scene, int token_count)
 {
 	t_cone cone;
 
+	if (token_count < 5)
+		return (printf(ERR_CONE_FORMAT), printf(FMT_CONE_EXPECTED), FALSE);
 	if (!tokens[1] || !tokens[2] || !tokens[3] || !tokens[4] || !tokens[5])
 		return (printf(ERR_CONE_FORMAT), printf(FMT_CONE_EXPECTED), FALSE);
 	if (tokens[6] && tokens[7])

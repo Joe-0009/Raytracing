@@ -5,29 +5,41 @@ int	parse_ambient(char **tokens, t_scene *scene, int token_count)
 {
 	t_ambient	ambient;
 
+	printf("DEBUG: parse_ambient called with token_count=%d\n", token_count);
+	if (tokens[0]) printf("DEBUG: tokens[0]='%s'\n", tokens[0]);
+	if (tokens[1]) printf("DEBUG: tokens[1]='%s'\n", tokens[1]);
+	if (tokens[2]) printf("DEBUG: tokens[2]='%s'\n", tokens[2]);
 	if (token_count != 3)
 	{
+		printf("DEBUG: Invalid token count for ambient: %d (expected 3)\n", token_count);
 		return (printf(ERR_AMBIENT_FORMAT), printf(FMT_AMBIENT_EXPECTED),
 			FALSE);
 	}
 	if (scene->has_ambient)
 	{
+		printf("DEBUG: Ambient already defined\n");
 		return (printf(ERR_AMBIENT_ALREADY_DEFINED), FALSE);
 	}
 	if (!parse_double(tokens[1], &ambient.ratio))
 	{
+		printf("DEBUG: Failed to parse ambient ratio\n");
 		return (FALSE);
 	}
+	printf("DEBUG: Parsed ambient ratio: %f\n", ambient.ratio);
 	if (ambient.ratio < 0.0 || ambient.ratio > 1.0)
 	{
+		printf("DEBUG: Ambient ratio out of range: %f\n", ambient.ratio);
 		return (printf(ERR_AMBIENT_RATIO_RANGE), FALSE);
 	}
 	if (!parse_color(tokens[2], &ambient.color))
 	{
+		printf("DEBUG: Failed to parse ambient color\n");
 		return (printf(ERR_AMBIENT_COLOR_INVALID), FALSE);
 	}
+	printf("DEBUG: Parsed ambient color: (%f, %f, %f)\n", ambient.color.x, ambient.color.y, ambient.color.z);
 	scene->has_ambient = TRUE;
 	scene->ambient = ambient;
+	printf("DEBUG: Successfully set ambient lighting\n");
 	return (TRUE);
 }
 
