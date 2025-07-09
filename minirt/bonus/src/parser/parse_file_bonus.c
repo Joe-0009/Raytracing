@@ -2,6 +2,9 @@
 #include "../includes/parser_bonus.h"
 #include <stdio.h>
 
+/*
+** Counts the number of tokens in a NULL-terminated array.
+*/
 static int	count_tokens(char **tokens)
 {
 	int	count;
@@ -12,6 +15,9 @@ static int	count_tokens(char **tokens)
 	return (count);
 }
 
+/*
+** Initializes the parser and scene structures to default values.
+*/
 void	init_parser_and_scene(t_parser *parser, t_scene *scene)
 {
 	parser->line = NULL;
@@ -29,6 +35,9 @@ void	init_parser_and_scene(t_parser *parser, t_scene *scene)
 	scene->nbr_of_lights = 0;
 }
 
+/*
+** Validates the file extension and checks read permissions for the scene file.
+*/
 int	validate_extension_and_permission(const char *filename, t_scene *scene)
 {
 	const char	*extension;
@@ -51,6 +60,9 @@ int	validate_extension_and_permission(const char *filename, t_scene *scene)
 	return (fd);
 }
 
+/*
+** Dispatches the parsing of a line's tokens to the appropriate object parser based on the identifier.
+*/
 int	dispatch_parse_token(char **tokens, t_scene *scene, int tokens_count)
 {
 	size_t	token_len;
@@ -59,44 +71,33 @@ int	dispatch_parse_token(char **tokens, t_scene *scene, int tokens_count)
 	if (token_len == 1)
 	{
 		if (tokens[0][0] == 'A')
-		{
-			return (parse_ambient(tokens, scene,tokens_count));
-		}
+			return (parse_ambient(tokens, scene, tokens_count));
 		else if (tokens[0][0] == 'C')
-		{
 			return (parse_camera(tokens, scene, tokens_count));
-		}
 		else if (tokens[0][0] == 'L')
-		{
 			return (parse_light(tokens, scene, tokens_count));
-		}
 	}
 	else if (token_len == 2)
 	{
 		if (tokens[0][0] == 's' && tokens[0][1] == 'p')
-		{
 			return (parse_sphere(tokens, scene, tokens_count));
-		}
 		else if (tokens[0][0] == 'p' && tokens[0][1] == 'l')
-		{
 			return (parse_plane(tokens, scene, tokens_count));
-		}
 		else if (tokens[0][0] == 'c' && tokens[0][1] == 'y')
-		{
 			return (parse_cylinder(tokens, scene, tokens_count));
-		}
 		else if (tokens[0][0] == 'c' && tokens[0][1] == 'n')
-		{
 			return (parse_cone(tokens, scene, tokens_count));
-		}
 	}
 	return (FALSE);
 }
 
+/*
+** Processes a single line from the scene file, splitting it into tokens and parsing the object.
+*/
 int	process_scene_line(t_parser *parser, t_scene *scene, char *line)
 {
 	int	parse_result;
-	int tokens_count;
+	int	tokens_count;
 
 	parser->line_count++;
 	parser->line = line;
@@ -122,6 +123,9 @@ int	process_scene_line(t_parser *parser, t_scene *scene, char *line)
 	return (ft_free((void **)&line), free_tokens(parser->tokens), parse_result);
 }
 
+/*
+** Parses the entire scene file and returns a pointer to the populated scene structure.
+*/
 t_scene	*parse_scene_file(char *filename)
 {
 	t_scene		*scene;
@@ -131,10 +135,6 @@ t_scene	*parse_scene_file(char *filename)
 	int			result;
 
 	scene = (t_scene *)malloc(sizeof(t_scene));
-	if (!scene)
-	{
-		return (NULL);
-	}
 	init_parser_and_scene(&parser, scene);
 	fd = validate_extension_and_permission(filename, scene);
 	if (fd == -1)
@@ -144,9 +144,7 @@ t_scene	*parse_scene_file(char *filename)
 	{
 		result = process_scene_line(&parser, scene, line);
 		if (result == 0)
-		{
 			return (close(fd), ft_free_scene(&scene), NULL);
-		}
 		line = get_next_line(fd);
 	}
 	close(fd);

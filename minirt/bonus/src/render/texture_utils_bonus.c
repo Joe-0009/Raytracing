@@ -9,8 +9,6 @@
 # define M_PI 3.14159265358979323846
 #endif
 
-
-
 /*
 ** Free surface map memory (unified for texture and bump)
 */
@@ -44,14 +42,13 @@ double	sample_bump_map(const t_surface_map *bump, t_uv uv)
 	double	height;
 
 	int x, y;
-	if (!bump->is_active || !bump->data
-		|| bump->width <= 0 || bump->height <= 0)
+	if (!bump->is_active || !bump->data || bump->width <= 0
+		|| bump->height <= 0)
 		return (0.5);
-	
 	// Apply rotation if any rotation is set
-	if (bump->rotation_x != 0.0 || bump->rotation_y != 0.0 || bump->rotation_z != 0.0)
+	if (bump->rotation_x != 0.0 || bump->rotation_y != 0.0
+		|| bump->rotation_z != 0.0)
 		uv = apply_uv_rotation(uv, bump);
-	
 	uv.u = fmod(uv.u, 1.0);
 	uv.v = fmod(uv.v, 1.0);
 	if (uv.u < 0)
@@ -91,11 +88,9 @@ t_color3	sample_texture(const t_surface_map *texture, t_uv uv)
 	int x, y;
 	if (!texture->is_active || !texture->data)
 		return (vec3_create(1.0, 1.0, 1.0));
-	
-	// Apply rotation if any rotation is set
-	if (texture->rotation_x != 0.0 || texture->rotation_y != 0.0 || texture->rotation_z != 0.0)
+	if (texture->rotation_x != 0.0 || texture->rotation_y != 0.0
+		|| texture->rotation_z != 0.0)
 		uv = apply_uv_rotation(uv, texture);
-	
 	uv.u = fmod(uv.u, 1.0);
 	uv.v = fmod(uv.v, 1.0);
 	if (uv.u < 0)
@@ -110,7 +105,6 @@ t_color3	sample_texture(const t_surface_map *texture, t_uv uv)
 	color.z = texture->data[index + 2] / 255.0;
 	return (color);
 }
-
 
 /*
 ** Apply bump mapping to surface normal
@@ -128,8 +122,7 @@ t_vec3	apply_bump_mapping(t_vec3 normal, t_uv uv, const t_surface_map *bump,
 	double du, dv;
 	if (!bump->is_active)
 		return (normal);
-	bump_scale = 2.0; // Much higher bump scale for pronounced effect
-	// Sample bump map at current position and neighboring positions
+	bump_scale = 2.0;
 	h_center = sample_bump_map(bump, uv);
 	uv_right = uv;
 	uv_right.u += 1.0 / bump->width;
@@ -137,23 +130,17 @@ t_vec3	apply_bump_mapping(t_vec3 normal, t_uv uv, const t_surface_map *bump,
 	uv_up = uv;
 	uv_up.v += 1.0 / bump->height;
 	h_up = sample_bump_map(bump, uv_up);
-	// Calculate gradients with much higher sensitivity
 	du = (h_right - h_center) * bump_scale * 5.0;
 	dv = (h_up - h_center) * bump_scale * 5.0;
-	// Enhance the bump effect further
 	du = du * (1.0 + fabs(h_center - 0.5) * 2.0);
 	dv = dv * (1.0 + fabs(h_center - 0.5) * 2.0);
-	// Perturb normal using tangent space with stronger effect
 	bump_normal = vec3_add(normal, vec3_mult(tangent, du));
 	bump_normal = vec3_add(bump_normal, vec3_mult(bitangent, dv));
-	// Enhance the deviation from the original normal
 	deviation = vec3_sub(bump_normal, normal);
-	deviation = vec3_mult(deviation, 1.5); // Amplify the deviation
+	deviation = vec3_mult(deviation, 1.5);
 	bump_normal = vec3_add(normal, deviation);
 	return (vec3_normalize(bump_normal));
 }
-
-
 
 /*
 ** Calculate UV coordinates for sphere mapping using pre-calculated normalized vector
@@ -162,8 +149,8 @@ t_vec3	apply_bump_mapping(t_vec3 normal, t_uv uv, const t_surface_map *bump,
 t_uv	sphere_uv_mapping(t_vec3 normalized)
 {
 	t_uv	uv;
+
 	double phi, theta;
-	
 	phi = atan2(normalized.z, normalized.x);
 	theta = acos(normalized.y);
 	uv.u = (phi + M_PI) / (2.0 * M_PI);
@@ -171,33 +158,33 @@ t_uv	sphere_uv_mapping(t_vec3 normalized)
 	return (uv);
 }
 
-
 /*
 ** Load a surface map using MLX image loading (XPM or PNG)
 ** Works for both textures and bump maps based on map_type
 */
 void	load_surface_map(void *mlx, t_surface_map *surface_map)
 {
-	char		*data_addr;
-	int			bits_per_pixel;
-	int			line_length;
-	int			endian;
-	int			pixel;
-	int i, j;
+	char	*data_addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+	int		pixel;
 
+	int i, j;
 	if (strstr(surface_map->path, ".xpm"))
-		surface_map->mlx_img = mlx_xpm_file_to_image(mlx, (char *)surface_map->path,
-				&surface_map->width, &surface_map->height);
+		surface_map->mlx_img = mlx_xpm_file_to_image(mlx,
+				(char *)surface_map->path, &surface_map->width,
+				&surface_map->height);
 	else
 	{
 		printf("Error: Only XPM files are supported.\n");
 		surface_map->is_active = 0;
-		return;
+		return ;
 	}
 	if (!surface_map->mlx_img)
 	{
 		surface_map->is_active = 0;
-		return;
+		return ;
 	}
 	data_addr = mlx_get_data_addr(surface_map->mlx_img, &bits_per_pixel,
 			&line_length, &endian);
@@ -205,26 +192,29 @@ void	load_surface_map(void *mlx, t_surface_map *surface_map)
 	{
 		mlx_destroy_image(mlx, surface_map->mlx_img);
 		surface_map->is_active = 0;
-		return;
+		return ;
 	}
 	surface_map->data = malloc(surface_map->width * surface_map->height * 3);
 	if (!surface_map->data)
 	{
 		mlx_destroy_image(mlx, surface_map->mlx_img);
 		surface_map->is_active = 0;
-		return;
+		return ;
 	}
 	i = -1;
 	while (++i < surface_map->height)
 	{
-		j = -1; 
+		j = -1;
 		while (++j < surface_map->width)
 		{
 			pixel = *(int *)(data_addr + (i * line_length + j * (bits_per_pixel
 							/ 8)));
-			surface_map->data[(i * surface_map->width + j) * 3] = (pixel >> 16) & 0xFF;
-			surface_map->data[(i * surface_map->width + j) * 3 + 1] = (pixel >> 8) & 0xFF;
-			surface_map->data[(i * surface_map->width + j) * 3 + 2] = pixel & 0xFF;
+			surface_map->data[(i * surface_map->width + j)
+				* 3] = (pixel >> 16) & 0xFF;
+			surface_map->data[(i * surface_map->width + j) * 3
+				+ 1] = (pixel >> 8) & 0xFF;
+			surface_map->data[(i * surface_map->width + j) * 3
+				+ 2] = pixel & 0xFF;
 		}
 	}
 	surface_map->is_active = 1;
@@ -235,7 +225,7 @@ void	load_surface_map(void *mlx, t_surface_map *surface_map)
 */
 void	load_scene_texture_bump(void *mlx, t_scene *scene)
 {
-	int			i;
+	int	i;
 
 	if (!mlx || !scene)
 		return ;
@@ -244,9 +234,11 @@ void	load_scene_texture_bump(void *mlx, t_scene *scene)
 	{
 		if (scene->objects[i].type == SPHERE)
 		{
-			if (scene->objects[i].data.sphere.texture.is_active && scene->objects[i].data.sphere.texture.path)
+			if (scene->objects[i].data.sphere.texture.is_active
+				&& scene->objects[i].data.sphere.texture.path)
 				load_surface_map(mlx, &scene->objects[i].data.sphere.texture);
-			if (scene->objects[i].data.sphere.bump.is_active && scene->objects[i].data.sphere.bump.path)
+			if (scene->objects[i].data.sphere.bump.is_active
+				&& scene->objects[i].data.sphere.bump.path)
 				load_surface_map(mlx, &scene->objects[i].data.sphere.bump);
 		}
 	}
@@ -259,27 +251,16 @@ void	load_scene_texture_bump(void *mlx, t_scene *scene)
 t_uv	apply_uv_rotation(t_uv uv, const t_surface_map *surface_map)
 {
 	t_uv	rotated;
-	double	cos_z, sin_z;
-	double	temp_u, temp_v;
 
-	// Only apply Z rotation for 2D UV space (most common case)
-	// Center the UV coordinates around (0, 0)
+	double cos_z, sin_z;
+	double temp_u, temp_v;
 	temp_u = uv.u - 0.5;
 	temp_v = uv.v - 0.5;
-	
-	// Apply Z rotation (rotation in the UV plane)
 	cos_z = cos(surface_map->rotation_z);
 	sin_z = sin(surface_map->rotation_z);
-	
 	rotated.u = temp_u * cos_z - temp_v * sin_z;
 	rotated.v = temp_u * sin_z + temp_v * cos_z;
-	
-	// Translate back to center around (0.5, 0.5)
 	rotated.u += 0.5;
 	rotated.v += 0.5;
-	
 	return (rotated);
 }
-
-
-
