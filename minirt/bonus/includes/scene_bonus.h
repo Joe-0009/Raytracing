@@ -79,6 +79,7 @@ typedef struct s_sphere
 	t_color3		color;
 	t_surface_map	texture;
 	t_surface_map	bump;
+	int				checkerboard;
 }					t_sphere;
 
 typedef struct s_plane

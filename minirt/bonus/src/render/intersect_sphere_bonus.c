@@ -55,6 +55,15 @@ int	intersect_sphere(const t_sphere *sphere, t_ray ray, t_hit *hit)
 	}
 	if (sphere->texture.is_active)
 		hit->color = sample_texture(&sphere->texture, hit->uv);
+	else if (sphere->checkerboard)
+	{
+		int check_u = (int)floor(hit->uv.u * 8.0);
+		int check_v = (int)floor(hit->uv.v * 8.0);
+		if ((check_u + check_v) % 2 == 0)
+			hit->color = vec3_create(1.0, 1.0, 1.0); // white
+		else
+			hit->color = vec3_create(0.0, 0.0, 0.0); // black
+	}
 	else
 		hit->color = sphere->color;
 	hit->obj_type = SPHERE;

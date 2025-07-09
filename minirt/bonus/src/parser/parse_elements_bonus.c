@@ -97,9 +97,12 @@ int	parse_sphere(char **tokens, t_scene *scene, int token_count)
 	if (!parse_color(tokens[3], &sphere.color))
 		return (printf(ERR_SPHERE_COLOR_INVALID), FALSE);
 	init_texture_bump_struct(&sphere.texture, &sphere.bump);
+	sphere.checkerboard = 0;
 	if (token_count >= 5)
 	{
-		if (!parse_texture(tokens[4], &sphere.texture))
+		if (strcmp(tokens[4], "checkerboard") == 0)
+			sphere.checkerboard = 1;
+		else if (!parse_texture(tokens[4], &sphere.texture))
 			return (FALSE);
 	}
 	if (token_count >= 6)
