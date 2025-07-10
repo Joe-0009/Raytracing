@@ -27,8 +27,10 @@ int	intersect_sphere(const t_sphere *sphere, t_ray ray, t_hit *hit)
 	t_quadratic	coeffs;
 	double		t;
 	t_vec3		center_to_hit;
-	t_vec3		tangent, bitangent;
+	int			check_u;
+	int			check_v;
 
+	t_vec3 tangent, bitangent;
 	coeffs = sphere_quadratic_coeffs(sphere, ray);
 	if (coeffs.b * coeffs.b < 4.0 * coeffs.a * coeffs.c)
 		return (0);
@@ -57,12 +59,12 @@ int	intersect_sphere(const t_sphere *sphere, t_ray ray, t_hit *hit)
 		hit->color = sample_texture(&sphere->texture, hit->uv);
 	else if (sphere->checkerboard)
 	{
-		int check_u = (int)floor(hit->uv.u * 8.0);
-		int check_v = (int)floor(hit->uv.v * 8.0);
+		check_u = (int)floor(hit->uv.u * 8.0);
+		check_v = (int)floor(hit->uv.v * 8.0);
 		if ((check_u + check_v) % 2 == 0)
-			hit->color = vec3_create(1.0, 1.0, 1.0); // white
+			hit->color = vec3_create(1.0, 1.0, 1.0);
 		else
-			hit->color = vec3_create(0.0, 0.0, 0.0); // black
+			hit->color = vec3_create(0.0, 0.0, 0.0);
 	}
 	else
 		hit->color = sphere->color;

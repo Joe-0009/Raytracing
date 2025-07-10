@@ -45,10 +45,6 @@ double	sample_bump_map(const t_surface_map *bump, t_uv uv)
 	if (!bump->is_active || !bump->data || bump->width <= 0
 		|| bump->height <= 0)
 		return (0.5);
-	// Apply rotation if any rotation is set
-	if (bump->rotation_x != 0.0 || bump->rotation_y != 0.0
-		|| bump->rotation_z != 0.0)
-		uv = apply_uv_rotation(uv, bump);
 	uv.u = fmod(uv.u, 1.0);
 	uv.v = fmod(uv.v, 1.0);
 	if (uv.u < 0)
@@ -88,9 +84,6 @@ t_color3	sample_texture(const t_surface_map *texture, t_uv uv)
 	int x, y;
 	if (!texture->is_active || !texture->data)
 		return (vec3_create(1.0, 1.0, 1.0));
-	if (texture->rotation_x != 0.0 || texture->rotation_y != 0.0
-		|| texture->rotation_z != 0.0)
-		uv = apply_uv_rotation(uv, texture);
 	uv.u = fmod(uv.u, 1.0);
 	uv.v = fmod(uv.v, 1.0);
 	if (uv.u < 0)
@@ -244,23 +237,4 @@ void	load_scene_texture_bump(void *mlx, t_scene *scene)
 	}
 }
 
-/*
-** Apply rotation to UV coordinates
-** Rotates UV coordinates around the center (0.5, 0.5) using the rotation angles
-*/
-t_uv	apply_uv_rotation(t_uv uv, const t_surface_map *surface_map)
-{
-	t_uv	rotated;
-
-	double cos_z, sin_z;
-	double temp_u, temp_v;
-	temp_u = uv.u - 0.5;
-	temp_v = uv.v - 0.5;
-	cos_z = cos(surface_map->rotation_z);
-	sin_z = sin(surface_map->rotation_z);
-	rotated.u = temp_u * cos_z - temp_v * sin_z;
-	rotated.v = temp_u * sin_z + temp_v * cos_z;
-	rotated.u += 0.5;
-	rotated.v += 0.5;
-	return (rotated);
-}
+/* Rotation functionality removed */

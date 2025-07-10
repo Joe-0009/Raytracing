@@ -13,9 +13,6 @@ typedef struct s_surface_map
 	void			*mlx_img;
 	char			*path;
 	int				map_type;  // 0 = texture, 1 = bump
-	double			rotation_x;  // Rotation around X axis (radians)
-	double			rotation_y;  // Rotation around Y axis (radians)
-	double			rotation_z;  // Rotation around Z axis (radians)
 }					t_surface_map;
 
 /* Map type constants */
@@ -182,7 +179,6 @@ t_vec3				apply_bump_mapping(t_vec3 normal, t_uv uv,
 						const t_surface_map *bump, t_vec3 tangent,
 						t_vec3 bitangent);
 t_uv				sphere_uv_mapping(t_vec3 normalized);
-t_uv				apply_uv_rotation(t_uv uv, const t_surface_map *surface_map);
 void				load_scene_texture_bump(void *mlx, t_scene *scene);
 
 #endif

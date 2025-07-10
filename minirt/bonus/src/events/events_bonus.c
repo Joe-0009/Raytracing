@@ -59,7 +59,6 @@ int	key_handler(int keycode, t_vars *vars)
 		handle_camera_movement(keycode, vars->scene);
 		handle_camera_rotation(keycode, vars->scene);
 		handle_object_transforms(keycode, vars->scene);
-		handle_sphere_texture_rotation(keycode, vars->scene);
 		if (is_redraw_key(keycode))
 			draw_new_image(vars, vars->scene);
 	}

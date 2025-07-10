@@ -76,7 +76,6 @@ void			draw_new_image(t_vars *vars, t_scene *scene);
 void			handle_camera_movement(int keycode, t_scene *scene);
 void			handle_camera_rotation(int keycode, t_scene *scene);
 void			handle_object_transforms(int keycode, t_scene *scene);
-void			handle_sphere_texture_rotation(int keycode, t_scene *scene);
 void			print_controls_help(void);
 
 #endif
