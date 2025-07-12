@@ -1,6 +1,11 @@
 #include "../includes/events_bonus.h"
 #include "../includes/scene_bonus.h"
 #include <stdio.h>
+#include <math.h>
+
+#ifndef M_PI
+# define M_PI 3.14159265358979323846
+#endif
 
 /*
 ** Create identity transform
@@ -60,11 +65,14 @@ void	scene_translate_object(t_scene *scene, int obj_index, t_vec3 delta)
 
 /*
 ** Rotate object in scene around its own center
+** For spheres: rotates texture and bump map instead of geometry
 */
 void	scene_rotate_object(t_scene *scene, int obj_index, t_vec3 rotation)
 {
 	t_vec3	axis;
 	double	angle;
+	double	current_rotation;
+	double	rotation_increment;
 
 	if (obj_index < 0 || obj_index >= scene->num_objects)
 		return ;
@@ -72,8 +80,17 @@ void	scene_rotate_object(t_scene *scene, int obj_index, t_vec3 rotation)
 	if (angle < 0.0001)
 		return ;
 	axis = vec3_normalize(rotation);
+	
 	if (scene->objects[obj_index].type == SPHERE)
-		return ;
+	{
+		current_rotation = scene->objects[obj_index].data.sphere.texture.rotation_uv.u * 180.0 / M_PI;
+		if (rotation.x > 0 || rotation.y > 0 || rotation.z > 0)
+			rotation_increment = angle * 180.0 / M_PI;
+		else
+			rotation_increment = -angle * 180.0 / M_PI;
+		current_rotation += rotation_increment;
+		set_sphere_texture_rotation(&scene->objects[obj_index].data.sphere, current_rotation);
+	}
 	else if (scene->objects[obj_index].type == PLANE)
 	{
 		scene->objects[obj_index].data.plane.normal = vec3_rotate_around_axis(

@@ -4,16 +4,6 @@
 # include "math_utils_bonus.h"
 
 /* Unified surface map structure for textures and bump maps */
-typedef struct s_surface_map
-{
-	int				width;
-	int				height;
-	unsigned char	*data;
-	int				is_active;
-	void			*mlx_img;
-	char			*path;
-	int				map_type;  // 0 = texture, 1 = bump
-}					t_surface_map;
 
 /* Map type constants */
 # define MAP_TYPE_TEXTURE 0
@@ -26,6 +16,17 @@ typedef struct s_uv
 	double			v;
 }					t_uv;
 
+typedef struct s_surface_map
+{
+	int				width;
+	int				height;
+	unsigned char	*data;
+	int				is_active;
+	void			*mlx_img;
+	char			*path;
+	int				map_type;
+	t_uv			rotation_uv;
+}					t_surface_map;
 /* Ray type */
 typedef struct s_ray
 {
@@ -166,6 +167,7 @@ t_quadratic			cylinder_quadratic_coeffs(const t_cylinder *cylinder,
 						t_ray ray);
 t_cone_constants	get_cone_constants(const t_cone *cone);
 t_quadratic			cone_quadratic_coeffs(const t_cone *cone, t_ray ray);
+
 /* Ray tracing functions */
 t_ray				generate_camera_ray(const t_scene *scene, int x, int y);
 int					trace_ray(const t_scene *scene, t_ray ray);
@@ -180,5 +182,9 @@ t_vec3				apply_bump_mapping(t_vec3 normal, t_uv uv,
 						t_vec3 bitangent);
 t_uv				sphere_uv_mapping(t_vec3 normalized);
 void				load_scene_texture_bump(void *mlx, t_scene *scene);
+
+/* Texture rotation functions */
+void				set_texture_rotation_degrees(t_surface_map *map, double angle_degrees);
+void				set_sphere_texture_rotation(t_sphere *sphere, double angle_degrees);
 
 #endif

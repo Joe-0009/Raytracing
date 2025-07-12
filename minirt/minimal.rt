@@ -1,6 +1,0 @@
-# Minimal test scene for performance verification
-A 0.1 255,255,255
-C 0,0,-5 0,0,1 70
-L 0,5,-3 0.6 255,255,255
-sp 0,0,0 1 255,100,100
-pl 0,-2,0 0,1,0 200,200,200

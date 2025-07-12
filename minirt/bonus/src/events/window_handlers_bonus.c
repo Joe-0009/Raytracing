@@ -18,11 +18,11 @@ void	print_controls_help(void)
 	printf("  P/O - Select object (next/previous)\n");
 	printf("  Arrow keys - Move object (left/right/up/down)\n");
 	printf("  +/- - Scale object up/down\n");
-	printf("  R/F - Rotate object around X-axis (forward/reverse)\n");
-	printf("  T/G - Rotate object around Y-axis (forward/reverse)\n");
-	printf("\nTEXTURE ROTATION (spheres only):\n");
-	printf("  U/Y - Rotate texture clockwise/counter-clockwise\n");
-	printf("  H/N - Rotate bump map clockwise/counter-clockwise\n");
+	printf("\nROTATION (context-sensitive):\n");
+	printf("  For SPHERES: R/T/F/G - Rotate texture and bump map\n");
+	printf("  For OTHER OBJECTS: R/T/F/G - Rotate object geometry\n");
+	printf("    R/F - Rotate around X-axis (forward/reverse)\n");
+	printf("    T/G - Rotate around Y-axis (forward/reverse)\n");
 	printf("\nOTHER:\n");
 	printf("  SPACE - Show this help\n");
 	printf("  ESC - Exit\n");

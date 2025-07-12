@@ -1,0 +1,136 @@
+#include "../includes/scene_bonus.h"
+#include <mlx.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+/*
+** Free surface map memory (unified for texture and bump)
+*/
+void	free_surface_map(void *mlx, t_surface_map *surface_map)
+{
+	if (surface_map->data)
+	{
+		free(surface_map->data);
+		surface_map->data = NULL;
+	}
+	if (surface_map->mlx_img)
+	{
+		mlx_destroy_image(mlx, surface_map->mlx_img);
+		surface_map->mlx_img = NULL;
+	}
+	if (surface_map->path)
+	{
+		free(surface_map->path);
+		surface_map->path = NULL;
+	}
+	surface_map->is_active = 0;
+}
+
+/*
+** Load an image from a file using MLX
+** Returns 1 on success, 0 on failure
+*/
+static int	load_image_file(void *mlx, t_surface_map *surface_map)
+{
+	if (strstr(surface_map->path, ".xpm"))
+		surface_map->mlx_img = mlx_xpm_file_to_image(mlx,
+				(char *)surface_map->path, &surface_map->width,
+				&surface_map->height);
+	else
+	{
+		printf("Error: Only XPM files are supported.\n");
+		surface_map->is_active = 0;
+		return (0);
+	}
+	if (!surface_map->mlx_img)
+	{
+		surface_map->is_active = 0;
+		return (0);
+	}
+	return (1);
+}
+
+/*
+** Convert MLX image data to RGB format
+*/
+static void	convert_image_data(t_surface_map *surface_map, char *data_addr,
+		int line_length, int bits_per_pixel)
+{
+	int	i;
+	int	j;
+	int	pixel;
+
+	i = -1;
+	while (++i < surface_map->height)
+	{
+		j = -1;
+		while (++j < surface_map->width)
+		{
+			pixel = *(int *)(data_addr + (i * line_length + j * (bits_per_pixel
+							/ 8)));
+			surface_map->data[(i * surface_map->width + j)
+				* 3] = (pixel >> 16) & 0xFF;
+			surface_map->data[(i * surface_map->width + j) * 3
+				+ 1] = (pixel >> 8) & 0xFF;
+			surface_map->data[(i * surface_map->width + j) * 3
+				+ 2] = pixel & 0xFF;
+		}
+	}
+}
+
+/*
+** Load a surface map using MLX image loading (XPM or PNG)
+** Works for both textures and bump maps based on map_type
+*/
+void	load_surface_map(void *mlx, t_surface_map *surface_map)
+{
+	char	*data_addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+
+	if (!load_image_file(mlx, surface_map))
+		return ;
+	data_addr = mlx_get_data_addr(surface_map->mlx_img, &bits_per_pixel,
+			&line_length, &endian);
+	if (!data_addr)
+	{
+		mlx_destroy_image(mlx, surface_map->mlx_img);
+		surface_map->is_active = 0;
+		return ;
+	}
+	surface_map->data = malloc(surface_map->width * surface_map->height * 3);
+	if (!surface_map->data)
+	{
+		mlx_destroy_image(mlx, surface_map->mlx_img);
+		surface_map->is_active = 0;
+		return ;
+	}
+	convert_image_data(surface_map, data_addr, line_length, bits_per_pixel);
+	surface_map->is_active = 1;
+}
+
+/*
+** Load all textures in the scene after MLX initialization
+*/
+void	load_scene_texture_bump(void *mlx, t_scene *scene)
+{
+	int	i;
+
+	if (!mlx || !scene)
+		return ;
+	i = -1;
+	while (++i < scene->num_objects)
+	{
+		if (scene->objects[i].type == SPHERE)
+		{
+			if (scene->objects[i].data.sphere.texture.is_active
+				&& scene->objects[i].data.sphere.texture.path)
+				load_surface_map(mlx, &scene->objects[i].data.sphere.texture);
+			if (scene->objects[i].data.sphere.bump.is_active
+				&& scene->objects[i].data.sphere.bump.path)
+				load_surface_map(mlx, &scene->objects[i].data.sphere.bump);
+		}
+	}
+}

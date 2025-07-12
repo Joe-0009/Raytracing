@@ -10,6 +10,8 @@ void	init_texture_bump_struct(t_surface_map *texture, t_surface_map *bump)
 	texture->height = 0;
 	texture->path = NULL;
 	texture->map_type = MAP_TYPE_TEXTURE;
+	texture->rotation_uv.u = 0.0;
+	texture->rotation_uv.v = 0.0;
 	bump->is_active = 0;
 	bump->data = NULL;
 	bump->mlx_img = NULL;
@@ -17,6 +19,8 @@ void	init_texture_bump_struct(t_surface_map *texture, t_surface_map *bump)
 	bump->height = 0;
 	bump->path = NULL;
 	bump->map_type = MAP_TYPE_BUMP;
+	bump->rotation_uv.u = 0.0;
+	bump->rotation_uv.v = 0.0;
 }
 
 /*

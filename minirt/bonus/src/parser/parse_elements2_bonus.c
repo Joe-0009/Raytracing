@@ -32,7 +32,7 @@ int	parse_cylinder(char **tokens, t_scene *scene, int token_count)
 
 int	parse_cone(char **tokens, t_scene *scene, int token_count)
 {
-	t_cone cone;
+	t_cone	cone;
 
 	if (token_count < 5)
 		return (printf(ERR_CONE_FORMAT), printf(FMT_CONE_EXPECTED), FALSE);
@@ -51,8 +51,6 @@ int	parse_cone(char **tokens, t_scene *scene, int token_count)
 	if (!parse_double(tokens[4], &cone.height))
 		return (FALSE);
 	if (!parse_color(tokens[5], &cone.color))
-		return (FALSE);
-	if (tokens[6])
 		return (FALSE);
 	cone.axis = vec3_normalize(cone.axis);
 	if (!add_object_to_scene(scene, CONE, &cone))

@@ -1,8 +1,8 @@
 #include "../../includes/events_bonus.h"
 #include "../../includes/minirt_app_bonus.h"
 #include "../../includes/scene_bonus.h"
-#include <stdio.h>
 #include <math.h>
+#include <stdio.h>
 
 #ifndef M_PI
 # define M_PI 3.14159265358979323846
