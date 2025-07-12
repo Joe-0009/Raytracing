@@ -86,7 +86,11 @@ double	sample_bump_map(const t_surface_map *bump, t_uv uv)
 	rotated_uv = apply_texture_rotation(bump, uv);
 	uv_to_normalized_pixel_coords(bump, rotated_uv, &x, &y);
 	index = (y * bump->width + x) * 3;
-	height = bump->data[index] / 255.0;
+	
+	// Use luminance formula for proper grayscale conversion
+	height = (bump->data[index] * 0.299 + bump->data[index + 1] * 0.587 + bump->data[index + 2] * 0.114) / 255.0;
+	
+	// Convert to height displacement
 	height = (height - 0.5) * 2.0 + 0.5;
 	if (height < 0.0)
 		height = 0.0;
@@ -152,17 +156,27 @@ t_vec3	apply_bump_mapping(t_vec3 normal, t_uv uv, const t_surface_map *bump,
 
 /*
 ** Calculate UV coordinates for sphere mapping using pre-calculated normalized vector
-** Optimized version to avoid redundant calculations
+** Optimized for Earth textures with proper pole handling
 */
 t_uv	sphere_uv_mapping(t_vec3 normalized)
 {
 	t_uv	uv;
 	double phi, theta;
 	
+	// Handle potential precision issues at poles
+	if (normalized.y > 1.0)
+		normalized.y = 1.0;
+	else if (normalized.y < -1.0)
+		normalized.y = -1.0;
+	
+	// Calculate spherical coordinates
 	phi = atan2(normalized.z, normalized.x);
 	theta = acos(normalized.y);
+	
+	// Convert to UV coordinates
 	uv.u = (phi + M_PI) / (2.0 * M_PI);
 	uv.v = theta / M_PI;
+	
 	return (uv);
 }
 

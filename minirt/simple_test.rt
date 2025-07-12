@@ -4,6 +4,6 @@ C 0,0,20 0,0,-1 70
 
 L 10,10,20 0.8 255,255,255
 
-sp 0,0,0 10 255,255,255 txm:images/NewTennisBallColor.xpm
+sp 0,0,0 10 255,255,255 txm:images/SoftballColor.xpm  bum:images/SoftballBump.xpm 
 
 pl 0,-8,0 0,1,0 100,100,100
