@@ -17,7 +17,7 @@ int	color_to_int(t_color3 color)
 */
 int	get_sky_color(t_ray ray)
 {
-	(void)ray;  // Unused parameter
+	(void)ray;
 	return ((DEFAULT_SKY_COLOR_R << 16)
 		| (DEFAULT_SKY_COLOR_G << 8)
 		| DEFAULT_SKY_COLOR_B);

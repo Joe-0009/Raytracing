@@ -1,5 +1,5 @@
-#ifndef PARSER_H
-# define PARSER_H
+#ifndef PARSER_BONUS_H
+# define PARSER_BONUS_H
 
 # include "scene_bonus.h"
 

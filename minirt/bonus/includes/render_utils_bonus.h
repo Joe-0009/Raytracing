@@ -1,5 +1,5 @@
-#ifndef RENDER_UTILS_H
-# define RENDER_UTILS_H
+#ifndef RENDER_UTILS_BONUS_H
+# define RENDER_UTILS_BONUS_H
 
 # include "minirt_app_bonus.h"
 # include "scene_bonus.h"

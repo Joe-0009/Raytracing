@@ -1,5 +1,5 @@
-#ifndef MINIRT_APP_H
-# define MINIRT_APP_H
+#ifndef MINIRT_APP_BONUS_H
+# define MINIRT_APP_BONUS_H
 
 # include "../libft/libft.h"
 # include <fcntl.h>

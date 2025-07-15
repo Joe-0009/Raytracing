@@ -1,5 +1,5 @@
-#ifndef CONSTANTS_H
-# define CONSTANTS_H
+#ifndef CONSTANTS_BONUS_H
+# define CONSTANTS_BONUS_H
 
 /* Mathematical constants */
 # define EPSILON 0.0001

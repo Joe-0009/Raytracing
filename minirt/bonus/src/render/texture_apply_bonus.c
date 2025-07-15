@@ -9,27 +9,22 @@
 ** Convert UV coordinates to pixel coordinates with normalization
 ** First normalizes UVs to [0, 1] range, then converts to pixel coordinates
 */
-static void	uv_to_normalized_pixel_coords(const t_surface_map *map, t_uv uv,
-		int *x, int *y)
+static void uv_to_normalized_pixel_coords(const t_surface_map *map, t_uv uv, int *x, int *y)
 {
-	// Normalize UV coordinates to [0, 1] range with proper handling of negative values
-	uv.u = uv.u - floor(uv.u);
-	uv.v = uv.v - floor(uv.v);
-	
-	// Convert to pixel coordinates
-	*x = (int)(uv.u * (map->width - 1));
-	*y = (int)(uv.v * (map->height - 1));
-	
-	// Clamp to valid pixel range (safety check)
-	if (*x < 0)
-		*x = 0;
-	else if (*x >= map->width)
-		*x = map->width - 1;
-	
-	if (*y < 0)
-		*y = 0;
-	else if (*y >= map->height)
-		*y = map->height - 1;
+    // Use fmod for better wrapping behavior
+    uv.u = fmod(uv.u, 1.0);
+    uv.v = fmod(uv.v, 1.0);
+    
+    // Handle negative values
+    if (uv.u < 0.0) uv.u += 1.0;
+    if (uv.v < 0.0) uv.v += 1.0;
+    
+    *x = (int)(uv.u * (map->width - 1));
+    *y = (int)(uv.v * (map->height - 1));
+    
+    // Clamp to valid range
+    *x = (*x < 0) ? 0 : ((*x >= map->width) ? map->width - 1 : *x);
+    *y = (*y < 0) ? 0 : ((*y >= map->height) ? map->height - 1 : *y);
 }
 
 /*
@@ -86,11 +81,8 @@ double	sample_bump_map(const t_surface_map *bump, t_uv uv)
 	rotated_uv = apply_texture_rotation(bump, uv);
 	uv_to_normalized_pixel_coords(bump, rotated_uv, &x, &y);
 	index = (y * bump->width + x) * 3;
-	
-	// Use luminance formula for proper grayscale conversion
-	height = (bump->data[index] * 0.299 + bump->data[index + 1] * 0.587 + bump->data[index + 2] * 0.114) / 255.0;
-	
-	// Convert to height displacement
+	height = (bump->data[index] * 0.299 + bump->data[index + 1] * 0.587
+			+ bump->data[index + 2] * 0.114) / 255.0;
 	height = (height - 0.5) * 2.0 + 0.5;
 	if (height < 0.0)
 		height = 0.0;
@@ -134,6 +126,7 @@ t_vec3	apply_bump_mapping(t_vec3 normal, t_uv uv, const t_surface_map *bump,
 	double h_center, h_right, h_up;
 	double du, dv;
 	t_uv uv_right, uv_up;
+
 	bump_scale = 2.0;
 	h_center = sample_bump_map(bump, uv);
 	uv_right = uv;
@@ -161,22 +154,17 @@ t_vec3	apply_bump_mapping(t_vec3 normal, t_uv uv, const t_surface_map *bump,
 t_uv	sphere_uv_mapping(t_vec3 normalized)
 {
 	t_uv	uv;
-	double phi, theta;
+	double phi;
+	double theta;
 	
-	// Handle potential precision issues at poles
 	if (normalized.y > 1.0)
 		normalized.y = 1.0;
 	else if (normalized.y < -1.0)
 		normalized.y = -1.0;
-	
-	// Calculate spherical coordinates
 	phi = atan2(normalized.z, normalized.x);
 	theta = acos(normalized.y);
-	
-	// Convert to UV coordinates
 	uv.u = (phi + M_PI) / (2.0 * M_PI);
 	uv.v = theta / M_PI;
-	
 	return (uv);
 }
 
@@ -188,7 +176,7 @@ void	set_texture_rotation_degrees(t_surface_map *map, double angle_degrees)
 	if (!map)
 		return ;
 	map->rotation_uv.u = angle_degrees * M_PI / 180.0;
-	map->rotation_uv.v = 0.0; // Reserved for future use
+	map->rotation_uv.v = 0.0;
 }
 
 /*
@@ -198,8 +186,6 @@ void	set_sphere_texture_rotation(t_sphere *sphere, double angle_degrees)
 {
 	if (!sphere)
 		return ;
-	
-	// Apply rotation to both texture and bump map if active
 	if (sphere->texture.is_active)
 		set_texture_rotation_degrees(&sphere->texture, angle_degrees);
 	if (sphere->bump.is_active)

@@ -1,5 +1,5 @@
-#ifndef SCENE_H
-# define SCENE_H
+#ifndef SCENE_BONUS_H
+# define SCENE_BONUS_H
 
 # include "math_utils_bonus.h"
 
