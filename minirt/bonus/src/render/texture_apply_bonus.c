@@ -31,39 +31,44 @@ static void uv_to_normalized_pixel_coords(const t_surface_map *map, t_uv uv, int
 ** Rotate UV coordinates around the center (0.5, 0.5)
 ** angle is in radians
 */
-static t_uv	rotate_uv(t_uv uv, double angle)
-{
-	t_uv	rotated;
-	double	cos_angle;
-	double	sin_angle;
-	double	centered_u;
-	double	centered_v;
+// static t_uv	rotate_uv(t_uv uv, double angle)
+// {
+// 	t_uv	rotated;
+// 	double	cos_angle;
+// 	double	sin_angle;
+// 	double	centered_u;
+// 	double	centered_v;
 
-	cos_angle = cos(angle);
-	sin_angle = sin(angle);
-	centered_u = uv.u - 0.5;
-	centered_v = uv.v - 0.5;
-	rotated.u = centered_u * cos_angle - centered_v * sin_angle + 0.5;
-	rotated.v = centered_u * sin_angle + centered_v * cos_angle + 0.5;
-	return (rotated);
-}
+// 	cos_angle = cos(angle);
+// 	sin_angle = sin(angle);
+// 	centered_u = uv.u - 0.5;
+// 	centered_v = uv.v - 0.5;
+// 	rotated.u = centered_u * cos_angle - centered_v * sin_angle + 0.5;
+// 	rotated.v = centered_u * sin_angle + centered_v * cos_angle + 0.5;
+// 	return (rotated);
+// }
 
 /*
 ** Apply texture rotation based on surface map rotation settings
 */
-static t_uv	apply_texture_rotation(const t_surface_map *map, t_uv uv)
+static t_uv apply_texture_rotation(const t_surface_map *map, t_uv uv)
 {
-	t_uv	rotated_uv;
-	double	rotation_angle;
+    if (!map->is_active)
+        return uv;
 
-	if (!map->is_active)
-		return (uv);
-	rotation_angle = map->rotation_uv.u;
-	if (fabs(rotation_angle) < 1e-6)
-		return (uv);
-	rotated_uv = rotate_uv(uv, rotation_angle);
-	return (rotated_uv);
+    // Shift u by an offset (angle in radians mapped to [0, 1])
+    // For a globe, a full rotation = shift by 1.0
+    double u_offset = map->rotation_uv.u; // Let's store offset in [0,1]
+    uv.u = fmod(uv.u + u_offset, 1.0);
+    if (uv.u < 0.0) uv.u += 1.0;
+
+	// Shift v for vertical rotation (wrap to [0,1])
+    double v_offset = map->rotation_uv.v; // vertical offset
+    uv.v = fmod(uv.v + v_offset, 1.0);
+    if (uv.v < 0.0) uv.v += 1.0;
+    return uv;
 }
+
 
 /*
 ** Sample bump map at UV coordinates

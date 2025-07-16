@@ -83,6 +83,7 @@ void	scene_rotate_object(t_scene *scene, int obj_index, t_vec3 rotation)
 	
 	if (scene->objects[obj_index].type == SPHERE)
 	{
+		angle = vec3_length(vec3_create(0.02, 0,0));
 		current_rotation = scene->objects[obj_index].data.sphere.texture.rotation_uv.u * 180.0 / M_PI;
 		if (rotation.x > 0 || rotation.y > 0 || rotation.z > 0)
 			rotation_increment = angle * 180.0 / M_PI;
