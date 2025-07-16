@@ -14,21 +14,30 @@ void	handle_object_scale_rotation(int keycode, t_scene *scene)
 		scene_scale_object(scene, scene->selected_obj, 1.1);
 	else if (keycode == KEY_MINUS)
 		scene_scale_object(scene, scene->selected_obj, 0.9);
-	else if (keycode == KEY_R || keycode == KEY_T || keycode == KEY_F
-		|| keycode == KEY_G)
+	else if (keycode == KEY_R || keycode == KEY_F || keycode == KEY_T || keycode == KEY_G)
 	{
-		if (keycode == KEY_R)
-			scene_rotate_object(scene, scene->selected_obj, vec3_create(0.2, 0,
-					0));
-		else if (keycode == KEY_T)
-			scene_rotate_object(scene, scene->selected_obj, vec3_create(0, 0.2,
-					0));
-		else if (keycode == KEY_F)
-			scene_rotate_object(scene, scene->selected_obj, vec3_create(-0.2, 0,
-					0));
-		else if (keycode == KEY_G)
-			scene_rotate_object(scene, scene->selected_obj, vec3_create(0, -0.2,
-					0));
+		if (scene->objects[scene->selected_obj].type == SPHERE)
+		{
+			if (keycode == KEY_R)
+				increment_sphere_texture_rotation(&scene->objects[scene->selected_obj].data.sphere, 0, 0.05); // horizontal +
+			else if (keycode == KEY_F)
+				increment_sphere_texture_rotation(&scene->objects[scene->selected_obj].data.sphere, 0, -0.05); // horizontal -
+			else if (keycode == KEY_T)
+				increment_sphere_texture_rotation(&scene->objects[scene->selected_obj].data.sphere, 1, 0.05); // vertical +
+			else if (keycode == KEY_G)
+				increment_sphere_texture_rotation(&scene->objects[scene->selected_obj].data.sphere, 1, -0.05); // vertical -
+		}
+		else
+		{
+			if (keycode == KEY_R)
+				scene_rotate_object(scene, scene->selected_obj, vec3_create(0.2, 0, 0));
+			else if (keycode == KEY_T)
+				scene_rotate_object(scene, scene->selected_obj, vec3_create(0, 0.2, 0));
+			else if (keycode == KEY_F)
+				scene_rotate_object(scene, scene->selected_obj, vec3_create(-0.2, 0, 0));
+			else if (keycode == KEY_G)
+				scene_rotate_object(scene, scene->selected_obj, vec3_create(0, -0.2, 0));
+		}
 	}
 }
 

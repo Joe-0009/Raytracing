@@ -5,48 +5,29 @@
 #include <stdlib.h>
 #include <string.h>
 
+
+
+
+
 /*
 ** Convert UV coordinates to pixel coordinates with normalization
-** First normalizes UVs to [0, 1] range, then converts to pixel coordinates
 */
-static void uv_to_normalized_pixel_coords(const t_surface_map *map, t_uv uv, int *x, int *y)
+static void	uv_to_normalized_pixel_coords(const t_surface_map *map, t_uv uv,
+		int *x, int *y)
 {
-    // Use fmod for better wrapping behavior
-    uv.u = fmod(uv.u, 1.0);
-    uv.v = fmod(uv.v, 1.0);
-    
-    // Handle negative values
-    if (uv.u < 0.0) uv.u += 1.0;
-    if (uv.v < 0.0) uv.v += 1.0;
-    
-    *x = (int)(uv.u * (map->width - 1));
-    *y = (int)(uv.v * (map->height - 1));
-    
-    // Clamp to valid range
-    *x = (*x < 0) ? 0 : ((*x >= map->width) ? map->width - 1 : *x);
-    *y = (*y < 0) ? 0 : ((*y >= map->height) ? map->height - 1 : *y);
+	uv.u = uv.u - floor(uv.u);
+	uv.v = uv.v - floor(uv.v);
+
+	*x = (int)(uv.u * (map->width - 1));
+	*y = (int)(uv.v * (map->height - 1));
+
+	/* upper-bound clamp only – lower-bound unnecessary after mod-floor */
+	if (*x >= map->width)
+		*x = map->width - 1;
+	if (*y >= map->height)
+		*y = map->height - 1;
 }
 
-/*
-** Rotate UV coordinates around the center (0.5, 0.5)
-** angle is in radians
-*/
-// static t_uv	rotate_uv(t_uv uv, double angle)
-// {
-// 	t_uv	rotated;
-// 	double	cos_angle;
-// 	double	sin_angle;
-// 	double	centered_u;
-// 	double	centered_v;
-
-// 	cos_angle = cos(angle);
-// 	sin_angle = sin(angle);
-// 	centered_u = uv.u - 0.5;
-// 	centered_v = uv.v - 0.5;
-// 	rotated.u = centered_u * cos_angle - centered_v * sin_angle + 0.5;
-// 	rotated.v = centered_u * sin_angle + centered_v * cos_angle + 0.5;
-// 	return (rotated);
-// }
 
 /*
 ** Apply texture rotation based on surface map rotation settings
@@ -69,11 +50,8 @@ static t_uv apply_texture_rotation(const t_surface_map *map, t_uv uv)
     return uv;
 }
 
-
 /*
 ** Sample bump map at UV coordinates
-** Returns height value (0.0 to 1.0) from grayscale bump map
-** Making the surface look bumpy (bump mapping)
 */
 double	sample_bump_map(const t_surface_map *bump, t_uv uv)
 {
@@ -86,19 +64,18 @@ double	sample_bump_map(const t_surface_map *bump, t_uv uv)
 	rotated_uv = apply_texture_rotation(bump, uv);
 	uv_to_normalized_pixel_coords(bump, rotated_uv, &x, &y);
 	index = (y * bump->width + x) * 3;
-	height = (bump->data[index] * 0.299 + bump->data[index + 1] * 0.587
+
+	/* grayscale luminance */
+	height = (bump->data[index] * 0.299
+			+ bump->data[index + 1] * 0.587
 			+ bump->data[index + 2] * 0.114) / 255.0;
-	height = (height - 0.5) * 2.0 + 0.5;
-	if (height < 0.0)
-		height = 0.0;
-	if (height > 1.0)
-		height = 1.0;
-	return (height);
+
+	/* [-1, 1] height displacement (simplified) */
+	return (height * 2.0 - 1.0);
 }
 
 /*
 ** Sample texture at UV coordinates
-** Reading the color from that spot (texture sampling)
 */
 t_color3	sample_texture(const t_surface_map *texture, t_uv uv)
 {
@@ -119,55 +96,50 @@ t_color3	sample_texture(const t_surface_map *texture, t_uv uv)
 
 /*
 ** Apply bump mapping to surface normal
-** Uses the bump map to perturb the surface normal for realistic lighting
 */
 t_vec3	apply_bump_mapping(t_vec3 normal, t_uv uv, const t_surface_map *bump,
 		t_vec3 tangent, t_vec3 bitangent)
 {
 	double	bump_scale;
-	t_vec3	bump_normal;
-	t_vec3	deviation;
-
-	double h_center, h_right, h_up;
-	double du, dv;
-	t_uv uv_right, uv_up;
+	double	h_center, h_right, h_up;
+	double	du, dv;
+	t_uv	uv_right, uv_up;
 
 	bump_scale = 2.0;
+
 	h_center = sample_bump_map(bump, uv);
 	uv_right = uv;
 	uv_right.u += 1.0 / bump->width;
 	h_right = sample_bump_map(bump, uv_right);
+
 	uv_up = uv;
 	uv_up.v += 1.0 / bump->height;
 	h_up = sample_bump_map(bump, uv_up);
+
 	du = (h_right - h_center) * bump_scale * 5.0;
 	dv = (h_up - h_center) * bump_scale * 5.0;
-	du = du * (1.0 + fabs(h_center - 0.5) * 2.0);
-	dv = dv * (1.0 + fabs(h_center - 0.5) * 2.0);
-	bump_normal = vec3_add(normal, vec3_mult(tangent, du));
-	bump_normal = vec3_add(bump_normal, vec3_mult(bitangent, dv));
-	deviation = vec3_sub(bump_normal, normal);
-	deviation = vec3_mult(deviation, 1.5);
-	bump_normal = vec3_add(normal, deviation);
-	return (vec3_normalize(bump_normal));
+
+	return (vec3_normalize(vec3_add(
+				vec3_add(normal, vec3_mult(tangent, du)),
+				vec3_mult(bitangent, dv))));
 }
 
 /*
-** Calculate UV coordinates for sphere mapping using pre-calculated normalized vector
-** Optimized for Earth textures with proper pole handling
+** Calculate UV coordinates for sphere mapping
 */
 t_uv	sphere_uv_mapping(t_vec3 normalized)
 {
 	t_uv	uv;
-	double phi;
-	double theta;
-	
+	double	phi, theta;
+
 	if (normalized.y > 1.0)
 		normalized.y = 1.0;
 	else if (normalized.y < -1.0)
 		normalized.y = -1.0;
+
 	phi = atan2(normalized.z, normalized.x);
 	theta = acos(normalized.y);
+
 	uv.u = (phi + M_PI) / (2.0 * M_PI);
 	uv.v = theta / M_PI;
 	return (uv);
@@ -179,20 +151,45 @@ t_uv	sphere_uv_mapping(t_vec3 normalized)
 void	set_texture_rotation_degrees(t_surface_map *map, double angle_degrees)
 {
 	if (!map)
-		return ;
+		return;
 	map->rotation_uv.u = angle_degrees * M_PI / 180.0;
-	map->rotation_uv.v = 0.0;
+	map->rotation_uv.v = angle_degrees * M_PI / 180.0;
 }
 
 /*
-** Set texture rotation for a sphere (both texture and bump map)
+** Set texture rotation for a sphere (texture & bump)
 */
 void	set_sphere_texture_rotation(t_sphere *sphere, double angle_degrees)
 {
 	if (!sphere)
-		return ;
+		return;
 	if (sphere->texture.is_active)
 		set_texture_rotation_degrees(&sphere->texture, angle_degrees);
 	if (sphere->bump.is_active)
 		set_texture_rotation_degrees(&sphere->bump, angle_degrees);
+}
+
+void increment_texture_rotation(t_surface_map *map, int axis, double delta)
+{
+	if (!map || !map->is_active)
+		return;
+	if (axis == 0)
+		map->rotation_uv.u += delta;
+	else if (axis == 1)
+		map->rotation_uv.v += delta;
+	// Keep in [0,1] range for safety
+	if (map->rotation_uv.u > 1.0) map->rotation_uv.u -= 1.0;
+	if (map->rotation_uv.u < 0.0) map->rotation_uv.u += 1.0;
+	if (map->rotation_uv.v > 1.0) map->rotation_uv.v -= 1.0;
+	if (map->rotation_uv.v < 0.0) map->rotation_uv.v += 1.0;
+}
+
+void increment_sphere_texture_rotation(t_sphere *sphere, int axis, double delta)
+{
+	if (!sphere)
+		return;
+	if (sphere->texture.is_active)
+		increment_texture_rotation(&sphere->texture, axis, delta);
+	if (sphere->bump.is_active)
+		increment_texture_rotation(&sphere->bump, axis, delta);
 }

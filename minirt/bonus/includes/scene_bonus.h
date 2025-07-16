@@ -186,5 +186,7 @@ void				load_scene_texture_bump(void *mlx, t_scene *scene);
 /* Texture rotation functions */
 void				set_texture_rotation_degrees(t_surface_map *map, double angle_degrees);
 void				set_sphere_texture_rotation(t_sphere *sphere, double angle_degrees);
+void increment_texture_rotation(t_surface_map *map, int axis, double delta);
+void increment_sphere_texture_rotation(t_sphere *sphere, int axis, double delta);
 
 #endif
