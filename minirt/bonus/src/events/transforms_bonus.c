@@ -1,5 +1,5 @@
-#include "../includes/events_bonus.h"
-#include "../includes/scene_bonus.h"
+#include "../../includes/events_bonus.h"
+#include "../../includes/scene_bonus.h"
 #include <stdio.h>
 #include <math.h>
 
@@ -35,9 +35,9 @@ void	scene_translate_object(t_scene *scene, int obj_index, t_vec3 delta)
 	}
 	else if (scene->objects[obj_index].type == CONE)
 	{
-		scene->objects[obj_index].data.cone.center = 
+		scene->objects[obj_index].data.cone.vertex = 
 			matrix4_transform_point(translation_matrix,
-				scene->objects[obj_index].data.cone.center);
+				scene->objects[obj_index].data.cone.vertex);
 	}
 }
 
@@ -113,12 +113,12 @@ void	scene_scale_object(t_scene *scene, int obj_index, double scale)
 	}
 	else if (scene->objects[obj_index].type == CYLINDER)
 	{
-		scene->objects[obj_index].data.cylinder.radius *= scale;
-		scene->objects[obj_index].data.cylinder.height *= scale;
+		scene->objects[obj_index].data.cylinder.diameter *= scale;
+		scene->objects[obj_index].data.cylinder.diameter *= scale;
 	}
 	else if (scene->objects[obj_index].type == CONE)
 	{
-		scene->objects[obj_index].data.cone.radius *= scale;
+		scene->objects[obj_index].data.cone.height *= scale;
 		scene->objects[obj_index].data.cone.height *= scale;
 	}
 	// Note: Planes don't scale as they're infinite
