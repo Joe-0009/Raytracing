@@ -71,28 +71,12 @@ void	scene_rotate_object(t_scene *scene, int obj_index, t_vec3 rotation)
 {
 	t_vec3	axis;
 	double	angle;
-	double	current_rotation;
-	double	rotation_increment;
 
 	if (obj_index < 0 || obj_index >= scene->num_objects)
 		return ;
 	angle = vec3_length(rotation);
-	if (angle < 0.0001)
-		return ;
 	axis = vec3_normalize(rotation);
-	
-	if (scene->objects[obj_index].type == SPHERE)
-	{
-		angle = vec3_length(vec3_create(0.02, 0,0));
-		current_rotation = scene->objects[obj_index].data.sphere.texture.rotation_uv.u * 180.0 / M_PI;
-		if (rotation.x > 0 || rotation.y > 0 || rotation.z > 0)
-			rotation_increment = angle * 180.0 / M_PI;
-		else
-			rotation_increment = -angle * 180.0 / M_PI;
-		current_rotation += rotation_increment;
-		set_sphere_texture_rotation(&scene->objects[obj_index].data.sphere, current_rotation);
-	}
-	else if (scene->objects[obj_index].type == PLANE)
+	if (scene->objects[obj_index].type == PLANE)
 	{
 		scene->objects[obj_index].data.plane.normal = vec3_rotate_around_axis(
 				scene->objects[obj_index].data.plane.normal, axis, angle);
