@@ -62,6 +62,19 @@ void			scene_scale_object(t_scene *scene, int obj_index, double scale);
 void			scene_translate_camera(t_scene *scene, t_vec3 delta);
 void			scene_rotate_camera(t_scene *scene, t_vec3 rotation);
 
+/* Unified transformation system */
+t_transform		create_unified_transform(t_vec3 translation, t_vec3 rotation,
+					t_vec3 scale);
+void			apply_transform_to_object(t_object *object,
+					t_transform *transform);
+void			scene_transform_object(t_scene *scene, int obj_index,
+					t_vec3 translation, t_vec3 rotation, t_vec3 scale);
+t_transform		create_rotation_transform(t_vec3 rotation);
+t_transform		create_scale_transform(t_vec3 scale);
+t_transform		create_translation_transform(t_vec3 translation);
+t_vec3			matrix_rotate_vector(t_vec3 vector, t_vec3 axis, double angle);
+t_transform		compose_transforms(t_transform *transforms, int count);
+
 /* Function prototypes for events */
 int				close_window_x(t_vars *vars);
 int				close_window_esc(int keycode, t_vars *vars);

@@ -14,11 +14,6 @@ CFLAGS = -Wall -Wextra -Werror -O3 -ffast-math -funroll-loops -ftree-vectorize \
 PREBUILT_DIR = prebuilt_libs
 LIBFT = $(PREBUILT_DIR)/libft.a
 
-# Add rule to always run ranlib after copying or building libft.a
-$(PREBUILT_DIR)/libft.a:
-	cp bonus/libft/libft.a $(PREBUILT_DIR)/libft.a
-	ranlib $(PREBUILT_DIR)/libft.a
-
 # Libraries (both use standard MLX, bonus needs pthread)
 MLX_LDFLAGS = -L$(PREBUILT_DIR) -lmlx_linux -lX11 -lXext -lm
 BONUS_LDFLAGS = -L$(PREBUILT_DIR) -lmlx_linux -lX11 -lXext -lm -pthread
@@ -41,17 +36,18 @@ BONUS_SRCS = $(shell find $(BONUS_DIR) -name '*_bonus.c' 2>/dev/null || echo "")
 BONUS_OBJS = $(BONUS_SRCS:$(BONUS_DIR)/%.c=$(BONUS_OBJ_DIR)/%.o)
 
 # Rules
-all: libft $(NAME)
+all: $(LIBFT) $(NAME)
 
-bonus: libft $(BONUS_NAME)
+bonus: $(LIBFT) $(BONUS_NAME)
 
 LIBFT_SRC_DIR = bonus/libft
 LIBFT_SRC_MAKEFILE = $(LIBFT_SRC_DIR)/Makefile
 
-libft:
+$(LIBFT):
 	$(MAKE) -C $(LIBFT_SRC_DIR) fclean
 	$(MAKE) -C $(LIBFT_SRC_DIR)
 	ranlib $(LIBFT_SRC_DIR)/libft.a
+	@mkdir -p $(PREBUILT_DIR)
 	cp $(LIBFT_SRC_DIR)/libft.a $(PREBUILT_DIR)/libft.a
 	ranlib $(PREBUILT_DIR)/libft.a
 
@@ -77,4 +73,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all bonus clean fclean re libft
+.PHONY: all bonus clean fclean re

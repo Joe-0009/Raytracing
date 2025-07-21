@@ -18,21 +18,12 @@ t_transform	transform_identity(void)
 
 /*
 ** Update transformation matrix from translation, rotation, scale
+** Uses the advanced matrix transform function for better performance
 */
 void	transform_update_matrix(t_transform *transform)
 {
-	t_matrix4	temp;
-	t_matrix4	rotation_combined;
-
-	temp = matrix4_scale(transform->scale);
-	rotation_combined = matrix4_multiply(
-			matrix4_rotation_x(transform->rotation.x), temp);
-	rotation_combined = matrix4_multiply(
-			matrix4_rotation_y(transform->rotation.y), rotation_combined);
-	rotation_combined = matrix4_multiply(
-			matrix4_rotation_z(transform->rotation.z), rotation_combined);
-	transform->matrix = matrix4_multiply(
-			matrix4_translation(transform->translation), rotation_combined);
+	transform->matrix = matrix4_transform(transform->translation,
+			transform->rotation, transform->scale);
 }
 
 /*
@@ -56,39 +47,43 @@ void	scene_translate_object(t_scene *scene, int obj_index, t_vec3 delta)
 }
 
 /*
-** Rotate object in scene around its own center
+** Rotate object in scene using matrix transformations
 */
 void	scene_rotate_object(t_scene *scene, int obj_index, t_vec3 rotation)
 {
-	t_vec3	axis;
-	double	angle;
+	t_matrix4	rotation_x;
+	t_matrix4	rotation_y;
+	t_matrix4	rotation_z;
+	t_matrix4	combined_rotation;
+	t_transform	transform;
 
 	if (obj_index < 0 || obj_index >= scene->num_objects)
 		return ;
-	angle = vec3_length(rotation);
-	if (angle < 0.0001)
-		return ;
-	axis = vec3_normalize(rotation);
+
+	// Create individual rotation matrices
+	rotation_x = matrix4_rotation_x(rotation.x);
+	rotation_y = matrix4_rotation_y(rotation.y);
+	rotation_z = matrix4_rotation_z(rotation.z);
+
+	// Combine rotations: Z * Y * X
+	combined_rotation = matrix4_multiply(rotation_z, rotation_y);
+	combined_rotation = matrix4_multiply(combined_rotation, rotation_x);
+
+	// Create transform with combined rotation matrix
+	transform = transform_identity();
+	transform.matrix = combined_rotation;
+
+	// Apply transformation based on object type
 	if (scene->objects[obj_index].type == SPHERE)
-		return ;
+		transform_sphere(&scene->objects[obj_index].data.sphere, &transform);
 	else if (scene->objects[obj_index].type == PLANE)
-	{
-		scene->objects[obj_index].data.plane.normal = vec3_rotate_around_axis(
-				scene->objects[obj_index].data.plane.normal, axis, angle);
-		scene->objects[obj_index].data.plane.normal = vec3_normalize(
-				scene->objects[obj_index].data.plane.normal);
-	}
+		transform_plane(&scene->objects[obj_index].data.plane, &transform);
 	else if (scene->objects[obj_index].type == CYLINDER)
-	{
-		scene->objects[obj_index].data.cylinder.axis = vec3_rotate_around_axis(
-				scene->objects[obj_index].data.cylinder.axis, axis, angle);
-		scene->objects[obj_index].data.cylinder.axis = vec3_normalize(
-				scene->objects[obj_index].data.cylinder.axis);
-	}
+		transform_cylinder(&scene->objects[obj_index].data.cylinder, &transform);
 }
 
 /*
-** Scale object in scene
+** Scale object in scene using matrix transformations
 */
 void	scene_scale_object(t_scene *scene, int obj_index, double scale)
 {
@@ -96,11 +91,16 @@ void	scene_scale_object(t_scene *scene, int obj_index, double scale)
 
 	if (obj_index < 0 || obj_index >= scene->num_objects)
 		return ;
+
+	// Create unified transform with scale
 	transform = transform_identity();
 	transform_scale_uniform(&transform, scale);
+
+	// Apply transformation based on object type
 	if (scene->objects[obj_index].type == SPHERE)
 		transform_sphere(&scene->objects[obj_index].data.sphere, &transform);
+	else if (scene->objects[obj_index].type == PLANE)
+		transform_plane(&scene->objects[obj_index].data.plane, &transform);
 	else if (scene->objects[obj_index].type == CYLINDER)
-		transform_cylinder(&scene->objects[obj_index].data.cylinder,
-			&transform);
+		transform_cylinder(&scene->objects[obj_index].data.cylinder, &transform);
 }
