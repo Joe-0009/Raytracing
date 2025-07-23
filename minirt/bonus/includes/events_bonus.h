@@ -50,6 +50,16 @@ void			transform_rotate(t_transform *transform, t_vec3 rotation);
 void			transform_scale_uniform(t_transform *transform, double scale);
 void			transform_scale(t_transform *transform, t_vec3 scale);
 
+/* Unified transform system */
+t_transform		create_unified_transform(t_vec3 translation, t_vec3 rotation, t_vec3 scale);
+t_transform		create_rotation_transform(t_vec3 rotation);
+t_transform		create_scale_transform(t_vec3 scale);
+t_transform		create_translation_transform(t_vec3 translation);
+void			apply_transform_to_object(t_object *object, t_transform *transform);
+t_transform		compose_transforms(t_transform *transforms, int count);
+void			scene_transform_object_unified(t_scene *scene, int obj_index,
+					t_vec3 translation, t_vec3 rotation, t_vec3 scale);
+
 /* Object transformation */
 void			transform_sphere(t_sphere *sphere, t_transform *transform);
 void			transform_plane(t_plane *plane, t_transform *transform);

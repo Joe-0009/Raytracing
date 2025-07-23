@@ -4,39 +4,29 @@
 #include <stdio.h>
 
 /*
-** Translate camera directly using matrix operations
+** Translate camera using unified matrix system
 */
 void	scene_translate_camera(t_scene *scene, t_vec3 movement)
 {
-	t_matrix4	translation_matrix;
+	t_transform	transform;
 
-	translation_matrix = matrix4_translation(movement);
-	scene->camera.position = matrix4_transform_point(translation_matrix,
+	transform = create_translation_transform(movement);
+	scene->camera.position = matrix4_transform_point(transform.matrix,
 			scene->camera.position);
 }
 
 /*
-** Rotate camera using direct matrix operations
+** Rotate camera using unified matrix system
 ** Applies rotation in world space (XYZ order)
 */
 void	scene_rotate_camera(t_scene *scene, t_vec3 rotation)
 {
-	t_matrix4	rotation_x;
-	t_matrix4	rotation_y;
-	t_matrix4	rotation_z;
-	t_matrix4	combined_rotation;
+	t_transform	transform;
 
-	// Create individual rotation matrices
-	rotation_x = matrix4_rotation_x(rotation.x);
-	rotation_y = matrix4_rotation_y(rotation.y);
-	rotation_z = matrix4_rotation_z(rotation.z);
-
-	// Combine rotations: Z * Y * X (standard order)
-	combined_rotation = matrix4_multiply(rotation_z, rotation_y);
-	combined_rotation = matrix4_multiply(combined_rotation, rotation_x);
+	transform = create_rotation_transform(rotation);
 
 	// Apply rotation to camera orientation
-	scene->camera.orientation = matrix4_transform_direction(combined_rotation,
+	scene->camera.orientation = matrix4_transform_direction(transform.matrix,
 			scene->camera.orientation);
 	scene->camera.orientation = vec3_normalize(scene->camera.orientation);
 }
@@ -49,7 +39,7 @@ void	handle_camera_movement(int keycode, t_scene *scene)
 
 	movement = vec3_create(0, 0, 0);
 	world_up = vec3_create(0, 1, 0);
-	
+
 	if (keycode == KEY_W)
 		movement = vec3_mult(scene->camera.orientation, 0.5);
 	else if (keycode == KEY_S)
@@ -70,7 +60,7 @@ void	handle_camera_movement(int keycode, t_scene *scene)
 		movement = vec3_create(0, 0.5, 0);
 	else
 		return;
-	
+
 	scene_translate_camera(scene, movement);
 }
 
@@ -79,7 +69,7 @@ void	handle_camera_rotation(int keycode, t_scene *scene)
 	t_vec3	rotation;
 
 	rotation = vec3_create(0, 0, 0);
-	
+
 	if (keycode == KEY_I)
 		rotation.x = 0.1;		// Pitch up
 	else if (keycode == KEY_K)
@@ -90,6 +80,6 @@ void	handle_camera_rotation(int keycode, t_scene *scene)
 		rotation.y = 0.1;		// Yaw right
 	else
 		return;
-	
+
 	scene_rotate_camera(scene, rotation);
 }

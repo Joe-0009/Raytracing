@@ -54,4 +54,13 @@ t_matrix4			matrix4_scale(t_vec3 scale);
 t_vec3				matrix4_transform_point(t_matrix4 m, t_vec3 point);
 t_vec3				matrix4_transform_direction(t_matrix4 m, t_vec3 direction);
 
+/* Advanced matrix operations */
+t_matrix4			matrix4_rotation_axis(t_vec3 axis, double angle);
+t_matrix4			matrix4_transform(t_vec3 translation, t_vec3 rotation,
+						t_vec3 scale);
+void				matrix4_decompose(t_matrix4 matrix, t_vec3 *translation,
+						t_vec3 *rotation, t_vec3 *scale);
+t_matrix4			matrix4_look_at(t_vec3 eye, t_vec3 target, t_vec3 up);
+t_vec3				matrix_rotate_vector(t_vec3 vector, t_vec3 axis, double angle);
+
 #endif
