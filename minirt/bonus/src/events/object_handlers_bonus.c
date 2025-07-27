@@ -1,27 +1,37 @@
 #include "../../includes/events_bonus.h"
 #include "../../includes/minirt_app_bonus.h"
 #include "../../includes/scene_bonus.h"
-#include <math.h>
 #include <stdio.h>
 
-void	handle_sphere_texture_rotation(t_scene *scene, int keycode)
+
+
+/*
+** Handle keypresses to rotate the sphere's texture
+*/
+static void	handle_sphere_texture_rotation(t_scene *scene, int keycode)
 {
+	t_sphere	*sphere;
+
+	sphere = &scene->objects[scene->selected_obj].data.sphere;
 	if (keycode == KEY_R)
-		increment_sphere_texture_rotation(&scene->objects[scene->selected_obj].data.sphere,
-			0, 0.05);
+	{
+		if (sphere->texture.is_active)
+			sphere->texture.rotation_uv.u += 0.05;
+		if (sphere->bump.is_active)
+			sphere->bump.rotation_uv.u += 0.05;
+	}
 	else if (keycode == KEY_F)
-		increment_sphere_texture_rotation(&scene->objects[scene->selected_obj].data.sphere,
-			0, -0.05);
-	else if (keycode == KEY_T)
-		increment_sphere_texture_rotation(&scene->objects[scene->selected_obj].data.sphere,
-			1, 0.05);
-	else if (keycode == KEY_G)
-		increment_sphere_texture_rotation(&scene->objects[scene->selected_obj].data.sphere,
-			1, -0.05);
-	else
-		return ;
+	{
+		if (sphere->texture.is_active)
+			sphere->texture.rotation_uv.u += -0.05;
+		if (sphere->bump.is_active)
+			sphere->bump.rotation_uv.u += -0.05;
+	}
 }
 
+/*
+** Handle object scaling and rotation (including texture rotation for SPHERE)
+*/
 void	handle_object_scale_rotation(int keycode, t_scene *scene)
 {
 	if (keycode == KEY_PLUS)
@@ -51,6 +61,9 @@ void	handle_object_scale_rotation(int keycode, t_scene *scene)
 	}
 }
 
+/*
+** Handle object translation (moving, selecting)
+*/
 void	handle_object_translation(int keycode, t_scene *scene)
 {
 	if (keycode == KEY_P && scene->selected_obj < scene->num_objects - 1)
@@ -71,6 +84,9 @@ void	handle_object_translation(int keycode, t_scene *scene)
 				0));
 }
 
+/*
+** Main handler: object transforms (scale, rotate, translate)
+*/
 void	handle_object_transforms(int keycode, t_scene *scene)
 {
 	handle_object_scale_rotation(keycode, scene);

@@ -28,8 +28,7 @@ void		main_draw(t_vars *vars, t_scene *scene);
 t_color3	calculate_diffuse_with_data(const t_light *light, const t_hit *hit, const t_light_data *data);
 t_color3	calculate_specular_with_data(const t_light *light, const t_hit *hit, 
 				const t_vec3 view_dir, const t_light_data *data);
-int			is_in_shadow (const t_scene *scene, const t_vec3 point,
-				const t_vec3 light_pos, const t_vec3 light_dir, double light_distance);
+int			is_in_shadow (const t_scene *scene, const t_vec3 point, const t_vec3 light_dir, double light_distance);
 t_color3	calculate_phong_lighting(const t_scene *scene, const t_hit *hit, const t_vec3 view_dir);
 
 #endif

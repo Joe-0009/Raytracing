@@ -107,7 +107,14 @@ t_scene	*parse_scene_file(char *filename)
 	char		*line;
 	int			result;
 
+	// Allocate memory for scene and check for allocation failure
 	scene = (t_scene *)malloc(sizeof(t_scene));
+	if (!scene)
+	{
+		printf("Error: Failed to allocate memory for scene\n");
+		return (NULL);
+	}
+	
 	init_parser_and_scene(&parser, scene);
 	fd = validate_extension_and_permission(filename, scene);
 	if (fd == -1)

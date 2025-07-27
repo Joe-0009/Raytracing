@@ -1,57 +1,39 @@
-#ifndef EVENTS_H
-# define EVENTS_H
+#ifndef EVENTS_BONUS_H
+# define EVENTS_BONUS_H
 
 # include "minirt_app.h"
 
-/* Key codes */
-# define KEY_ESC 65307
-# define KEY_W 119
-# define KEY_A 97
-# define KEY_S 115
-# define KEY_D 100
-# define KEY_Q 113
-# define KEY_E 101
-# define KEY_UP 65362
-# define KEY_DOWN 65364
-# define KEY_LEFT 65361
-# define KEY_RIGHT 65363
-# define KEY_PLUS 65451
-# define KEY_MINUS 65453
-# define KEY_R 114
-# define KEY_T 116
-# define KEY_F 102
-# define KEY_G 103
-# define KEY_I 105
-# define KEY_J 106
-# define KEY_K 107
-# define KEY_L 108
-# define KEY_SPACE 32
-# define KEY_P 112
-# define KEY_O 111
+/* Key codes for standard MLX */
+# define KEY_ESC 53
+# define KEY_W 13
+# define KEY_A 0
+# define KEY_S 1
+# define KEY_D 2
+# define KEY_Q 12
+# define KEY_E 14
+# define KEY_UP 126
+# define KEY_DOWN 125
+# define KEY_LEFT 123
+# define KEY_RIGHT 124
+# define KEY_PLUS 24
+# define KEY_MINUS 27
+# define KEY_R 15
+# define KEY_T 17
+# define KEY_F 3
+# define KEY_G 5
+# define KEY_I 34
+# define KEY_J 38
+# define KEY_K 40
+# define KEY_L 37
+# define KEY_SPACE 49
+# define KEY_P 35
+# define KEY_O 31
+# define KEY_U 32
+# define KEY_Y 16
+# define KEY_H 4
+# define KEY_N 45
 
-/* Transform type for interactive transformations */
-typedef struct s_transform
-{
-	t_vec3		translation;
-	t_vec3		rotation;
-	t_vec3		scale;
-	t_matrix4	matrix;
-}				t_transform;
 
-/* Transform operations */
-t_transform		transform_identity(void);
-void			transform_update_matrix(t_transform *transform);
-void			transform_translate(t_transform *transform, t_vec3 translation);
-void			transform_rotate(t_transform *transform, t_vec3 rotation);
-void			transform_scale_uniform(t_transform *transform, double scale);
-void			transform_scale(t_transform *transform, t_vec3 scale);
-
-/* Object transformation */
-void			transform_sphere(t_sphere *sphere, t_transform *transform);
-void			transform_plane(t_plane *plane, t_transform *transform);
-void			transform_cylinder(t_cylinder *cylinder,
-					t_transform *transform);
-void			transform_camera(t_camera *camera, t_transform *transform);
 
 /* Scene transformation utilities */
 void			scene_translate_object(t_scene *scene, int obj_index,
@@ -61,19 +43,6 @@ void			scene_rotate_object(t_scene *scene, int obj_index,
 void			scene_scale_object(t_scene *scene, int obj_index, double scale);
 void			scene_translate_camera(t_scene *scene, t_vec3 delta);
 void			scene_rotate_camera(t_scene *scene, t_vec3 rotation);
-
-/* Unified transformation system */
-t_transform		create_unified_transform(t_vec3 translation, t_vec3 rotation,
-					t_vec3 scale);
-void			apply_transform_to_object(t_object *object,
-					t_transform *transform);
-void			scene_transform_object(t_scene *scene, int obj_index,
-					t_vec3 translation, t_vec3 rotation, t_vec3 scale);
-t_transform		create_rotation_transform(t_vec3 rotation);
-t_transform		create_scale_transform(t_vec3 scale);
-t_transform		create_translation_transform(t_vec3 translation);
-t_vec3			matrix_rotate_vector(t_vec3 vector, t_vec3 axis, double angle);
-t_transform		compose_transforms(t_transform *transforms, int count);
 
 /* Function prototypes for events */
 int				close_window_x(t_vars *vars);

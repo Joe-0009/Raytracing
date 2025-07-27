@@ -2,8 +2,27 @@
 #include "../../includes/minirt_app_bonus.h"
 #include <stdio.h>
 
-// Functions moved to events_bonus.c to avoid duplication
+int	close_window_esc(int keycode, t_vars *vars)
+{
+	if (keycode == 65307)
+	{
+		mlx_destroy_image(vars->mlx, vars->img->img);
+		mlx_destroy_window(vars->mlx, vars->win);
+		free(vars->mlx);
+		ft_free_scene(&vars->scene);
+		exit(EXIT_SUCCESS);
+	}
+	return (0);
+}
 
+int	close_window_x(t_vars *vars)
+{
+	mlx_destroy_image(vars->mlx, vars->img->img);
+	mlx_destroy_window(vars->mlx, vars->win);
+	free(vars->mlx);
+	ft_free_scene(&vars->scene);
+	exit(EXIT_SUCCESS);
+}
 void	print_controls_help(void)
 {
 	printf("\n=== MiniRT Transform Controls ===\n");

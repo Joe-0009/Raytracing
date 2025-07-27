@@ -7,13 +7,11 @@
 ** Check if a point is in shadow from a light source using precomputed light direction
 ** Returns 1 if in shadow, 0 if illuminated
 */
-int	is_in_shadow(const t_scene *scene, const t_vec3 point,
-		const t_vec3 light_pos, const t_vec3 light_dir, double light_distance)
+int	is_in_shadow(const t_scene *scene, const t_vec3 point, const t_vec3 light_dir, double light_distance)
 {
 	t_ray	shadow_ray;
 	t_hit	shadow_hit;
 
-	(void)light_pos;
 	shadow_ray.origin = vec3_add(point, vec3_mult(light_dir, SHADOW_EPSILON));
 	shadow_ray.direction = light_dir;
 	if (trace_objects(scene, shadow_ray, &shadow_hit))
@@ -37,7 +35,7 @@ t_light_data	calculate_light_data(const t_light *light, const t_hit *hit,
 	data.distance = vec3_length(data.light_dir);
 	data.light_dir = vec3_normalize(data.light_dir);
 	data.normal_dot_light = vec3_dot(hit->normal, data.light_dir);
-	data.in_shadow = is_in_shadow(scene, hit->point, light->position,
+	data.in_shadow = is_in_shadow(scene, hit->point,
 			data.light_dir, data.distance);
 	data.attenuation = 1.0 / (1.0 + ATTENUATION_LINEAR * data.distance
 			+ ATTENUATION_QUADRATIC * data.distance * data.distance);

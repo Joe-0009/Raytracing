@@ -24,3 +24,14 @@ t_vec3	vec3_rotate_around_axis(t_vec3 v, t_vec3 axis, double angle)
 	return (vec3_add(vec3_add(vec3_mult(v, cos_a), vec3_mult(vec3_cross(u, v),
 					sin_a)), vec3_mult(u, vec3_dot(u, v) * (1 - cos_a))));
 }
+
+t_vec3	vec3_rotate(t_vec3 v, t_vec3 rotation)
+{
+	if (rotation.x != 0)
+		v = vec3_rotate_around_axis(v, vec3_create(1, 0, 0), rotation.x);
+	if (rotation.y != 0)
+		v = vec3_rotate_around_axis(v, vec3_create(0, 1, 0), rotation.y);
+	if (rotation.z != 0)
+		v = vec3_rotate_around_axis(v, vec3_create(0, 0, 1), rotation.z);
+	return (v);
+}

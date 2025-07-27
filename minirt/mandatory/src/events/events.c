@@ -5,6 +5,7 @@
 
 void	draw_new_image(t_vars *vars, t_scene *scene)
 {
+	mlx_destroy_image(vars->mlx, vars->img->img);
 	create_image(vars);
 	main_draw(vars, scene);
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
@@ -19,14 +20,15 @@ static int	is_redraw_key(int keycode)
 		|| keycode == KEY_LEFT || keycode == KEY_RIGHT || keycode == KEY_PLUS
 		|| keycode == KEY_MINUS || keycode == KEY_R || keycode == KEY_T
 		|| keycode == KEY_F || keycode == KEY_G || keycode == KEY_P
-		|| keycode == KEY_O)
+		|| keycode == KEY_O || keycode == KEY_U || keycode == KEY_Y
+		|| keycode == KEY_H || keycode == KEY_N)
 		return (1);
 	return (0);
 }
 
 int	key_handler(int keycode, t_vars *vars)
 {
-	if (keycode == KEY_ESC)
+	if (keycode == 65307)
 		close_window_esc(keycode, vars);
 	else if (vars->scene)
 	{
@@ -36,7 +38,7 @@ int	key_handler(int keycode, t_vars *vars)
 		if (is_redraw_key(keycode))
 			draw_new_image(vars, vars->scene);
 	}
-	if (keycode == KEY_SPACE)
+	if (keycode == 32)
 		print_controls_help();
 	return (0);
 }

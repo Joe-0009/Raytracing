@@ -4,28 +4,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-/*
-** Free surface map memory (unified for texture and bump)
-*/
-void	free_surface_map(void *mlx, t_surface_map *surface_map)
-{
-	if (surface_map->data)
-	{
-		free(surface_map->data);
-		surface_map->data = NULL;
-	}
-	if (surface_map->mlx_img)
-	{
-		mlx_destroy_image(mlx, surface_map->mlx_img);
-		surface_map->mlx_img = NULL;
-	}
-	if (surface_map->path)
-	{
-		free(surface_map->path);
-		surface_map->path = NULL;
-	}
-	surface_map->is_active = 0;
-}
 
 /*
 ** Load an image from a file using MLX

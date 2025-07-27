@@ -35,7 +35,7 @@ int	trace_objects(const t_scene *scene, t_ray ray, t_hit *closest_hit)
 	double	closest_distance;
 
 	hit_found = 0;
-	closest_distance = INFINITY;
+	closest_distance = INT_MAX;
 	if (scene->num_objects == 0)
 		return (0);
 	i = 0;

@@ -41,6 +41,7 @@ double				vec3_length_squared(t_vec3 v);
 t_vec3				reflect(t_vec3 v, t_vec3 n);
 t_vec3				vec3_rotate_around_axis(t_vec3 v, t_vec3 axis,
 						double angle);
+t_vec3 vec3_rotate(t_vec3 v, t_vec3 rotation);
 double				solve_quadratic(double a, double b, double c, double min_t);
 
 /* Matrix operations */
@@ -62,5 +63,6 @@ void				matrix4_decompose(t_matrix4 matrix, t_vec3 *translation,
 						t_vec3 *rotation, t_vec3 *scale);
 t_matrix4			matrix4_look_at(t_vec3 eye, t_vec3 target, t_vec3 up);
 t_vec3				matrix_rotate_vector(t_vec3 vector, t_vec3 axis, double angle);
+t_matrix4	matrix4_rotation(t_vec3 rotation);
 
 #endif

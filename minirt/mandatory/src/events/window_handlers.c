@@ -2,21 +2,27 @@
 #include "../../includes/minirt_app.h"
 #include <stdio.h>
 
-int	close_window_x(t_vars *vars)
-{
-	(void)vars;
-	exit(0);
-	return (0);
-}
-
 int	close_window_esc(int keycode, t_vars *vars)
 {
-	(void)vars;
-	if (keycode == KEY_ESC)
-		exit(0);
+	if (keycode == 65307)
+	{
+		mlx_destroy_image(vars->mlx, vars->img->img);
+		mlx_destroy_window(vars->mlx, vars->win);
+		free(vars->mlx);
+		ft_free_scene(&vars->scene);
+		exit(EXIT_SUCCESS);
+	}
 	return (0);
 }
 
+int	close_window_x(t_vars *vars)
+{
+	mlx_destroy_image(vars->mlx, vars->img->img);
+	mlx_destroy_window(vars->mlx, vars->win);
+	free(vars->mlx);
+	ft_free_scene(&vars->scene);
+	exit(EXIT_SUCCESS);
+}
 void	print_controls_help(void)
 {
 	printf("\n=== MiniRT Transform Controls ===\n");
@@ -31,8 +37,11 @@ void	print_controls_help(void)
 	printf("  P/O - Select object (next/previous)\n");
 	printf("  Arrow keys - Move object (left/right/up/down)\n");
 	printf("  +/- - Scale object up/down\n");
-	printf("  R/F - Rotate object around X-axis (forward/reverse)\n");
-	printf("  T/G - Rotate object around Y-axis (forward/reverse)\n");
+	printf("\nROTATION (context-sensitive):\n");
+	printf("  For SPHERES: R/T/F/G - Rotate texture and bump map\n");
+	printf("  For OTHER OBJECTS: R/T/F/G - Rotate object geometry\n");
+	printf("    R/F - Rotate around X-axis (forward/reverse)\n");
+	printf("    T/G - Rotate around Y-axis (forward/reverse)\n");
 	printf("\nOTHER:\n");
 	printf("  SPACE - Show this help\n");
 	printf("  ESC - Exit\n");

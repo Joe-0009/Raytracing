@@ -1,7 +1,9 @@
 #include "../../includes/events.h"
 #include "../../includes/minirt_app.h"
 #include "../../includes/scene.h"
+#include <math.h>
 #include <stdio.h>
+
 
 void	handle_object_scale_rotation(int keycode, t_scene *scene)
 {
@@ -9,16 +11,22 @@ void	handle_object_scale_rotation(int keycode, t_scene *scene)
 		scene_scale_object(scene, scene->selected_obj, 1.1);
 	else if (keycode == KEY_MINUS)
 		scene_scale_object(scene, scene->selected_obj, 0.9);
-	else if (keycode == KEY_R)
-		scene_rotate_object(scene, scene->selected_obj, vec3_create(0.2, 0, 0));
-	else if (keycode == KEY_T)
-		scene_rotate_object(scene, scene->selected_obj, vec3_create(0, 0.2, 0));
-	else if (keycode == KEY_F)
-		scene_rotate_object(scene, scene->selected_obj, vec3_create(-0.2, 0,
-				0));
-	else if (keycode == KEY_G)
-		scene_rotate_object(scene, scene->selected_obj, vec3_create(0, -0.2,
-				0));
+	else if (keycode == KEY_R || keycode == KEY_F || keycode == KEY_T
+		|| keycode == KEY_G)
+	{
+		if (keycode == KEY_R)
+			scene_rotate_object(scene, scene->selected_obj, vec3_create(0.2, 0,
+					0));
+		else if (keycode == KEY_T)
+			scene_rotate_object(scene, scene->selected_obj, vec3_create(0, 0.2,
+					0));
+		else if (keycode == KEY_F)
+			scene_rotate_object(scene, scene->selected_obj, vec3_create(-0.2, 0,
+					0));
+		else if (keycode == KEY_G)
+			scene_rotate_object(scene, scene->selected_obj, vec3_create(0, -0.2,
+					0));
+	}
 }
 
 void	handle_object_translation(int keycode, t_scene *scene)

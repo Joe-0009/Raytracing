@@ -6,21 +6,27 @@ BONUS_NAME = minirt_bonus
 # Compiler and flags
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -O3 -ffast-math -funroll-loops -ftree-vectorize \
-         -fomit-frame-pointer -march=native -mtune=native -flto -finline-functions \
-         -falign-functions=32 -falign-loops=32 -fno-stack-protector \
-         -fno-unwind-tables -fno-asynchronous-unwind-tables -DNDEBUG
+		 -fomit-frame-pointer -march=native -mtune=native -flto -finline-functions \
+		 -falign-functions=32 -falign-loops=32 -fno-stack-protector \
+		 -fno-unwind-tables -fno-asynchronous-unwind-tables -DNDEBUG
 
 # Prebuilt libraries
-PREBUILT_DIR = prebuilt_libs
+PREBUILT_DIR = ../prebuilt_libs
 LIBFT = $(PREBUILT_DIR)/libft.a
 
-# Libraries (both use standard MLX, bonus needs pthread)
+UNAME_S := $(shell uname -s)
+
+ifeq ($(UNAME_S),Darwin)
+MLX_LDFLAGS = -L$(PREBUILT_DIR) -lmlx -framework OpenGL -framework AppKit
+BONUS_LDFLAGS = -L$(PREBUILT_DIR) -lmlx -framework OpenGL -framework AppKit
+else
 MLX_LDFLAGS = -L$(PREBUILT_DIR) -lmlx_linux -lX11 -lXext -lm
 BONUS_LDFLAGS = -L$(PREBUILT_DIR) -lmlx_linux -lX11 -lXext -lm -pthread
+endif
 
 # Includes
-INCLUDES = -I./mandatory/includes -I$(PREBUILT_DIR)/include
-BONUS_INCLUDES = -I./bonus/includes -I$(PREBUILT_DIR)/include
+INCLUDES = -I./mandatory/includes -I../prebuilt_libs/include
+BONUS_INCLUDES = -I./bonus/includes -I../prebuilt_libs/include
 
 # Source files
 SRC_DIR = mandatory/src
@@ -36,20 +42,10 @@ BONUS_SRCS = $(shell find $(BONUS_DIR) -name '*_bonus.c' 2>/dev/null || echo "")
 BONUS_OBJS = $(BONUS_SRCS:$(BONUS_DIR)/%.c=$(BONUS_OBJ_DIR)/%.o)
 
 # Rules
-all: $(LIBFT) $(NAME)
 
-bonus: $(LIBFT) $(BONUS_NAME)
+all: $(NAME)
 
-LIBFT_SRC_DIR = bonus/libft
-LIBFT_SRC_MAKEFILE = $(LIBFT_SRC_DIR)/Makefile
-
-$(LIBFT):
-	$(MAKE) -C $(LIBFT_SRC_DIR) fclean
-	$(MAKE) -C $(LIBFT_SRC_DIR)
-	ranlib $(LIBFT_SRC_DIR)/libft.a
-	@mkdir -p $(PREBUILT_DIR)
-	cp $(LIBFT_SRC_DIR)/libft.a $(PREBUILT_DIR)/libft.a
-	ranlib $(PREBUILT_DIR)/libft.a
+bonus: $(BONUS_NAME)
 
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(MLX_LDFLAGS) $(LIBFT)
