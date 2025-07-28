@@ -21,7 +21,9 @@ static int	is_redraw_key(int keycode)
 		|| keycode == KEY_MINUS || keycode == KEY_R || keycode == KEY_T
 		|| keycode == KEY_F || keycode == KEY_G || keycode == KEY_P
 		|| keycode == KEY_O || keycode == KEY_U || keycode == KEY_Y
-		|| keycode == KEY_H || keycode == KEY_N)
+		|| keycode == KEY_H || keycode == KEY_N || keycode == KEY_V
+		|| keycode == KEY_B || keycode == KEY_M || keycode == KEY_COMMA
+		|| keycode == KEY_DOT)
 		return (1);
 	return (0);
 }
@@ -32,9 +34,11 @@ int	key_handler(int keycode, t_vars *vars)
 		close_window_esc(keycode, vars);
 	else if (vars->scene)
 	{
+		printf("Keycode: %d\n", keycode);
 		handle_camera_movement(keycode, vars->scene);
 		handle_camera_rotation(keycode, vars->scene);
 		handle_object_transforms(keycode, vars->scene);
+		handle_light_movement(keycode, vars->scene);
 		if (is_redraw_key(keycode))
 			draw_new_image(vars, vars->scene);
 	}
@@ -43,8 +47,29 @@ int	key_handler(int keycode, t_vars *vars)
 	return (0);
 }
 
+/*
+** Mouse handler for object selection
+*/
+int	mouse_handler(int button, int x, int y, void *param)
+{
+	t_vars	*vars;
+	t_ray	ray;
+	t_hit	hit;
+
+	vars = (t_vars *)param;
+	if (button == 1)
+	{
+		ray = generate_camera_ray(vars->scene, x, y);
+		if (trace_objects(vars->scene, ray, &hit))
+			vars->scene->selected_obj = hit.obj_index;
+		draw_new_image(vars, vars->scene);
+	}
+	return (0);
+}
+
 void	mlx_hooks(t_vars *vars)
 {
+	mlx_hook(vars->win, 4, 1L << 2, mouse_handler, vars);
 	mlx_hook(vars->win, 2, 1L << 0, key_handler, vars);
 	mlx_hook(vars->win, 17, 0, close_window_x, vars);
 }

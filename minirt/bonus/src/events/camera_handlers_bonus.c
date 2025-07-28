@@ -42,3 +42,25 @@ void	handle_camera_movement(int keycode, t_scene *scene)
 		return ;
 	scene->camera.position = vec3_add(scene->camera.position, movement);
 }
+
+void	handle_light_movement(int keycode, t_scene *scene)
+{
+	t_vec3	movement;
+
+	movement = vec3_create(0, 0, 0);
+	if (keycode == KEY_V)
+		movement = vec3_create(-0.5, 0, 0);
+	else if (keycode == KEY_B)
+		movement = vec3_create(0.5, 0, 0);
+	else if (keycode == KEY_N)
+		movement = vec3_create(0, -0.5, 0);
+	else if (keycode == KEY_M)
+		movement = vec3_create(0, 0.5, 0);
+	else if (keycode == KEY_COMMA)
+		movement = vec3_create(0, 0, -0.5);
+	else if (keycode == KEY_DOT)
+		movement = vec3_create(0, 0, 0.5);
+	else
+		return ;
+	scene->light[0].position = vec3_add(scene->light[0].position, movement);
+}

@@ -25,6 +25,8 @@ t_vec3	vec3_rotate_around_axis(t_vec3 v, t_vec3 axis, double angle)
 					sin_a)), vec3_mult(u, vec3_dot(u, v) * (1 - cos_a))));
 }
 
+//Rodrigues' Rotation Formula
+
 t_vec3	vec3_rotate(t_vec3 v, t_vec3 rotation)
 {
 	if (rotation.x != 0)
