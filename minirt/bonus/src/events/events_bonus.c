@@ -47,9 +47,6 @@ int	key_handler(int keycode, t_vars *vars)
 	return (0);
 }
 
-/*
-** Mouse handler for object selection
-*/
 int	mouse_handler(int button, int x, int y, void *param)
 {
 	t_vars	*vars;

@@ -1,17 +1,11 @@
 #include "../includes/math_utils_bonus.h"
 #include <math.h>
 
-/*
-** Reflect vector across normal
-*/
 t_vec3	reflect(t_vec3 v, t_vec3 n)
 {
 	return (vec3_sub(v, vec3_mult(n, 2 * vec3_dot(v, n))));
 }
 
-/*
-** Rotate vector around arbitrary axis
-*/
 t_vec3	vec3_rotate_around_axis(t_vec3 v, t_vec3 axis, double angle)
 {
 	t_vec3	u;
@@ -25,7 +19,7 @@ t_vec3	vec3_rotate_around_axis(t_vec3 v, t_vec3 axis, double angle)
 					sin_a)), vec3_mult(u, vec3_dot(u, v) * (1 - cos_a))));
 }
 
-//Rodrigues' Rotation Formula
+// Rodrigues' Rotation Formula
 
 t_vec3	vec3_rotate(t_vec3 v, t_vec3 rotation)
 {

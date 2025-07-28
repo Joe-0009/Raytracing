@@ -21,6 +21,7 @@ void	handle_camera_rotation(int keycode, t_scene *scene)
 	scene->camera.orientation = vec3_rotate(scene->camera.orientation,
 			rotation);
 }
+
 void	handle_camera_movement(int keycode, t_scene *scene)
 {
 	t_vec3	movement;

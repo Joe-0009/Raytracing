@@ -89,11 +89,13 @@ typedef struct s_parser
 
 /* Warning messages - General */
 # define WARN_POSITION_FAR "Warning: %s far from origin (%.2f, %.2f, %.2f)\n"
+
+
+
 /* Function prototypes */
 /* File and scene loading */
 t_scene		*parse_scene_file(char *filename);
 int			validate_scene(t_scene *scene);
-int			validate_scene_rendering(t_scene *scene);
 
 /* Element parsing functions */
 int			parse_ambient(char **tokens, t_scene *scene, int token_count);

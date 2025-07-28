@@ -176,14 +176,6 @@ int					trace_ray(const t_scene *scene, t_ray ray);
 void				load_surface_map(void *mlx, t_surface_map *surface_map);
 t_color3			sample_texture(const t_surface_map *texture, t_uv uv);
 double				sample_bump_map(const t_surface_map *bump, t_uv uv);
-t_vec3				apply_bump_mapping(t_vec3 normal, t_uv uv,
-						const t_surface_map *bump, t_vec3 tangent,
-						t_vec3 bitangent);
-t_uv				sphere_uv_mapping(t_vec3 normalized);
 void				load_scene_texture_bump(void *mlx, t_scene *scene);
-
-/* Texture rotation functions */
-void				set_texture_rotation_degrees(t_surface_map *map, double angle_degrees);
-void				set_sphere_texture_rotation(t_sphere *sphere, double angle_degrees);
 
 #endif

@@ -1,10 +1,6 @@
 #include "../includes/math_utils_bonus.h"
 #include <math.h>
 
-/**
- * Helper function to solve quadratic equation ax^2 + bx + c = 0
- * Returns the smallest positive root > min_t, or -1 if none
- */
 double	solve_quadratic(double a, double b, double c, double min_t)
 {
 	double	discriminant;

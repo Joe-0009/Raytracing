@@ -3,9 +3,6 @@
 #include <math.h>
 #include <stdio.h>
 
-/*
-** Translate object in scene
-*/
 void	scene_translate_object(t_scene *scene, int obj_index, t_vec3 delta)
 {
 	if (obj_index < 0 || obj_index >= scene->num_objects)
@@ -24,9 +21,6 @@ void	scene_translate_object(t_scene *scene, int obj_index, t_vec3 delta)
 				delta);
 }
 
-/*
-** Rotate object in scene
-*/
 void	scene_rotate_object(t_scene *scene, int obj_index, t_vec3 rotation)
 {
 	if (obj_index < 0 || obj_index >= scene->num_objects)
@@ -42,9 +36,6 @@ void	scene_rotate_object(t_scene *scene, int obj_index, t_vec3 rotation)
 				rotation);
 }
 
-/*
-** Scale object in scene
-*/
 void	scene_scale_object(t_scene *scene, int obj_index, double scale)
 {
 	if (obj_index < 0 || obj_index >= scene->num_objects)

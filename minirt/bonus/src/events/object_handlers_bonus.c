@@ -3,11 +3,6 @@
 #include "../../includes/scene_bonus.h"
 #include <stdio.h>
 
-
-
-/*
-** Handle keypresses to rotate the sphere's texture
-*/
 static void	handle_sphere_texture_rotation(t_scene *scene, int keycode)
 {
 	t_sphere	*sphere;
@@ -29,10 +24,7 @@ static void	handle_sphere_texture_rotation(t_scene *scene, int keycode)
 	}
 }
 
-/*
-** Handle object scaling and rotation (including texture rotation for SPHERE)
-*/
-void	handle_object_scale_rotation(int keycode, t_scene *scene)
+static void	handle_object_scale_rotation(int keycode, t_scene *scene)
 {
 	if (keycode == KEY_PLUS)
 		scene_scale_object(scene, scene->selected_obj, 1.1);
@@ -61,10 +53,7 @@ void	handle_object_scale_rotation(int keycode, t_scene *scene)
 	}
 }
 
-/*
-** Handle object translation (moving, selecting)
-*/
-void	handle_object_translation(int keycode, t_scene *scene)
+static void	handle_object_translation(int keycode, t_scene *scene)
 {
 	if (keycode == KEY_P && scene->selected_obj < scene->num_objects - 1)
 		scene->selected_obj++;
@@ -84,9 +73,6 @@ void	handle_object_translation(int keycode, t_scene *scene)
 				0));
 }
 
-/*
-** Main handler: object transforms (scale, rotate, translate)
-*/
 void	handle_object_transforms(int keycode, t_scene *scene)
 {
 	handle_object_scale_rotation(keycode, scene);
