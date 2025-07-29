@@ -79,19 +79,19 @@ t_color3	sample_texture(const t_surface_map *texture, t_uv uv)
 */
 double sample_bump_map(const t_surface_map *bump, t_uv uv)
 {
-    int idx;
-    double value;
-    int x;
+	int idx;
+	double value;
+	int x;
 	int y;
 
-    if (!bump->is_active || !bump->data)
-        return 0.0;
-    uv.u = fmod(uv.u + bump->rotation_uv.u, 1.0);
-    x = (int)(uv.u * (bump->width - 1));
-    y = (int)(uv.v * (bump->height - 1));
-    idx = (y * bump->width + x) * 3;
-    value = bump->data[idx];
-    return (value  / 255.0);
+	if (!bump->is_active || !bump->data)
+		return 0.0;
+	uv.u = fmod(uv.u + bump->rotation_uv.u, 1.0);
+	x = (int)(uv.u * (bump->width - 1));
+	y = (int)(uv.v * (bump->height - 1));
+	idx = (y * bump->width + x) * 3;
+	value = bump->data[idx];
+	return (value  / 255.0);
 }
 
 
@@ -100,35 +100,37 @@ double sample_bump_map(const t_surface_map *bump, t_uv uv)
 */
 t_vec3 apply_sphere_bump(const t_sphere *sphere, t_hit *hit)
 {
-    double  h_center, h_right, h_up, du, dv;
-    t_uv uv_right, uv_up;
-    t_vec3 bumped;
+	double  h_center, h_right, h_up, du, dv;
+	t_uv uv_right, uv_up;
+	t_vec3 bumped;
 	t_vec3 tangent, bitangent;
 
-    if (!sphere->bump.is_active || !sphere->bump.data)
-        return hit->normal;
-	tangent = vec3_normalize(vec3_create(-hit->normal.z, 0, hit->normal.x));
-    bitangent = vec3_normalize(vec3_cross(hit->normal, tangent));
-
-    h_center = sample_bump_map(&sphere->bump, hit->uv);
+	if (!sphere->bump.is_active || !sphere->bump.data) {
+		return hit->normal;
+	}
 	
-    uv_right = hit->uv;
-    uv_right.u += 1.0 / sphere->bump.width;
-    h_right = sample_bump_map(&sphere->bump, uv_right);
+	tangent = vec3_normalize(vec3_create(-hit->normal.z, 0, hit->normal.x));
+	bitangent = vec3_normalize(vec3_cross(hit->normal, tangent));
 
-    uv_up = hit->uv;
-    uv_up.v += 1.0 / sphere->bump.height;
-    h_up = sample_bump_map(&sphere->bump, uv_up);
+	h_center = sample_bump_map(&sphere->bump, hit->uv);
+	
+	uv_right = hit->uv;
+	uv_right.u += 1.0 / sphere->bump.width;
+	h_right = sample_bump_map(&sphere->bump, uv_right);
 
-    du = (h_right - h_center) * 10.0;
-    dv = (h_up - h_center) * 10.0;
+	uv_up = hit->uv;
+	uv_up.v += 1.0 / sphere->bump.height;
+	h_up = sample_bump_map(&sphere->bump, uv_up);
 
-    bumped = vec3_add(hit->normal,
-                vec3_add(
-                    vec3_mult(tangent, du),
-                    vec3_mult(bitangent, dv)
-                ));
-    return vec3_normalize(bumped);
+	du = (h_right - h_center) * 10.0;
+	dv = (h_up - h_center) * 10.0;
+
+	bumped = vec3_add(hit->normal,
+				vec3_add(
+					vec3_mult(tangent, du),
+					vec3_mult(bitangent, dv)
+				));
+	return vec3_normalize(bumped);
 }
 
 /*

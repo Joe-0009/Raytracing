@@ -11,22 +11,17 @@ CFLAGS = -Wall -Wextra -Werror -O3 -ffast-math -funroll-loops -ftree-vectorize \
 		 -fno-unwind-tables -fno-asynchronous-unwind-tables -DNDEBUG
 
 # Prebuilt libraries
-PREBUILT_DIR = ../prebuilt_libs
+PREBUILT_DIR = prebuilt_libs
 LIBFT = $(PREBUILT_DIR)/libft.a
 
-UNAME_S := $(shell uname -s)
 
-ifeq ($(UNAME_S),Darwin)
-MLX_LDFLAGS = -L$(PREBUILT_DIR) -lmlx -framework OpenGL -framework AppKit
-BONUS_LDFLAGS = -L$(PREBUILT_DIR) -lmlx -framework OpenGL -framework AppKit
-else
+# Libraries (both use standard MLX, bonus needs pthread)
 MLX_LDFLAGS = -L$(PREBUILT_DIR) -lmlx_linux -lX11 -lXext -lm
 BONUS_LDFLAGS = -L$(PREBUILT_DIR) -lmlx_linux -lX11 -lXext -lm -pthread
-endif
 
 # Includes
-INCLUDES = -I./mandatory/includes -I../prebuilt_libs/include
-BONUS_INCLUDES = -I./bonus/includes -I../prebuilt_libs/include
+INCLUDES = -I./mandatory/includes -I$(PREBUILT_DIR)/include -I../minilibx-linux
+BONUS_INCLUDES = -I./bonus/includes -I$(PREBUILT_DIR)/include -I../minilibx-linux
 
 # Source files
 SRC_DIR = mandatory/src
@@ -40,8 +35,6 @@ OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 BONUS_SRCS = $(shell find $(BONUS_DIR) -name '*_bonus.c' 2>/dev/null || echo "")
 BONUS_OBJS = $(BONUS_SRCS:$(BONUS_DIR)/%.c=$(BONUS_OBJ_DIR)/%.o)
-
-# Rules
 
 all: $(NAME)
 
@@ -69,4 +62,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all bonus clean fclean re
+.PHONY: all bonus clean fclean re libft
