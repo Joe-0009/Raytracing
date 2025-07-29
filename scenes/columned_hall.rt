@@ -8,7 +8,7 @@ A 0.3 255,255,255
 L -10.0,15.0,5.0 0.8 255,255,255
 
 # Camera positioned to view the hall from an angle - moved back further
-C -35.0,8.0,5.0 0.7,-0.2,0.7 70
+C 2.0,8.0,5.0 0.7,0,0.7 70
 
 # Floor - dark checkered pattern (dark grey)
 pl 0.0,0.0,0.0 0.0,1.0,0.0 60,60,60
