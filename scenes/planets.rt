@@ -1,0 +1,26 @@
+A 0.2 255,255,255
+
+C 0,0,20 0,0,-1 70
+L	-5,0,-15		0.8				255,255,150
+L	5,0,-15			0.8				255,255,150
+L	0,5,-15			0.8				255,255,150
+L	0,-5,-15		0.8				255,255,150
+L	-3.5,3.5,-15	0.8				255,255,150
+L	3.5,3.5,-15		0.8				255,255,150
+L	-3.5,-3.5,-15	0.8				255,255,150
+L	3.5,-3.5,-15	0.8				255,255,150
+L	0,0,-10			0.8				255,255,150
+L	0,0,-20			0.8				255,255,150
+
+sp 0,0,-6 0.4 255,255,255 txm:images/mercurymap.xpm bum:images/mercurybump.xpm
+sp 0,0,-3 0.9 255,255,255 txm:images/venusmap.xpm bum:images/venusbump.xpm
+sp 0,0,2 1.0 255,255,255 txm:images/earthmap1k.xpm bum:images/earthbump1k.xpm
+sp 2,0,2 0.3 255,255,255 txm:images/moonmap1k.xpm bum:images/moonbump1k.xpm
+sp 0,0,6 0.5 255,255,255 txm:images/marsmap1k.xpm bum:images/marsbump1k.xpm
+sp 0,0,15 3.5 255,255,255 txm:images/jupitermap.xpm
+sp 0,0,22 2.8 255,255,255 txm:images/saturnmap.xpm
+sp 0,0,30 1.8 255,255,255 txm:images/uranusmap.xpm
+sp 0,0,35 1.7 255,255,255 txm:images/neptunemap.xpm
+sp 0,0,42 0.2 255,255,255 txm:images/plutomap1k.xpm bum:images/plutobump1k.xpm
+
+sp 0,0,-15 4 255,255,255 txm:images/sunmap.xpm

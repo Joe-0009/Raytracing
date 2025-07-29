@@ -1,0 +1,83 @@
+# Columned Hall Scene - Classical Architecture with Red Sphere
+# A grand hall with white/grey columns and a central red sphere
+
+# Ambient lighting - soft overall illumination
+A 0.3 255,255,255
+
+# Main light source - positioned above and behind camera
+L -10.0,15.0,5.0 0.8 255,255,255
+
+# Camera positioned to view the hall from an angle - moved back further
+C -35.0,8.0,5.0 0.7,-0.2,0.7 70
+
+# Floor - dark checkered pattern (dark grey)
+pl 0.0,0.0,0.0 0.0,1.0,0.0 60,60,60
+
+# Ceiling - lighter grey
+pl 0.0,20.0,0.0 0.0,-1.0,0.0 40,40,40
+
+# Back wall - blue background
+pl 0.0,0.0,50.0 0.0,0.0,-1.0 50,50,200
+
+# Left wall
+pl -30.0,0.0,0.0 1.0,0.0,0.0 80,80,80
+
+# Right wall  
+pl 30.0,0.0,0.0 -1.0,0.0,0.0 80,80,80
+
+# Central red sphere - the focal point
+sp 0.0,3.0,25.0 6.0 200,30,30
+
+# Front columns (closest to camera)
+# Left front column
+cy -12.0,0.0,8.0 0.0,1.0,0.0 3.0 15.0 180,180,180
+sp -12.0,15.0,8.0 3.0 200,200,200
+sp -12.0,0.0,8.0 3.5 160,160,160
+
+# Right front column  
+cy 12.0,0.0,8.0 0.0,1.0,0.0 3.0 15.0 180,180,180
+sp 12.0,15.0,8.0 3.0 200,200,200
+sp 12.0,0.0,8.0 3.5 160,160,160
+
+# Middle columns
+# Left middle column
+cy -12.0,0.0,25.0 0.0,1.0,0.0 2.8 15.0 170,170,170
+sp -12.0,15.0,25.0 2.8 190,190,190
+sp -12.0,0.0,25.0 3.3 150,150,150
+
+# Right middle column
+cy 12.0,0.0,25.0 0.0,1.0,0.0 2.8 15.0 170,170,170
+sp 12.0,15.0,25.0 2.8 190,190,190
+sp 12.0,0.0,25.0 3.3 150,150,150
+
+# Back columns
+# Left back column
+cy -12.0,0.0,42.0 0.0,1.0,0.0 2.6 15.0 160,160,160
+sp -12.0,15.0,42.0 2.6 180,180,180
+sp -12.0,0.0,42.0 3.1 140,140,140
+
+# Right back column
+cy 12.0,0.0,42.0 0.0,1.0,0.0 2.6 15.0 160,160,160
+sp 12.0,15.0,42.0 2.6 180,180,180
+sp 12.0,0.0,42.0 3.1 140,140,140
+
+# Additional smaller columns for depth
+# Left side smaller columns
+cy -20.0,0.0,15.0 0.0,1.0,0.0 2.0 12.0 150,150,150
+sp -20.0,12.0,15.0 2.2 170,170,170
+
+cy -20.0,0.0,35.0 0.0,1.0,0.0 2.0 12.0 150,150,150
+sp -20.0,12.0,35.0 2.2 170,170,170
+
+# Right side smaller columns
+cy 20.0,0.0,15.0 0.0,1.0,0.0 2.0 12.0 150,150,150
+sp 20.0,12.0,15.0 2.2 170,170,170
+
+cy 20.0,0.0,35.0 0.0,1.0,0.0 2.0 12.0 150,150,150
+sp 20.0,12.0,35.0 2.2 170,170,170
+
+# Architectural details - small spheres as decorative elements
+sp -6.0,2.0,15.0 1.0 120,120,120
+sp 6.0,2.0,15.0 1.0 120,120,120
+sp -6.0,2.0,35.0 1.0 120,120,120
+sp 6.0,2.0,35.0 1.0 120,120,120

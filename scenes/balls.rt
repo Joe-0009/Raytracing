@@ -1,0 +1,14 @@
+A 0.2 255,255,255
+
+C 0,0,15 0,0,-1 70
+L -20,20,10 0.7 255,255,255
+
+sp -8,4,0 3 255,255,255 txm:images/SoccerBall.xpm bum:images/SoccerBall.xpm 
+sp 0,4,0 3 255,255,255 txm:images/BasketballColor.xpm bum:images/BasketballColor.xpm
+sp 8,4,0 3 255,255,255 txm:images/BeachBallColor.xpm bum:images/BeachBallColor.xpm
+
+sp -8,-4,0 3 255,255,255 checkerboard
+sp 0,-4,0 3 255,255,255 txm:images/SoftballColor.xpm bum:images/SoftballBump.xpm
+sp 8,-4,0 3 255,255,255 txm:images/venusmap.xpm bum:images/venusbump.xpm
+
+pl 0,-10,0 0,1,0 100,100,100 
