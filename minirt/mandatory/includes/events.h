@@ -32,6 +32,12 @@
 # define KEY_Y          121
 # define KEY_H          104
 # define KEY_N          110
+# define KEY_M          109
+# define KEY_B          98
+# define KEY_V          118
+# define KEY_C          99
+# define KEY_COMMA      44
+# define KEY_DOT        46
 
 
 
@@ -54,5 +60,5 @@ void			handle_camera_movement(int keycode, t_scene *scene);
 void			handle_camera_rotation(int keycode, t_scene *scene);
 void			handle_object_transforms(int keycode, t_scene *scene);
 void			print_controls_help(void);
-
+void	handle_light_movement(int keycode, t_scene *scene);
 #endif
