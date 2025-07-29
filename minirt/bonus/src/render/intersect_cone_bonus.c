@@ -2,9 +2,6 @@
 #include "../includes/scene_bonus.h"
 #include <math.h>
 
-/*
-** Calculate precomputed constants for cone
-*/
 t_cone_constants	get_cone_constants(const t_cone *cone)
 {
 	t_cone_constants	constants;
@@ -18,9 +15,6 @@ t_cone_constants	get_cone_constants(const t_cone *cone)
 	return (constants);
 }
 
-/*
-** Calculate the surface normal for a point on the cone.
-*/
 t_vec3	cone_surface_normal(const t_cone *cone, t_point3 point)
 {
 	t_vec3				cone_to_point;
@@ -38,10 +32,6 @@ t_vec3	cone_surface_normal(const t_cone *cone, t_point3 point)
 					-constants.sin_angle))));
 }
 
-/*
-** Calculate intersection with cone base cap (circular base)
-** Returns 1 if hit, 0 if no hit
-*/
 static int	intersect_cone_cap(const t_cone *cone, t_ray ray, t_hit *hit)
 {
 	double				denom;
@@ -74,9 +64,6 @@ static int	intersect_cone_cap(const t_cone *cone, t_ray ray, t_hit *hit)
 	return (1);
 }
 
-/*
-** Check intersection with cone surface and update hit if valid
-*/
 static int	check_cone_surface(const t_cone *cone, t_ray ray, t_hit *hit)
 {
 	t_quadratic	q;
@@ -105,10 +92,6 @@ static int	check_cone_surface(const t_cone *cone, t_ray ray, t_hit *hit)
 	return (1);
 }
 
-/*
-** Calculate intersection with cone
-** Returns 1 if hit, 0 if no hit
-*/
 int	intersect_cone(const t_cone *cone, t_ray ray, t_hit *hit)
 {
 	int		surface_hit;

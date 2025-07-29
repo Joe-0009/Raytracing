@@ -5,9 +5,6 @@
 #include "../includes/scene_bonus.h"
 #include <math.h>
 
-/*
-** Generate a camera ray for a given pixel (x, y)
-*/
 t_ray	generate_camera_ray(const t_scene *scene, int x, int y)
 {
 	t_ray				ray;
@@ -31,9 +28,6 @@ t_ray	generate_camera_ray(const t_scene *scene, int x, int y)
 	return (ray);
 }
 
-/*
-** Apply selection highlighting to color
-*/
 static t_color3	apply_selection_highlight(t_color3 color)
 {
 	color.x = color.x + (1.0 - color.x) * LIGHTENING_FACTOR;
@@ -42,9 +36,6 @@ static t_color3	apply_selection_highlight(t_color3 color)
 	return (color);
 }
 
-/*
-** Trace a ray and return the color for the pixel
-*/
 int	trace_ray(const t_scene *scene, t_ray ray)
 {
 	t_hit		closest_hit;

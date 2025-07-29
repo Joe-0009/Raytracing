@@ -2,10 +2,7 @@
 #include "../includes/scene_bonus.h"
 #include <math.h>
 
-/*
-** Compute the quadratic coefficients for a ray-cone intersection.
-** Returns a t_quadratic struct with the coefficients a, b, c.
-*/
+
 t_quadratic	cone_quadratic_coeffs(const t_cone *cone, t_ray ray)
 {
 	t_vec3				oc;
@@ -25,10 +22,7 @@ t_quadratic	cone_quadratic_coeffs(const t_cone *cone, t_ray ray)
 	return (q);
 }
 
-/*
-** Compute the quadratic coefficients for a ray-cylinder intersection.
-** Returns a t_quadratic struct with the coefficients a, b, c.
-*/
+
 t_quadratic	cylinder_quadratic_coeffs(const t_cylinder *cylinder, t_ray ray)
 {
 	t_vec3		oc;
@@ -47,10 +41,7 @@ t_quadratic	cylinder_quadratic_coeffs(const t_cylinder *cylinder, t_ray ray)
 	return (q);
 }
 
-/*
-** Calculate intersection with plane
-** Returns 1 if hit, 0 if no hit
-*/
+
 int	intersect_plane(const t_plane *plane, t_ray ray, t_hit *hit)
 {
 	double	denom;

@@ -2,10 +2,8 @@
 #include "../includes/scene_bonus.h"
 #include <math.h>
 
-/*
-** Calculate the surface normal for a point on the cylinder.
-*/
-static t_vec3	cylinder_surface_normal(const t_cylinder *cylinder, t_point3 point)
+static t_vec3	cylinder_surface_normal(const t_cylinder *cylinder,
+		t_point3 point)
 {
 	double		m;
 	t_vec3		axis_projection;
@@ -17,9 +15,6 @@ static t_vec3	cylinder_surface_normal(const t_cylinder *cylinder, t_point3 point
 	return (vec3_normalize(vec3_sub(point, axis_point)));
 }
 
-/*
-** Set hit data for cylinder cap
-*/
 static void	set_cap_hit_data(t_hit *hit, const t_cylinder *cyl, int is_top_cap)
 {
 	hit->color = cyl->color;
@@ -36,10 +31,6 @@ static void	set_cap_hit_data(t_hit *hit, const t_cylinder *cyl, int is_top_cap)
 	}
 }
 
-/*
-** Check intersection with cylinder cap (top or bottom)
-** Returns 1 if hit, 0 if no hit
-*/
 static int	check_cap_hit(const t_cylinder *cyl, t_ray ray, t_hit *hit,
 		double height)
 {

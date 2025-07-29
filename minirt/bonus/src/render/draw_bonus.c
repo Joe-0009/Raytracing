@@ -2,9 +2,6 @@
 #include "../../includes/scene_bonus.h"
 #include <stdio.h>
 
-/*
-** Create a new image for rendering with standard MLX
-*/
 void	create_image(t_vars *vars)
 {
 	vars->img = malloc(sizeof(t_image));
@@ -18,9 +15,6 @@ void	create_image(t_vars *vars)
 			&vars->img->endian);
 }
 
-/*
-** Put a pixel of a given color at (x, y) using standard MLX
-*/
 void	put_pixel(t_vars *vars, int x, int y, int color)
 {
 	char	*dst;
@@ -33,9 +27,6 @@ void	put_pixel(t_vars *vars, int x, int y, int color)
 	}
 }
 
-/*
-** Render a section of the screen (for multithreading)
-*/
 void	render_section(t_vars *vars, t_scene *scene, int start_y, int end_y)
 {
 	t_ray	ray;
@@ -58,9 +49,6 @@ void	render_section(t_vars *vars, t_scene *scene, int start_y, int end_y)
 	}
 }
 
-/*
-** Thread function for parallel rendering
-*/
 void	*render_thread(void *arg)
 {
 	t_thread_data	*data;
@@ -70,9 +58,6 @@ void	*render_thread(void *arg)
 	return (NULL);
 }
 
-/*
-** Main draw function using multithreading
-*/
 void	main_draw(t_vars *vars, t_scene *scene)
 {
 	pthread_t		threads[NUM_THREADS];

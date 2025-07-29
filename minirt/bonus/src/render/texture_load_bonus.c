@@ -4,11 +4,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-
-/*
-** Load an image from a file using MLX
-** Returns 1 on success, 0 on failure
-*/
 static int	load_image_file(void *mlx, t_surface_map *surface_map)
 {
 	if (strstr(surface_map->path, ".xpm"))
@@ -29,9 +24,6 @@ static int	load_image_file(void *mlx, t_surface_map *surface_map)
 	return (1);
 }
 
-/*
-** Convert MLX image data to RGB format
-*/
 static void	convert_image_data(t_surface_map *surface_map, char *data_addr,
 		int line_length, int bits_per_pixel)
 {
@@ -57,10 +49,6 @@ static void	convert_image_data(t_surface_map *surface_map, char *data_addr,
 	}
 }
 
-/*
-** Load a surface map using MLX image loading (XPM or PNG)
-** Works for both textures and bump maps based on map_type
-*/
 void	load_surface_map(void *mlx, t_surface_map *surface_map)
 {
 	char	*data_addr;
@@ -89,9 +77,6 @@ void	load_surface_map(void *mlx, t_surface_map *surface_map)
 	surface_map->is_active = 1;
 }
 
-/*
-** Load all textures in the scene after MLX initialization
-*/
 void	load_scene_texture_bump(void *mlx, t_scene *scene)
 {
 	int	i;
