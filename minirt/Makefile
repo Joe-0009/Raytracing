@@ -20,8 +20,6 @@ BONUS_INCLUDES = -I./bonus/includes -I$(LIBFT_DIR)
 # Source files
 SRC_DIR = mandatory/src
 BONUS_DIR = bonus/src
-OBJ_DIR = obj
-BONUS_OBJ_DIR = obj_bonus
 
 # Source files
 SRCS = events/camera_light_handlers.c \
@@ -49,7 +47,7 @@ SRCS = events/camera_light_handlers.c \
        render/lighting.c \
        render/raytrace.c
 
-OBJS = $(SRCS:%.c=$(OBJ_DIR)/%.o)
+OBJS = $(SRCS:%.c=$(SRC_DIR)/%.o)
 
 BONUS_SRCS = events/camera_light_handlers_bonus.c \
              events/events_bonus.c \
@@ -80,7 +78,7 @@ BONUS_SRCS = events/camera_light_handlers_bonus.c \
              render/raytrace_bonus.c \
              render/texture_load_bonus.c
 
-BONUS_OBJS = $(BONUS_SRCS:%.c=$(BONUS_OBJ_DIR)/%.o)
+BONUS_OBJS = $(BONUS_SRCS:%.c=$(BONUS_DIR)/%.o)
 
 all: $(NAME)
 
@@ -95,16 +93,14 @@ $(NAME): $(LIBFT) $(OBJS)
 $(BONUS_NAME): $(LIBFT) $(BONUS_OBJS)
 	$(CC) $(CFLAGS) $(BONUS_OBJS) -o $(BONUS_NAME) $(BONUS_LDFLAGS) $(LIBFT)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	@mkdir -p $(dir $@)
+$(SRC_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-$(BONUS_OBJ_DIR)/%.o: $(BONUS_DIR)/%.c
-	@mkdir -p $(dir $@)
+$(BONUS_DIR)/%.o: $(BONUS_DIR)/%.c
 	$(CC) $(CFLAGS) $(BONUS_INCLUDES) -c $< -o $@
 
 clean:
-	@rm -rf $(OBJ_DIR) $(BONUS_OBJ_DIR)
+	@rm -f $(OBJS) $(BONUS_OBJS)
 	@make clean -C $(LIBFT_DIR)
 
 fclean: clean
