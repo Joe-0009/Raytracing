@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   window_handlers_bonus.c                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: isallali <isallali@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/21 21:20:43 by isallali          #+#    #+#             */
+/*   Updated: 2025/08/21 21:20:44 by isallali         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/events_bonus.h"
 #include "../../includes/minirt_app_bonus.h"
 #include <stdio.h>
@@ -23,6 +35,7 @@ int	close_window_x(t_vars *vars)
 	ft_free_scene(&vars->scene);
 	exit(EXIT_SUCCESS);
 }
+
 void	print_controls_help(void)
 {
 	printf("\n=== MiniRT Transform Controls ===\n");

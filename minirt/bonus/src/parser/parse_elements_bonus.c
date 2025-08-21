@@ -84,10 +84,8 @@ int	parse_sphere(char **tokens, t_scene *scene, int token_count)
 			return (FALSE);
 	}
 	if (token_count >= 6)
-	{
 		if (!parse_bump(tokens[5], &sphere.bump))
 			return (FALSE);
-	}
 	if (!add_object_to_scene(scene, SPHERE, &sphere))
 		return (FALSE);
 	return (TRUE);

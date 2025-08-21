@@ -9,13 +9,17 @@ void	ft_free(void **ptr)
 	}
 }
 
-void ft_free_array(char ***tokens)
+void	ft_free_array(char ***tokens)
 {
+	int	i;
+
+	i = 0;
 	if (tokens && *tokens)
 	{
-		for (int i = 0; (*tokens)[i]; i++)
+		while ((*tokens)[i])
 		{
 			free((*tokens)[i]);
+			i++;
 		}
 		free(*tokens);
 		*tokens = NULL;

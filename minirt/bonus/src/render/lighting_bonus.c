@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lighting_bonus.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: isallali <isallali@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/21 21:31:34 by isallali          #+#    #+#             */
+/*   Updated: 2025/08/21 21:31:35 by isallali         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/constants_bonus.h"
 #include "../includes/minirt_app_bonus.h"
 #include "../includes/render_utils_bonus.h"
@@ -111,7 +123,8 @@ t_color3	calculate_phong_lighting(const t_scene *scene, const t_hit *hit,
 	int				i;
 	t_light_data	light_data;
 
-	t_color3 (total_diffuse), (total_specular), (final_color), (ambient);
+	t_color3
+	(final_color), (ambient), (total_diffuse), (total_specular);
 	total_diffuse = vec3_create(0.0, 0.0, 0.0);
 	total_specular = vec3_create(0.0, 0.0, 0.0);
 	i = -1;

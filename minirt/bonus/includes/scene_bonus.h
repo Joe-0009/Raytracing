@@ -1,15 +1,29 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   scene_bonus.h                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: isallali <isallali@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/21 21:35:08 by isallali          #+#    #+#             */
+/*   Updated: 2025/08/21 21:57:59 by isallali         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef SCENE_BONUS_H
 # define SCENE_BONUS_H
 
 # include "math_utils_bonus.h"
 
-/* Unified surface map structure for textures and bump maps */
-
-/* Map type constants */
+# define SPHERE 1
+# define PLANE 2
+# define CYLINDER 3
+# define CONE 4
+# define MAX_OBJECTS 100
+# define MAX_LIGHTS 10
 # define MAP_TYPE_TEXTURE 0
 # define MAP_TYPE_BUMP 1
 
-/* UV coordinates for texture mapping */
 typedef struct s_uv
 {
 	double			u;
@@ -33,14 +47,6 @@ typedef struct s_ray
 	t_vec3			origin;
 	t_vec3			direction;
 }					t_ray;
-
-/* Scene/object types */
-# define SPHERE 1
-# define PLANE 2
-# define CYLINDER 3
-# define CONE 4
-# define MAX_OBJECTS 100
-# define MAX_LIGHTS 10
 
 typedef struct s_camera
 {
@@ -96,9 +102,6 @@ typedef struct s_cylinder
 	t_color3		color;
 }					t_cylinder;
 
-/*
-** Precompute cone constants for optimization
-*/
 typedef struct s_cone_constants
 {
 	double			cos_angle;
@@ -140,7 +143,6 @@ typedef struct s_scene
 	int				selected_obj;
 }					t_scene;
 
-/* Hit information structure */
 typedef struct s_hit
 {
 	double			t;
@@ -153,9 +155,8 @@ typedef struct s_hit
 	int				hit_side;
 }					t_hit;
 
-/* Intersection functions */
-t_vec3	apply_sphere_bump(const t_sphere *sphere, t_hit *hit);
-t_vec3	determine_sphere_color(const t_sphere *sphere, t_hit *hit);
+t_vec3				apply_sphere_bump(const t_sphere *sphere, t_hit *hit);
+t_vec3				determine_sphere_color(const t_sphere *sphere, t_hit *hit);
 int					intersect_sphere(const t_sphere *sphere, t_ray ray,
 						t_hit *hit);
 int					intersect_plane(const t_plane *plane, t_ray ray,
@@ -169,12 +170,8 @@ t_quadratic			cylinder_quadratic_coeffs(const t_cylinder *cylinder,
 						t_ray ray);
 t_cone_constants	get_cone_constants(const t_cone *cone);
 t_quadratic			cone_quadratic_coeffs(const t_cone *cone, t_ray ray);
-
-/* Ray tracing functions */
 t_ray				generate_camera_ray(const t_scene *scene, int x, int y);
 int					trace_ray(const t_scene *scene, t_ray ray);
-
-/* Texture functions */
 void				load_surface_map(void *mlx, t_surface_map *surface_map);
 t_color3			sample_texture(const t_surface_map *texture, t_uv uv);
 double				sample_bump_map(const t_surface_map *bump, t_uv uv);

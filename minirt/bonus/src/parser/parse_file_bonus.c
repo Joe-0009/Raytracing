@@ -61,7 +61,8 @@ int	validate_extension_and_permission(const char *filename, t_scene *scene)
 }
 
 /*
-** Dispatches the parsing of a line's tokens to the appropriate object parser based on the identifier.
+** dispatches the parsing of a line's tokens to the appropriate
+** object parser based on the identifier.
 */
 int	dispatch_parse_token(char **tokens, t_scene *scene, int tokens_count)
 {
@@ -92,7 +93,8 @@ int	dispatch_parse_token(char **tokens, t_scene *scene, int tokens_count)
 }
 
 /*
-** Processes a single line from the scene file, splitting it into tokens and parsing the object.
+** Processes a single line from the scene file,
+** splitting it into tokens and parsing the object.
 */
 int	process_scene_line(t_parser *parser, t_scene *scene, char *line)
 {
@@ -124,7 +126,8 @@ int	process_scene_line(t_parser *parser, t_scene *scene, char *line)
 }
 
 /*
-** Parses the entire scene file and returns a pointer to the populated scene structure.
+** Parses the entire scene file and
+** returns a pointer to the populated scene structure.
 */
 t_scene	*parse_scene_file(char *filename)
 {

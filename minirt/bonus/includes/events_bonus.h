@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   events_bonus.h                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: isallali <isallali@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/21 21:34:46 by isallali          #+#    #+#             */
+/*   Updated: 2025/08/21 21:50:15 by isallali         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef EVENTS_BONUS_H
 # define EVENTS_BONUS_H
 
@@ -39,13 +51,9 @@
 # define KEY_COMMA      44
 # define KEY_DOT        46
 
-
-/* Scene transformation utilities */
 void	scene_translate_object(t_scene *scene, int obj_index, t_vec3 delta);
 void	scene_rotate_object(t_scene *scene, int obj_index, t_vec3 rotation);
 void	scene_scale_object(t_scene *scene, int obj_index, double scale);
-
-/* Function prototypes for events */
 int		close_window_x(t_vars *vars);
 int		close_window_esc(int keycode, t_vars *vars);
 int		key_handler(int keycode, t_vars *vars);

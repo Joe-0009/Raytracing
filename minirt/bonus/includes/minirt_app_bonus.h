@@ -1,9 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minirt_app_bonus.h                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: isallali <isallali@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/21 21:34:57 by isallali          #+#    #+#             */
+/*   Updated: 2025/08/21 21:49:47 by isallali         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINIRT_APP_BONUS_H
 # define MINIRT_APP_BONUS_H
 
+# include "constants_bonus.h"
 # include "libft.h"
+# include "parser_bonus.h"
+# include "scene_bonus.h"
 # include <fcntl.h>
-# include <float.h>
 # include <limits.h>
 # include <math.h>
 # include <mlx.h>
@@ -13,17 +27,11 @@
 
 # define TRUE 1
 # define FALSE 0
-
 # define WIDTH 1200
 # define HEIGHT 1000
 # define WINDOW_NAME_RT "miniRT"
 # define NUM_THREADS 8
 
-# include "constants_bonus.h"
-# include "parser_bonus.h"
-# include "scene_bonus.h"
-
-/* Image structure */
 typedef struct s_image
 {
 	void				*img;
@@ -33,19 +41,17 @@ typedef struct s_image
 	int					endian;
 }						t_image;
 
-/* Main program variables structure */
 typedef struct s_vars
 {
 	void				*mlx;
 	void				*win;
-	
+
 	t_image				*img;
 	t_scene				*scene;
 }						t_vars;
 
 typedef struct s_hit	t_hit;
 
-/* Thread data structure for parallel rendering */
 typedef struct s_thread_data
 {
 	t_vars				*vars;
@@ -55,7 +61,6 @@ typedef struct s_thread_data
 	int					thread_id;
 }						t_thread_data;
 
-/* Function prototypes */
 void					draw_new_image(t_vars *vars, t_scene *scene);
 void					create_image(t_vars *vars);
 void					main_draw(t_vars *vars, t_scene *scene);

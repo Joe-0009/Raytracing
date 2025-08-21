@@ -99,17 +99,6 @@ int	process_scene_line(t_parser *parser, t_scene *scene, char *line)
 	return (ft_free((void **)&line), free_tokens(parser->tokens), parse_result);
 }
 
-t_scene	*alloc_scene(t_scene *scene)
-{
-	scene = (t_scene *)malloc(sizeof(t_scene));
-	if (!scene)
-	{
-		printf("Error: Failed to allocate memory for scene\n");
-		return (NULL);
-	}
-	return (scene);
-}
-
 t_scene	*parse_scene_file(char *filename)
 {
 	t_scene		*scene;
@@ -117,8 +106,7 @@ t_scene	*parse_scene_file(char *filename)
 	char		*line;
 
 	int (result), (fd);
-	scene = NULL;
-	scene = alloc_scene(scene);
+	scene = (t_scene *)malloc(sizeof(t_scene));
 	init_parser_and_scene(&parser, scene);
 	fd = validate_extension_and_permission(filename, scene);
 	if (fd == -1)
