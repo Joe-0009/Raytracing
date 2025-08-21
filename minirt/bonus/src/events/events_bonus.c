@@ -6,7 +6,7 @@
 /*   By: isallali <isallali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 21:21:00 by isallali          #+#    #+#             */
-/*   Updated: 2025/08/21 21:21:01 by isallali         ###   ########.fr       */
+/*   Updated: 2025/08/21 22:27:10 by isallali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ int	key_handler(int keycode, t_vars *vars)
 		close_window_esc(keycode, vars);
 	else if (vars->scene)
 	{
-		printf("Keycode: %d\n", keycode);
 		handle_camera_movement(keycode, vars->scene);
 		handle_camera_rotation(keycode, vars->scene);
 		handle_object_transforms(keycode, vars->scene);
