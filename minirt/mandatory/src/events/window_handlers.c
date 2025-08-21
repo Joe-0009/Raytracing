@@ -23,6 +23,7 @@ int	close_window_x(t_vars *vars)
 	ft_free_scene(&vars->scene);
 	exit(EXIT_SUCCESS);
 }
+
 void	print_controls_help(void)
 {
 	printf("\n=== MiniRT Transform Controls ===\n");

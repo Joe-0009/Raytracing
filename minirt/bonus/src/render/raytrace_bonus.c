@@ -22,8 +22,8 @@ t_ray	generate_camera_ray(const t_scene *scene, int x, int y)
 	pixel_scale = tan((scene->camera.fov * M_PI / 180.0) / 2.0) / (WIDTH / 2.0);
 	u = (x - WIDTH / 2.0) * pixel_scale;
 	v = (HEIGHT / 2.0 - y) * pixel_scale;
-	ray.direction = vec3_normalize(vec3_add(vec3_add(vec3_mult(camera_vectors.right,
-						u), vec3_mult(camera_vectors.up, v)),
+	ray.direction = vec3_normalize(vec3_add(vec3_add(vec3_mult
+					(camera_vectors.right, u), vec3_mult(camera_vectors.up, v)),
 				vec3_normalize(scene->camera.orientation)));
 	return (ray);
 }

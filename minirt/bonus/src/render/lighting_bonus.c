@@ -4,7 +4,8 @@
 #include <math.h>
 
 /*
-** Check if a point is in shadow from a light source using precomputed light direction
+** Check if a point is in shadow from a light source
+** using precomputed light direction
 ** Returns 1 if in shadow, 0 if illuminated
 */
 int	is_in_shadow(const t_scene *scene, const t_vec3 point,
@@ -107,12 +108,10 @@ t_color3	calculate_specular_with_data(const t_light *light, const t_hit *hit,
 t_color3	calculate_phong_lighting(const t_scene *scene, const t_hit *hit,
 		const t_vec3 view_dir)
 {
-	t_color3		ambient;
-	t_color3		final_color;
-	t_light_data	light_data;
 	int				i;
+	t_light_data	light_data;
 
-	t_color3(total_diffuse), (total_specular);
+	t_color3 (total_diffuse), (total_specular), (final_color), (ambient);
 	total_diffuse = vec3_create(0.0, 0.0, 0.0);
 	total_specular = vec3_create(0.0, 0.0, 0.0);
 	i = -1;

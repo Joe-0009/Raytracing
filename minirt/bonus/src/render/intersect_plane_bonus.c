@@ -2,7 +2,6 @@
 #include "../includes/scene_bonus.h"
 #include <math.h>
 
-
 t_quadratic	cone_quadratic_coeffs(const t_cone *cone, t_ray ray)
 {
 	t_vec3				oc;
@@ -22,7 +21,6 @@ t_quadratic	cone_quadratic_coeffs(const t_cone *cone, t_ray ray)
 	return (q);
 }
 
-
 t_quadratic	cylinder_quadratic_coeffs(const t_cylinder *cylinder, t_ray ray)
 {
 	t_vec3		oc;
@@ -40,7 +38,6 @@ t_quadratic	cylinder_quadratic_coeffs(const t_cylinder *cylinder, t_ray ray)
 	q.c = vec3_dot(oc_axis_cross, oc_axis_cross) - radius * radius;
 	return (q);
 }
-
 
 int	intersect_plane(const t_plane *plane, t_ray ray, t_hit *hit)
 {

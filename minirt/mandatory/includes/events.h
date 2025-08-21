@@ -1,5 +1,5 @@
-#ifndef EVENTS_BONUS_H
-# define EVENTS_BONUS_H
+#ifndef EVENTS_H
+# define EVENTS_H
 
 # include "minirt_app.h"
 

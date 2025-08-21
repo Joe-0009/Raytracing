@@ -65,4 +65,3 @@ void	handle_light_movement(int keycode, t_scene *scene)
 		return ;
 	scene->light.position = vec3_add(scene->light.position, movement);
 }
-

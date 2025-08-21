@@ -49,9 +49,13 @@ double	sample_bump_map(const t_surface_map *bump, t_uv uv)
 
 t_vec3	apply_sphere_bump(const t_sphere *sphere, t_hit *hit)
 {
-	double(h_center), (h_right), (h_up), (du), (dv);
-	t_uv(uv_right), (uv_up);
-	t_vec3(tangent), (bitangent), (bumped);
+	t_uv	uv_right;
+	t_uv	uv_up;
+	t_vec3	tangent;
+	t_vec3	bitangent;
+	t_vec3	bumped;
+
+	double (h_center), (h_right), (h_up), (du), (dv);
 	if (!sphere->bump.is_active || !sphere->bump.data)
 		return (hit->normal);
 	tangent = vec3_normalize(vec3_create(-hit->normal.z, 0, hit->normal.x));
