@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   math_utils.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isallali <isallali@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yrachidi <yrachidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 21:33:24 by isallali          #+#    #+#             */
-/*   Updated: 2025/08/21 21:59:53 by isallali         ###   ########.fr       */
+/*   Updated: 2025/08/21 22:12:24 by yrachidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MATH_UTILS_BONUS_H
-# define MATH_UTILS_BONUS_H
+#ifndef MATH_UTILS_H
+# define MATH_UTILS_H
 
 # include <math.h>
 

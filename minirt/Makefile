@@ -1,16 +1,11 @@
-# Makefile for miniRT
-
 NAME = miniRT
 BONUS_NAME = minirt_bonus
 
-# Compiler and flags
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror -O3 -ffast-math -funroll-loops -ftree-vectorize \
-		 -fomit-frame-pointer -march=native -mtune=native -flto -finline-functions \
-		 -falign-functions=32 -falign-loops=32 -fno-stack-protector \
-		 -fno-unwind-tables -fno-asynchronous-unwind-tables -DNDEBUG
 
-# Prebuilt libraries
+CC = gcc
+CFLAGS = -Wall -Wextra -Werror -O3 -ffast-math -ftree-vectorize
+
+
 PREBUILT_DIR = prebuilt_libs
 LIBFT = $(PREBUILT_DIR)/libft.a
 

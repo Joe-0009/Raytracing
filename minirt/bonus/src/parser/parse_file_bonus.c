@@ -1,19 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_file_bonus.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yrachidi <yrachidi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/21 22:13:30 by yrachidi          #+#    #+#             */
+/*   Updated: 2025/08/21 22:13:31 by yrachidi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minirt_app_bonus.h"
 #include "../includes/parser_bonus.h"
 #include <stdio.h>
-
-/*
-** Counts the number of tokens in a NULL-terminated array.
-*/
-static int	count_tokens(char **tokens)
-{
-	int	count;
-
-	count = 0;
-	while (tokens[count])
-		count++;
-	return (count);
-}
 
 /*
 ** Initializes the parser and scene structures to default values.

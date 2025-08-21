@@ -1,8 +1,30 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   add_elements_validate_scene_bonus.c                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yrachidi <yrachidi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/21 22:12:39 by yrachidi          #+#    #+#             */
+/*   Updated: 2025/08/21 22:12:40 by yrachidi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minirt_app_bonus.h"
 #include "../includes/parser_bonus.h"
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
+
+int	count_tokens(char **tokens)
+{
+	int	count;
+
+	count = 0;
+	while (tokens[count])
+		count++;
+	return (count);
+}
 
 int	add_object_to_scene(t_scene *scene, int type, void *object_data)
 {

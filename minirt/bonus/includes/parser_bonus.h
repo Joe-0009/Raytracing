@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isallali <isallali@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yrachidi <yrachidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 21:35:02 by isallali          #+#    #+#             */
-/*   Updated: 2025/08/21 21:52:41 by isallali         ###   ########.fr       */
+/*   Updated: 2025/08/21 22:12:04 by yrachidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ typedef struct s_parser
 # define ERR_SPHERE_COLOR_INVALID "Error: Invalid color for sphere\n"
 # define ERR_SPHERE_DIAMETER_POSITIVE "Sphere diameter must be positive\n"
 # define WARN_SPHERE_DIAMETER_SMALL "Warning: Very small sphere diameter\n"
-# define FMT_SPHERE_EXPECTED "Expected format: sp x,y,z diameter r,g,b [texture]\n"
+# define FMT_SPHERE_EXPECTED "Expected format: sp x,y,z d r,g,b xpm\n"
 
 # define ERR_PLANE_FORMAT "Error: Invalid plane format\n"
 # define ERR_PLANE_COLOR_INVALID "Error: Invalid color for plane\n"
@@ -75,11 +75,11 @@ typedef struct s_parser
 # define ERR_CYLINDER_FORMAT "Error: Invalid cylinder format\n"
 # define ERR_CYLINDER_COLOR_INVALID "Error: Invalid cylinder color\n"
 # define ERR_CYLINDER_AXIS_ZERO "Error: Cylinder axis cannot be zero\n"
-# define ERR_CYLINDER_AXIS_NOT_NORMALIZED "Error: Cylinder axis not normalized\n"
+# define ERR_CYLINDER_AXIS_NOT_NORMALIZED "Error: Cy axis not normalized\n"
 # define ERR_CYLINDER_DIMS_POSITIVE "Error: Cylinder dims must be positive\n"
 # define ERR_CYLINDER_HEIGHT_NEGATIVE "Error: Cylinder height negative\n"
-# define WARN_CYLINDER_DIMS_SMALL "Warning: Cylinder dimensions are very small\n"
-# define FMT_CYLINDER_EXPECTED "Expected: cy x,y,z nx,ny,nz diameter height r,g,b\n"
+# define WARN_CYLINDER_DIMS_SMALL "Warning: Cy dimensions are very small\n"
+# define FMT_CYLINDER_EXPECTED "Expe: cy x,y,z nx,ny,nz diam hei r,g,b\n"
 
 # define ERR_CONE_FORMAT "Error: Invalid Cone format\n"
 # define FMT_CONE_EXPECTED "Expected: cy x,y,z nx,ny,nz height diameter r,g,b\n"
@@ -92,6 +92,7 @@ typedef struct s_parser
 # define WARN_POSITION_FAR "Warning: %s far from origin (%.2f, %.2f, %.2f)\n"
 
 t_scene		*parse_scene_file(char *filename);
+int			count_tokens(char **tokens);
 int			validate_scene(t_scene *scene);
 int			parse_ambient(char **tokens, t_scene *scene, int token_count);
 int			parse_light(char **tokens, t_scene *scene, int token_count);
