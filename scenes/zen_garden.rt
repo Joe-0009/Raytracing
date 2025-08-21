@@ -1,0 +1,45 @@
+# Zen Garden Scene - Peaceful meditation garden with stones and patterns
+# Minimalist composition with earth tones
+
+A 0.4 255,255,240
+
+C 0,6,12 0,-0.3,-1 70
+
+L 8,10,8 0.6 255,255,200
+
+# Sand base - light beige ground
+pl 0,0,0 0,1,0 220,200,180
+
+# Large meditation stones - various sizes and positions
+sp -5,1,2 2 150,140,130
+sp 3,0.8,5 1.6 160,150,140
+sp -2,0.5,-3 1.2 140,130,120
+sp 8,1.2,1 1.8 155,145,135
+sp -8,0.9,-1 1.4 145,135,125
+
+# Medium accent stones
+sp 1,0.4,8 0.8 170,160,150
+sp -6,0.3,6 0.6 165,155,145
+sp 4,0.5,-5 0.7 175,165,155
+sp -1,0.35,3 0.5 160,150,140
+
+# Small pebbles scattered around
+sp 2.5,0.2,1.5 0.3 180,170,160
+sp -3.5,0.15,4.5 0.25 185,175,165
+sp 6.5,0.18,-2.5 0.28 175,165,155
+sp -7.5,0.22,3.8 0.32 170,160,150
+sp 0.8,0.16,-6.2 0.27 180,170,160
+
+# Bamboo fountain - cylinder with water sphere
+cy 10,0,8 0,1,0 0.5 3 100,80,60
+sp 10,3.2,8 0.4 150,200,255
+
+# Small zen shrine - geometric shapes
+cy -10,0,5 0,1,0 1.2 2 120,100,80
+sp -10,2.5,5 0.8 200,180,160
+
+# Tiny detail stones for texture
+sp 4.2,0.1,2.8 0.15 190,180,170
+sp -1.8,0.12,-1.5 0.18 185,175,165
+sp 7.3,0.14,6.1 0.16 180,170,160
+sp -4.7,0.11,8.4 0.17 175,165,155

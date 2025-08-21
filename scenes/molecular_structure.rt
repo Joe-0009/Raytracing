@@ -1,0 +1,43 @@
+# Zen Garden Molecular Structure - Natural earth tones
+# Molecular structure reimagined as zen garden stones
+
+A 0.25 240,235,220
+
+C 0,5,15 0,-0.2,-1 75
+
+L 5,10,10 0.8 255,250,240
+L -5,8,12 0.4 220,210,200
+
+# Central meditation stone - dark granite
+sp 0,0,0 2 60,50,45
+
+# Primary stones - earth tones
+sp 4,0,0 1.5 180,120,80      # Terracotta
+sp -4,0,0 1.5 70,80,65       # Moss green
+sp 0,0,4 1.5 120,90,70       # Clay brown
+sp 0,0,-4 1.5 220,200,180    # Light sand
+
+# Bond cylinders - gray connections
+cy 0,0,0 1,0,0 0.3 4 150,150,150
+cy 0,0,0 -1,0,0 0.3 4 150,150,150
+cy 0,0,0 0,0,1 0.3 4 150,150,150
+cy 0,0,0 0,0,-1 0.3 4 150,150,150
+
+# Secondary stones - moss covered
+sp 0,3,0 1.2 85,110,60
+sp 0,-3,0 1.2 100,70,50
+
+cy 0,0,0 0,1,0 0.25 3 150,150,150
+cy 0,0,0 0,-1,0 0.25 3 150,150,150
+
+# Accent stones - varied natural colors
+sp 2,3,2 1 200,150,100
+sp -2,3,-2 1 90,100,80
+sp 2,-3,-2 1 150,110,80
+sp -2,-3,2 1 130,120,90
+
+# Connecting bonds to tertiary atoms
+cy 0,3,0 0.7,0,0.7 0.2 2.8 130,130,130
+cy 0,3,0 -0.7,0,-0.7 0.2 2.8 130,130,130
+cy 0,-3,0 0.7,0,-0.7 0.2 2.8 130,130,130
+cy 0,-3,0 -0.7,0,0.7 0.2 2.8 130,130,130

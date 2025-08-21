@@ -15,6 +15,7 @@ int	validate_plane(t_plane *plane)
 
 int	validate_sphere(t_sphere *sphere)
 {
+	sphere->radius = sphere->diameter / 2.0;
 	if (!validate_position(sphere->center, "Sphere"))
 	{
 		return (FALSE);

@@ -35,9 +35,11 @@ t_vec3	cone_surface_normal(const t_cone *cone, t_point3 point)
 static int	intersect_cone_cap(const t_cone *cone, t_ray ray, t_hit *hit)
 {
 	t_cone_constants	constants;
+	t_point3			point;
+	t_point3			base_center;
+	double				t;
 
-	t_point (point), (base_center);
-	double (denom), (t), (cap_radius_sq);
+	double (denom), (cap_radius_sq);
 	denom = vec3_dot(cone->axis, ray.direction);
 	if (fabs(denom) < EPSILON)
 		return (0);
@@ -56,8 +58,6 @@ static int	intersect_cone_cap(const t_cone *cone, t_ray ray, t_hit *hit)
 	hit->point = point;
 	hit->normal = cone->axis;
 	hit->color = cone->color;
-	hit->obj_type = CONE;
-	hit->hit_side = 0;
 	return (1);
 }
 
@@ -102,6 +102,8 @@ int	intersect_cone(const t_cone *cone, t_ray ray, t_hit *hit)
 		hit_found = 1;
 	temp_hit.t = -1.0;
 	cap_hit = intersect_cone_cap(cone, ray, &temp_hit);
+	hit->obj_type = CONE;
+	hit->hit_side = 0;
 	if (cap_hit && (temp_hit.t < hit->t || hit->t < 0))
 	{
 		*hit = temp_hit;

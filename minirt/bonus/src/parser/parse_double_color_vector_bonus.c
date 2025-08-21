@@ -40,7 +40,7 @@ int	parse_color(char *str, t_color3 *color)
 
 	success = TRUE;
 	tokens = ft_split(str, ",");
-	if (!tokens || !tokens[0] || !tokens[1] || !tokens[2])
+	if (!tokens || !tokens[0] || !tokens[1] || !tokens[2] || tokens[3])
 		return (printf(ERR_COLOR_FORMAT), free_tokens(tokens), FALSE);
 	r = ft_atoi(tokens[0]);
 	g = ft_atoi(tokens[1]);

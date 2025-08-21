@@ -154,6 +154,8 @@ typedef struct s_hit
 }					t_hit;
 
 /* Intersection functions */
+t_vec3	apply_sphere_bump(const t_sphere *sphere, t_hit *hit);
+t_vec3	determine_sphere_color(const t_sphere *sphere, t_hit *hit);
 int					intersect_sphere(const t_sphere *sphere, t_ray ray,
 						t_hit *hit);
 int					intersect_plane(const t_plane *plane, t_ray ray,

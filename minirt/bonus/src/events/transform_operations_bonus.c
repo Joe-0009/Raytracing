@@ -14,8 +14,7 @@ void	scene_translate_object(t_scene *scene, int obj_index, t_vec3 delta)
 		scene->objects[obj_index].data.plane.point = vec3_add(scene->objects[obj_index].data.plane.point,
 				delta);
 	else if (scene->objects[obj_index].type == CYLINDER)
-		scene->objects[obj_index].data.cylinder.center = vec3_add(scene->objects[obj_index].data.cylinder.center,
-				delta);
+		scene->objects[obj_index].data.cylinder.center = vec3_add(scene->objects[obj_index].data.cylinder.center, delta);
 	else if (scene->objects[obj_index].type == CONE)
 		scene->objects[obj_index].data.cone.vertex = vec3_add(scene->objects[obj_index].data.cone.vertex,
 				delta);

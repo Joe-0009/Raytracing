@@ -12,3 +12,5 @@ sp 0,-4,0 3 255,255,255 txm:images/SoftballColor.xpm bum:images/SoftballBump.xpm
 sp 8,-4,0 3 255,255,255 txm:images/venusmap.xpm bum:images/venusbump.xpm
 
 pl 0,-10,0 0,1,0 100,100,100 
+
+
