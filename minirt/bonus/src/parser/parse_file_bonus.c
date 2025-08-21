@@ -80,7 +80,7 @@ int	dispatch_parse_token(char **tokens, t_scene *scene, int tokens_count)
 	else if (token_len == 2)
 	{
 		if (tokens[0][0] == 's' && tokens[0][1] == 'p')
-			return (parse_sphere(tokens, scene, tokens_count));
+			return (	(tokens, scene, tokens_count));
 		else if (tokens[0][0] == 'p' && tokens[0][1] == 'l')
 			return (parse_plane(tokens, scene, tokens_count));
 		else if (tokens[0][0] == 'c' && tokens[0][1] == 'y')

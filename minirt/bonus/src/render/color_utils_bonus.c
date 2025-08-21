@@ -1,6 +1,7 @@
 #include "../includes/minirt_app_bonus.h"
 #include "../includes/render_utils_bonus.h"
 #include <math.h>
+
 int	color_to_int(t_color3 color)
 {
 	return (((int)(color.x * 255.0) << 16)

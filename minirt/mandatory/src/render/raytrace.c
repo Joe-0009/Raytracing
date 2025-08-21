@@ -22,6 +22,7 @@ t_ray	generate_camera_ray(const t_scene *scene, int x, int y)
 				vec3_create(0, 1, 0)));
 	camera_vectors.up = vec3_cross(camera_vectors.right,
 			camera_vectors.forward);
+	/*taille d'un pixel en unités 3D*/
 	pixel_scale = tan((scene->camera.fov * M_PI / 180.0) / 2.0) / (WIDTH / 2.0);
 	u = (x - WIDTH / 2.0) * pixel_scale;
 	v = (HEIGHT / 2.0 - y) * pixel_scale;

@@ -47,8 +47,8 @@ void			scene_translate_object(t_scene *scene, int obj_index,
 void			scene_rotate_object(t_scene *scene, int obj_index,
 					t_vec3 rotation);
 void			scene_scale_object(t_scene *scene, int obj_index, double scale);
-void			scene_translate_camera(t_scene *scene, t_vec3 delta);
-void			scene_rotate_camera(t_scene *scene, t_vec3 rotation);
+// void			scene_translate_camera(t_scene *scene, t_vec3 delta);
+// void			scene_rotate_camera(t_scene *scene, t_vec3 rotation);
 
 /* Function prototypes for events */
 int				close_window_x(t_vars *vars);
@@ -60,5 +60,5 @@ void			handle_camera_movement(int keycode, t_scene *scene);
 void			handle_camera_rotation(int keycode, t_scene *scene);
 void			handle_object_transforms(int keycode, t_scene *scene);
 void			print_controls_help(void);
-void	handle_light_movement(int keycode, t_scene *scene);
+void			handle_light_movement(int keycode, t_scene *scene);
 #endif

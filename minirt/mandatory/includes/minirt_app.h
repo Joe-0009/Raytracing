@@ -48,6 +48,6 @@ void					create_image(t_vars *vars);
 void					main_draw(t_vars *vars, t_scene *scene);
 void					put_pixel(t_vars *vars, int x, int y, int color);
 void					error_exit(char *message);
-void					print_scene_info(t_scene *scene);
+// void					print_scene_info(t_scene *scene);
 
 #endif

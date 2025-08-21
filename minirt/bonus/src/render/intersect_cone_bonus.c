@@ -34,13 +34,10 @@ t_vec3	cone_surface_normal(const t_cone *cone, t_point3 point)
 
 static int	intersect_cone_cap(const t_cone *cone, t_ray ray, t_hit *hit)
 {
-	double				denom;
-	double				t;
-	t_point3			base_center;
-	t_point3			point;
 	t_cone_constants	constants;
-	double				cap_radius_sq;
 
+	t_point (point), (base_center);
+	double (denom), (t), (cap_radius_sq);
 	denom = vec3_dot(cone->axis, ray.direction);
 	if (fabs(denom) < EPSILON)
 		return (0);
